@@ -63,6 +63,10 @@ const ServicesSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
             Bienvenido al Colegio de Notarios de Puno
           </h2>
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            Somos una institución comprometida con la excelencia en el servicio notarial,
+            brindando asesoría legal y servicios de calidad a la comunidad de Puno.
+          </p>
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">

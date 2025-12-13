@@ -2,7 +2,8 @@ import { createBrowserRouter } from 'react-router-dom'
 import Layout from '../pages/MainPage'
 import NotFound from '../components/errors/NotFound'
 import Hero from '../components/main/Hero'
-import ParallaxSection from '../components/main/ParallaxSection'
+import ServicesSection from '../components/main/ServicesSection'
+import ComunicadosSection from '../components/main/ComunicadosSection'
 import ContentSection from '../components/main/ContentSection'
 
 const router = createBrowserRouter([
@@ -16,7 +17,8 @@ const router = createBrowserRouter([
         element: (
           <>
             <Hero />
-            <ParallaxSection />
+            <ServicesSection />
+            <ComunicadosSection />
             <ContentSection />
           </>
         ),
@@ -48,6 +50,18 @@ const router = createBrowserRouter([
       {
         path: 'contacto',
         element: <div className="py-12"><h1 className="text-3xl font-bold">Contacto</h1></div>,
+      },
+      {
+        path: 'notarios',
+        element: <div className="py-12"><h1 className="text-3xl font-bold">Notarios</h1></div>,
+      },
+      {
+        path: 'servicios',
+        element: <div className="py-12"><h1 className="text-3xl font-bold">Servicios</h1></div>,
+      },
+      {
+        path: 'herramientas',
+        element: <div className="py-12"><h1 className="text-3xl font-bold">Herramientas Tecnológicas</h1></div>,
       },
     ],
   },
