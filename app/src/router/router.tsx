@@ -1,6 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom'
 import Layout from '../pages/MainPage'
 import NotFound from '../components/errors/NotFound'
+import Hero from '../components/main/Hero'
+import ParallaxSection from '../components/main/ParallaxSection'
 
 const router = createBrowserRouter([
   {
@@ -10,7 +12,12 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1>Hello World</h1>,
+        element: (
+          <>
+            <Hero />
+            <ParallaxSection />
+          </>
+        ),
       },
       {
         path: 'nosotros',
