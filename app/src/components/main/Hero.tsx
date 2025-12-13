@@ -12,32 +12,56 @@ const banners = [
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
+  const [isFirstLoad, setIsFirstLoad] = useState(true)
 
   // Auto-play carousel
   useEffect(() => {
+    // Mark first load as complete after initial render
+    if (isFirstLoad) {
+      setIsFirstLoad(false)
+    }
+
     const interval = setInterval(() => {
       setDirection(1)
       setCurrentIndex((prev) => (prev + 1) % banners.length)
     }, 5000) // Change slide every 5 seconds
 
     return () => clearInterval(interval)
-  }, [])
+  }, [isFirstLoad])
 
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? 1000 : -1000,
       opacity: 0,
+      scale: 1,
     }),
     center: {
       zIndex: 1,
       x: 0,
       opacity: 1,
+      scale: 1,
     },
     exit: (direction: number) => ({
       zIndex: 0,
       x: direction < 0 ? 1000 : -1000,
       opacity: 0,
+      scale: 0.95,
     }),
+  }
+
+  const firstLoadVariants = {
+    hidden: {
+      opacity: 0,
+      scale: 1.1,
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 1,
+        ease: [0.4, 0, 0.2, 1] as const,
+      },
+    },
   }
 
   const goToSlide = (newIndex: number) => {
@@ -57,19 +81,29 @@ const Hero = () => {
   }
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-gray-900">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="relative w-full h-screen overflow-hidden bg-gray-900"
+    >
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={currentIndex}
           custom={direction}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
+          variants={isFirstLoad && currentIndex === 0 ? firstLoadVariants : slideVariants}
+          initial={isFirstLoad && currentIndex === 0 ? "hidden" : "enter"}
+          animate={isFirstLoad && currentIndex === 0 ? "visible" : "center"}
           exit="exit"
-          transition={{
-            x: { type: 'spring', stiffness: 300, damping: 30 },
-            opacity: { duration: 0.2 },
-          }}
+          transition={
+            isFirstLoad && currentIndex === 0
+              ? undefined
+              : {
+                  x: { type: 'spring', stiffness: 200, damping: 25, duration: 0.8 },
+                  opacity: { duration: 0.6, ease: 'easeInOut' },
+                  scale: { duration: 0.8, ease: 'easeInOut' },
+                }
+          }
           className="absolute inset-0"
         >
           <img
@@ -115,7 +149,7 @@ const Hero = () => {
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }
 
