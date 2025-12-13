@@ -4,7 +4,8 @@ import NotFound from '../components/errors/NotFound'
 import Hero from '../components/main/Hero'
 import ServicesSection from '../components/main/ServicesSection'
 import ComunicadosSection from '../components/main/ComunicadosSection'
-import ContentSection from '../components/main/ContentSection'
+import NoticiasSection from '../components/main/NoticiasSection'
+import LogosSection from '../components/main/LogosSection'
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,8 @@ const router = createBrowserRouter([
             <Hero />
             <ServicesSection />
             <ComunicadosSection />
-            <ContentSection />
+            <NoticiasSection />
+            <LogosSection />
           </>
         ),
       },
