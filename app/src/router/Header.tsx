@@ -48,26 +48,36 @@ export default function Header() {
           >
             <Link 
               to="/" 
-              className={`flex items-center space-x-2 sm:space-x-3 transition-all duration-300 ${
-                !isScrolled 
-                  ? 'bg-white/20 backdrop-blur-md px-3 py-2 rounded-lg shadow-lg' 
-                  : ''
-              }`}
+              className="flex items-center space-x-2 sm:space-x-3 transition-all duration-300"
             >
-              <img
-                src="https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/cnp-logo-nobg.png"
-                alt="Colegio de Notarios de Puno"
-                className={`h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain transition-all duration-300 ${
-                  !isScrolled ? 'drop-shadow-2xl' : ''
+              <div
+                className={`transition-all duration-300 ${
+                  !isScrolled 
+                    ? 'bg-white/50 backdrop-blur-md px-3 py-2 rounded-lg shadow-lg' 
+                    : ''
                 }`}
-              />
-              <img
-                src="https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/cnp-writting-nobg.png"
-                alt="Colegio de Notarios de Puno"
-                className={`h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain sm:block transition-all duration-300 ${
-                  !isScrolled ? 'drop-shadow-2xl' : ''
-                }`}
-              />
+              >
+                <img
+                  src="https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/cnp-logo-nobg.png"
+                  alt="Colegio de Notarios de Puno"
+                  className={`h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain transition-all duration-300 ${
+                    !isScrolled ? 'drop-shadow-2xl' : ''
+                  }`}
+                />
+              </div>
+              {!isScrolled ? (
+                <img
+                  src="https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/cnp-logo-letters-white-nobg.png"
+                  alt="Colegio de Notarios de Puno"
+                  className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain sm:block transition-all duration-300"
+                />
+              ) : (
+                <img
+                  src="https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/cnp-writting-nobg.png"
+                  alt="Colegio de Notarios de Puno"
+                  className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain sm:block transition-all duration-300"
+                />
+              )}
             </Link>
           </motion.div>
 

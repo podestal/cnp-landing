@@ -3,6 +3,7 @@ import Layout from '../pages/MainPage'
 import NotFound from '../components/errors/NotFound'
 import Hero from '../components/main/Hero'
 import ParallaxSection from '../components/main/ParallaxSection'
+import ContentSection from '../components/main/ContentSection'
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
           <>
             <Hero />
             <ParallaxSection />
+            <ContentSection />
           </>
         ),
       },
