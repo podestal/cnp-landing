@@ -110,6 +110,9 @@ const Hero = () => {
             src={banners[currentIndex]}
             alt={`Banner ${currentIndex + 1}`}
             className="w-full h-full object-cover"
+            style={{
+              objectPosition: 'center 30%',
+            }}
           />
           {/* Dark overlay for better contrast */}
           <div className="absolute inset-0 bg-black/50" />

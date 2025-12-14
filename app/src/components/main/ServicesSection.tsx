@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight, FileText, Users, Mail, Wrench } from 'lucide-react'
@@ -36,13 +36,26 @@ const services = [
 
 const ServicesSection = () => {
   const ref = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
   })
 
-  // Parallax effect - moves up as you scroll
-  const y = useTransform(scrollYProgress, [0, 1], ['-20%', '20%'])
+  // Parallax effect - moves up as you scroll (disabled on mobile to prevent overlap issues)
+  const y = useTransform(scrollYProgress, [0, 1], isMobile ? ['0%', '0%'] : ['-20%', '20%'])
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 1])
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 1])
 
@@ -50,7 +63,7 @@ const ServicesSection = () => {
     <motion.section
       ref={ref}
       style={{ y, opacity, scale }}
-      className="relative z-10 bg-white rounded-t-3xl shadow-2xl min-h-screen flex items-center"
+      className="relative z-10 bg-white rounded-t-3xl md:rounded-t-3xl shadow-2xl min-h-screen flex items-center mt-0 md:mt-0"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
         <motion.div
