@@ -9,7 +9,7 @@ const navLinks = [
   { path: '/eventos', label: 'Eventos' },
   { path: '/comunicados', label: 'Comunicados' },
   { path: '/noticias', label: 'Noticias' },
-  { path: '/video', label: 'Video' },
+//   { path: '/video', label: 'Video' },
   { path: '/legislacion', label: 'Legislación' },
   { path: '/contacto', label: 'Contacto' },
 ]
