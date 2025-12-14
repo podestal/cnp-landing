@@ -35,11 +35,11 @@ const logos = [
 
 const getSizeClass = (size: string) => {
   const sizeMap: Record<string, string> = {
-    sm: 'max-h-12',
-    md: 'max-h-16',
-    default: 'max-h-20',
-    lg: 'max-h-24',
-    xl: 'max-h-32',
+    sm: 'max-h-8 sm:max-h-12',
+    md: 'max-h-10 sm:max-h-16',
+    default: 'max-h-12 sm:max-h-20',
+    lg: 'max-h-16 sm:max-h-24',
+    xl: 'max-h-20 sm:max-h-32',
   }
   return sizeMap[size] || sizeMap.default
 }
@@ -55,15 +55,15 @@ const LogosSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">
             Instituciones Relacionadas
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
             Organismos e instituciones con las que trabajamos en conjunto
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 lg:gap-8 items-center">
           {logos.map((logo, index) => (
             <motion.div
               key={logo.name}
