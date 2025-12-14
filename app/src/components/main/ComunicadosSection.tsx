@@ -6,23 +6,10 @@ const comunicados = [
   {
     id: 1,
     image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-1.jpeg',
-    title: 'Nuevo Reglamento de Notarios 2024',
-    content: 'Se informa a todos los notarios del colegio sobre la actualización del reglamento interno que entrará en vigencia a partir del próximo mes. Este nuevo reglamento incluye mejoras en los procesos de legalización y certificación de documentos.',
-    date: '15 de Diciembre, 2024',
-  },
-  {
-    id: 2,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-2.jpeg',
-    title: 'Capacitación en Herramientas Digitales',
-    content: 'El Colegio de Notarios de Puno invita a todos sus miembros a participar en la capacitación sobre herramientas tecnológicas para la gestión notarial. La sesión se realizará el próximo mes y cubrirá temas de digitalización y firma electrónica.',
-    date: '10 de Diciembre, 2024',
-  },
-  {
-    id: 3,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-3.jpeg',
-    title: 'Asamblea General Anual 2024',
-    content: 'Convocamos a todos los notarios a la Asamblea General Anual que se llevará a cabo el próximo mes. En esta reunión se tratarán temas importantes sobre el funcionamiento del colegio, elecciones y propuestas para el próximo año.',
-    date: '5 de Diciembre, 2024',
+    title: 'LA JUNTA DE DECANOS DE LOS COLEGIOS DE NOTARIOS DEL PERU INFORMA A LA COLECTIVIDAD',
+    content: 'El notariado peruano encargado, por ley, para dar fe y velar por la seguridad jurídica de los contratos de los ciudadanos, hace de conocimiento de la opinión publica el grave riesgo que se generará con la entrada en vigor del nuevo Régimen de Garantías Mobiliarias – Decreto Legislativo 1400, prevista para el 3 de marzo de 2025...',
+    date: '27 de Febrero, 2025',
+    fullContent: true,
   },
 ]
 

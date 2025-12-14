@@ -7,6 +7,7 @@ import ComunicadosSection from '../components/main/ComunicadosSection'
 import NoticiasSection from '../components/main/NoticiasSection'
 import LogosSection from '../components/main/LogosSection'
 import Nosotros from '../pages/Nosotros'
+import Comunicados from '../pages/Comunicados'
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'comunicados',
-        element: <div className="py-12"><h1 className="text-3xl font-bold">Comunicados</h1></div>,
+        element: <Comunicados />,
       },
       {
         path: 'noticias',
