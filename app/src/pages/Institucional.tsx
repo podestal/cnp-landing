@@ -30,11 +30,11 @@ const Institucional = () => {
 
   const getImageUrl = (name: string) => {
     // Generate a placeholder image URL based on the name
-    const initials = name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .substring(0, 2)
+    // const initials = name
+    //   .split(' ')
+    //   .map((n) => n[0])
+    //   .join('')
+    //   .substring(0, 2)
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=200&background=10b981&color=fff&bold=true&font-size=0.5`
   }
 

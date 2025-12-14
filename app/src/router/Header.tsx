@@ -165,36 +165,38 @@ export default function Header() {
           transition={{ duration: 0.3 }}
           className="lg:hidden overflow-hidden"
         >
-          <div className="py-4 space-y-2">
-            {navLinks.map((link, index) => {
-              const isActive = location.pathname === link.path
-              return (
-                <motion.div
-                  key={link.path}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{
-                    x: isMobileMenuOpen ? 0 : -20,
-                    opacity: isMobileMenuOpen ? 1 : 0,
-                  }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <Link
-                    to={link.path}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${
-                      isActive
-                        ? 'bg-green-50 text-green-600 border-l-4 border-green-600'
-                        : isScrolled
-                        ? 'text-gray-700 hover:bg-gray-50'
-                        : 'text-white hover:bg-white/20'
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              )
-            })}
-          </div>
+          {isMobileMenuOpen && (
+            <div className="bg-white/90 backdrop-blur-lg shadow-xl rounded-b-xl mx-4 mb-4 border border-white/30">
+              <div className="py-4 space-y-2">
+                {navLinks.map((link, index) => {
+                  const isActive = location.pathname === link.path
+                  return (
+                    <motion.div
+                      key={link.path}
+                      initial={{ x: -20, opacity: 0 }}
+                      animate={{
+                        x: isMobileMenuOpen ? 0 : -20,
+                        opacity: isMobileMenuOpen ? 1 : 0,
+                      }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      <Link
+                        to={link.path}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`block px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${
+                          isActive
+                            ? 'bg-green-50 text-green-600 border-l-4 border-green-600'
+                            : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
         </motion.div>
       </nav>
     </motion.header>

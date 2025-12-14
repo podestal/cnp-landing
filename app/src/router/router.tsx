@@ -9,6 +9,7 @@ import LogosSection from '../components/main/LogosSection'
 import Nosotros from '../pages/Nosotros'
 import Comunicados from '../pages/Comunicados'
 import Institucional from '../pages/Institucional'
+import Contacto from '../pages/Contacto'
 import UnderConstruction from '../components/UnderConstruction'
 
 const router = createBrowserRouter([
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'contacto',
-        element: <UnderConstruction pageName="Contacto" />,
+        element: <Contacto />,
       },
       {
         path: 'institucional',
