@@ -3,32 +3,38 @@ import { motion } from 'framer-motion'
 const logos = [
   {
     name: 'CNL',
-    url: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/cnl-logo-nobg.png',
+    imageUrl: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/cnl-logo-nobg.png',
+    linkUrl: 'https://www.notarios.org.pe/#/home',
     size: 'xl', // default, sm, md, lg, xl
   },
   {
     name: 'SUNARP',
-    url: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/sunarp-logo-nobg.png',
+    imageUrl: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/sunarp-logo-nobg.png',
+    linkUrl: 'https://www.sunarp.gob.pe/serviciosenlinea/portal/index.html',
     size: 'xl',
   },
   {
     name: 'RENIEC',
-    url: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/reniec-logo-nobg.png',
+    imageUrl: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/reniec-logo-nobg.png',
+    linkUrl: 'https://identidad.reniec.gob.pe/ciudadano',
     size: 'xl',
   },
   {
     name: 'Migraciones',
-    url: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/migraciones-logo-nobg.png',
+    imageUrl: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/migraciones-logo-nobg.png',
+    linkUrl: 'https://agenciavirtual.migraciones.gob.pe/agencia-virtual/identidad',
     size: 'default',
   },
   {
     name: 'El Peruano',
-    url: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/elperuano-logo-nobg.png',
+    imageUrl: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/elperuano-logo-nobg.png',
+    linkUrl: 'https://elperuano.pe/',
     size: 'md',
   },
   {
     name: 'SUNAT',
-    url: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/sunat-logo-nobg.png',
+    imageUrl: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/logos-other/sunat-logo-nobg.png',
+    linkUrl: 'https://www.sunat.gob.pe/',
     size: 'md',
   },
 ]
@@ -84,11 +90,19 @@ const LogosSection = () => {
               }}
               className="flex items-center justify-center"
             >
-              <img
-                src={logo.url}
-                alt={logo.name}
-                className={`max-w-full ${getSizeClass(logo.size)} w-auto h-auto object-contain transition-all duration-300`}
-              />
+              <a
+                href={logo.linkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cursor-pointer transition-opacity duration-300 hover:opacity-80"
+                aria-label={`Visitar ${logo.name}`}
+              >
+                <img
+                  src={logo.imageUrl}
+                  alt={logo.name}
+                  className={`max-w-full ${getSizeClass(logo.size)} w-auto h-auto object-contain transition-all duration-300`}
+                />
+              </a>
             </motion.div>
           ))}
         </div>
