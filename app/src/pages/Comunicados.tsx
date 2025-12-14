@@ -32,7 +32,7 @@ Junta de Decanos de los Colegios de Notarios del Perú`,
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white pt-28 pb-20 md:pt-36 md:pb-28"
+        className="relative bg-gradient-to-br from-green-600 via-green-700 to-green-800 text-white pt-28 pb-20 md:pt-36 md:pb-28"
       >
         <div className="absolute inset-0 bg-black/10" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -46,7 +46,7 @@ Junta de Decanos de los Colegios de Notarios del Perú`,
               Comunicados
             </h1>
             <div className="w-24 h-1 bg-white/30 mx-auto mb-8" />
-            <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-green-50 max-w-2xl mx-auto">
               Mantente informado sobre las últimas noticias y comunicados del Colegio de Notarios de Puno
             </p>
           </motion.div>

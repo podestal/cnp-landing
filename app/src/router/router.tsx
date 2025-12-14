@@ -8,6 +8,8 @@ import NoticiasSection from '../components/main/NoticiasSection'
 import LogosSection from '../components/main/LogosSection'
 import Nosotros from '../pages/Nosotros'
 import Comunicados from '../pages/Comunicados'
+import Institucional from '../pages/Institucional'
+import UnderConstruction from '../components/UnderConstruction'
 
 const router = createBrowserRouter([
   {
@@ -33,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'eventos',
-        element: <div className="py-12"><h1 className="text-3xl font-bold">Eventos</h1></div>,
+        element: <UnderConstruction pageName="Eventos" />,
       },
       {
         path: 'comunicados',
@@ -41,31 +43,35 @@ const router = createBrowserRouter([
       },
       {
         path: 'noticias',
-        element: <div className="py-12"><h1 className="text-3xl font-bold">Noticias</h1></div>,
+        element: <UnderConstruction pageName="Noticias" />,
       },
       {
         path: 'video',
-        element: <div className="py-12"><h1 className="text-3xl font-bold">Video</h1></div>,
+        element: <UnderConstruction pageName="Video" />,
       },
       {
         path: 'legislacion',
-        element: <div className="py-12"><h1 className="text-3xl font-bold">Legislación</h1></div>,
+        element: <UnderConstruction pageName="Legislación" />,
       },
       {
         path: 'contacto',
-        element: <div className="py-12"><h1 className="text-3xl font-bold">Contacto</h1></div>,
+        element: <UnderConstruction pageName="Contacto" />,
+      },
+      {
+        path: 'institucional',
+        element: <Institucional />,
       },
       {
         path: 'notarios',
-        element: <div className="py-12"><h1 className="text-3xl font-bold">Notarios</h1></div>,
+        element: <UnderConstruction pageName="Notarios" />,
       },
       {
         path: 'servicios',
-        element: <div className="py-12"><h1 className="text-3xl font-bold">Servicios</h1></div>,
+        element: <UnderConstruction pageName="Servicios" />,
       },
       {
         path: 'herramientas',
-        element: <div className="py-12"><h1 className="text-3xl font-bold">Herramientas Tecnológicas</h1></div>,
+        element: <UnderConstruction pageName="Herramientas Tecnológicas" />,
       },
     ],
   },

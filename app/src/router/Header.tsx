@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 const navLinks = [
   { path: '/', label: 'Inicio' },
-  { path: '/notarios', label: 'Notarios' },
+  { path: '/institucional', label: 'Institucional' },
   { path: '/nosotros', label: 'Nosotros' },
   { path: '/eventos', label: 'Eventos' },
   { path: '/comunicados', label: 'Comunicados' },
