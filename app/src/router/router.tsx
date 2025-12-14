@@ -6,6 +6,7 @@ import ServicesSection from '../components/main/ServicesSection'
 import ComunicadosSection from '../components/main/ComunicadosSection'
 import NoticiasSection from '../components/main/NoticiasSection'
 import LogosSection from '../components/main/LogosSection'
+import Nosotros from '../pages/Nosotros'
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'nosotros',
-        element: <div className="py-12"><h1 className="text-3xl font-bold">Nosotros</h1></div>,
+        element: <Nosotros />,
       },
       {
         path: 'eventos',
