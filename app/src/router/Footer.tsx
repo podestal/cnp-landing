@@ -1,15 +1,16 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { Mail, Phone, MapPin, Facebook, Twitter, Youtube, MessageCircle } from 'lucide-react'
+import { Mail, Phone, MapPin, Facebook, Youtube } from 'lucide-react'
 
 const navLinks = [
-  { path: '/nosotros', label: 'Nosotros' },
-  { path: '/eventos', label: 'Eventos' },
-  { path: '/comunicados', label: 'Comunicados' },
-  { path: '/noticias', label: 'Noticias' },
-  { path: '/video', label: 'Video' },
-  { path: '/legislacion', label: 'Legislación' },
-  { path: '/contacto', label: 'Contacto' },
+    { path: '/institucional', label: 'Institucional' },
+    //   { path: '/nosotros', label: 'Nosotros' },
+    //   { path: '/eventos', label: 'Eventos' },
+    //   { path: '/comunicados', label: 'Comunicados' },
+      { path: '/noticias', label: 'Noticias' },
+    //   { path: '/video', label: 'Video' },
+    //   { path: '/legislacion', label: 'Legislación' },
+      { path: '/contacto', label: 'Contacto' },
 ]
 
 const Footer = () => {
@@ -126,7 +127,7 @@ const Footer = () => {
             </div>
             <div className="flex flex-wrap gap-3 sm:gap-4 justify-center md:justify-start w-full">
               <motion.a
-                href="#"
+                href="https://www.facebook.com/colegionotariospuno"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-green-600 transition-colors duration-200"
@@ -137,18 +138,7 @@ const Footer = () => {
                 <Facebook className="w-5 h-5 sm:w-6 sm:h-6" />
               </motion.a>
               <motion.a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-green-600 transition-colors duration-200"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label="Twitter"
-              >
-                <Twitter className="w-5 h-5 sm:w-6 sm:h-6" />
-              </motion.a>
-              <motion.a
-                href="#"
+                href="https://www.youtube.com/@cnotarioslima"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-green-600 transition-colors duration-200"
@@ -157,17 +147,6 @@ const Footer = () => {
                 aria-label="YouTube"
               >
                 <Youtube className="w-5 h-5 sm:w-6 sm:h-6" />
-              </motion.a>
-              <motion.a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-green-600 transition-colors duration-200"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label="WhatsApp"
-              >
-                <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
               </motion.a>
             </div>
           </motion.div>

@@ -5,12 +5,12 @@ import { useState, useEffect } from 'react'
 const navLinks = [
   { path: '/', label: 'Inicio' },
   { path: '/institucional', label: 'Institucional' },
-  { path: '/nosotros', label: 'Nosotros' },
-  { path: '/eventos', label: 'Eventos' },
-  { path: '/comunicados', label: 'Comunicados' },
+//   { path: '/nosotros', label: 'Nosotros' },
+//   { path: '/eventos', label: 'Eventos' },
+//   { path: '/comunicados', label: 'Comunicados' },
   { path: '/noticias', label: 'Noticias' },
 //   { path: '/video', label: 'Video' },
-  { path: '/legislacion', label: 'Legislación' },
+//   { path: '/legislacion', label: 'Legislación' },
   { path: '/contacto', label: 'Contacto' },
 ]
 
@@ -18,6 +18,8 @@ export default function Header() {
   const location = useLocation()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isInstitucionalHovered, setIsInstitucionalHovered] = useState(false)
+  const [isInstitucionalMobileOpen, setIsInstitucionalMobileOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,7 +87,75 @@ export default function Header() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => {
-              const isActive = location.pathname === link.path
+              const isActive = location.pathname === link.path || 
+                (link.path === '/institucional' && location.pathname.startsWith('/institucional'))
+              const isInstitucional = link.path === '/institucional'
+              
+              const institucionalSubLinks = [
+                { path: '/institucional', label: 'Nosotros' },
+                { path: '/institucional/junta-directiva', label: 'Junta Directiva' },
+                { path: '/institucional/tribunal-de-honor', label: 'Tribunal de Honor' },
+                { path: '/institucional/mision-vision', label: 'Misión y Visión' },
+              ]
+
+              if (isInstitucional) {
+                return (
+                  <div
+                    key={link.path}
+                    className="relative"
+                    onMouseEnter={() => setIsInstitucionalHovered(true)}
+                    onMouseLeave={() => setIsInstitucionalHovered(false)}
+                  >
+                    <Link
+                      to={link.path}
+                      className={`relative px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                        isScrolled
+                          ? 'text-gray-700 hover:text-green-600'
+                          : 'text-white hover:text-green-300'
+                      }`}
+                    >
+                      {link.label}
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeTab"
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-600"
+                          initial={false}
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                    </Link>
+                    
+                    {/* Dropdown Menu */}
+                    {isInstitucionalHovered && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden z-50"
+                      >
+                        {institucionalSubLinks.map((subLink) => {
+                          const isSubActive = location.pathname === subLink.path
+                          return (
+                            <Link
+                              key={subLink.path}
+                              to={subLink.path}
+                              className={`block px-4 py-3 text-sm font-medium transition-colors duration-200 ${
+                                isSubActive
+                                  ? 'bg-green-50 text-green-600 border-l-4 border-green-600'
+                                  : 'text-gray-700 hover:bg-gray-50 hover:text-green-600'
+                              }`}
+                            >
+                              {subLink.label}
+                            </Link>
+                          )
+                        })}
+                      </motion.div>
+                    )}
+                  </div>
+                )
+              }
+
               return (
                 <Link
                   key={link.path}
@@ -169,7 +239,83 @@ export default function Header() {
             <div className="bg-white/90 backdrop-blur-lg shadow-xl rounded-b-xl mx-4 mb-4 border border-white/30">
               <div className="py-4 space-y-2">
                 {navLinks.map((link, index) => {
-                  const isActive = location.pathname === link.path
+                  const isActive = location.pathname === link.path || 
+                    (link.path === '/institucional' && location.pathname.startsWith('/institucional'))
+                  const isInstitucional = link.path === '/institucional'
+                  
+                  const institucionalSubLinks = [
+                    { path: '/institucional', label: 'Nosotros' },
+                    { path: '/institucional/junta-directiva', label: 'Junta Directiva' },
+                    { path: '/institucional/tribunal-de-honor', label: 'Tribunal de Honor' },
+                    { path: '/institucional/mision-vision', label: 'Misión y Visión' },
+                  ]
+
+                  if (isInstitucional) {
+                    return (
+                      <motion.div
+                        key={link.path}
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{
+                          x: isMobileMenuOpen ? 0 : -20,
+                          opacity: isMobileMenuOpen ? 1 : 0,
+                        }}
+                        transition={{ delay: index * 0.05 }}
+                      >
+                        <button
+                          onClick={() => setIsInstitucionalMobileOpen(!isInstitucionalMobileOpen)}
+                          className={`w-full flex items-center justify-between px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${
+                            isActive
+                              ? 'bg-green-50 text-green-600 border-l-4 border-green-600'
+                              : 'text-gray-700 hover:bg-gray-50'
+                          }`}
+                        >
+                          <span>{link.label}</span>
+                          <motion.span
+                            animate={{ rotate: isInstitucionalMobileOpen ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="text-gray-400"
+                          >
+                            ▼
+                          </motion.span>
+                        </button>
+                        
+                        {/* Mobile Submenu */}
+                        <motion.div
+                          initial={false}
+                          animate={{
+                            height: isInstitucionalMobileOpen ? 'auto' : 0,
+                            opacity: isInstitucionalMobileOpen ? 1 : 0,
+                          }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-4 pt-2 space-y-1">
+                            {institucionalSubLinks.map((subLink) => {
+                              const isSubActive = location.pathname === subLink.path
+                              return (
+                                <Link
+                                  key={subLink.path}
+                                  to={subLink.path}
+                                  onClick={() => {
+                                    setIsMobileMenuOpen(false)
+                                    setIsInstitucionalMobileOpen(false)
+                                  }}
+                                  className={`block px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+                                    isSubActive
+                                      ? 'bg-green-100 text-green-600 border-l-4 border-green-600'
+                                      : 'text-gray-600 hover:bg-gray-50 hover:text-green-600'
+                                  }`}
+                                >
+                                  {subLink.label}
+                                </Link>
+                              )
+                            })}
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    )
+                  }
+
                   return (
                     <motion.div
                       key={link.path}

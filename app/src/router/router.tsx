@@ -5,11 +5,20 @@ import Hero from '../components/main/Hero'
 import ServicesSection from '../components/main/ServicesSection'
 import ComunicadosSection from '../components/main/ComunicadosSection'
 import NoticiasSection from '../components/main/NoticiasSection'
+import EventosSection from '../components/main/EventosSection'
 import LogosSection from '../components/main/LogosSection'
 import Nosotros from '../pages/Nosotros'
 import Comunicados from '../pages/Comunicados'
-import Institucional from '../pages/Institucional'
+import Noticias from '../pages/Noticias'
+import InstitucionalLayout from '../pages/institucional/InstitucionalLayout'
+import InstitucionalNosotros from '../pages/institucional/InstitucionalNosotros'
+import InstitucionalJuntaDirectiva from '../pages/institucional/InstitucionalJuntaDirectiva'
+import InstitucionalTribunalHonor from '../pages/institucional/InstitucionalTribunalHonor'
+import InstitucionalMisionVision from '../pages/institucional/InstitucionalMisionVision'
 import Contacto from '../pages/Contacto'
+import Eventos from '../pages/Eventos'
+import Servicios from '../pages/Servicios'
+import PopupModal from '../components/PopupModal'
 import UnderConstruction from '../components/UnderConstruction'
 
 const router = createBrowserRouter([
@@ -22,10 +31,12 @@ const router = createBrowserRouter([
         index: true,
         element: (
           <>
+            <PopupModal />
             <Hero />
             <ServicesSection />
             <ComunicadosSection />
             <NoticiasSection />
+            <EventosSection />
             <LogosSection />
           </>
         ),
@@ -36,15 +47,27 @@ const router = createBrowserRouter([
       },
       {
         path: 'eventos',
-        element: <UnderConstruction pageName="Eventos" />,
+        element: <Eventos />,
+      },
+      {
+        path: 'eventos/:id',
+        element: <Eventos />,
       },
       {
         path: 'comunicados',
         element: <Comunicados />,
       },
       {
+        path: 'comunicados/:id',
+        element: <Comunicados />,
+      },
+      {
         path: 'noticias',
-        element: <UnderConstruction pageName="Noticias" />,
+        element: <Noticias />,
+      },
+      {
+        path: 'noticias/:id',
+        element: <Noticias />,
       },
       {
         path: 'video',
@@ -60,7 +83,25 @@ const router = createBrowserRouter([
       },
       {
         path: 'institucional',
-        element: <Institucional />,
+        element: <InstitucionalLayout />,
+        children: [
+          {
+            index: true,
+            element: <InstitucionalNosotros />,
+          },
+          {
+            path: 'junta-directiva',
+            element: <InstitucionalJuntaDirectiva />,
+          },
+          {
+            path: 'tribunal-de-honor',
+            element: <InstitucionalTribunalHonor />,
+          },
+          {
+            path: 'mision-vision',
+            element: <InstitucionalMisionVision />,
+          },
+        ],
       },
       {
         path: 'notarios',
@@ -68,7 +109,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'servicios',
-        element: <UnderConstruction pageName="Servicios" />,
+        element: <Servicios />,
       },
       {
         path: 'herramientas',
