@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Calendar, MapPin, Clock } from 'lucide-react'
+import { X, Calendar, MapPin, Building } from 'lucide-react'
 
 const PopupModal = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -52,9 +52,15 @@ const PopupModal = () => {
                 <X className="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors" />
               </button>
 
-              {/* Header with gradient */}
-              <div className="bg-linear-to-br from-green-600 via-green-700 to-green-800 text-white p-6 sm:p-8 pb-6 relative overflow-hidden">
-                <div className="absolute inset-0 bg-black/10" />
+              {/* Header with image background */}
+              <div 
+                className="text-white p-6 sm:p-8 pb-6 relative overflow-hidden bg-cover bg-center bg-no-repeat"
+                style={{
+                  backgroundImage: 'url(https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/Screen%20Shot%202026-01-10%20at%206.34.16%20AM.png)'
+                }}
+              >
+                {/* Dark overlay for better text readability */}
+                <div className="absolute inset-0 bg-black/60" />
                 <div className="relative z-10">
                   <div className="flex items-center justify-center mb-4">
                     <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
@@ -62,10 +68,10 @@ const PopupModal = () => {
                     </div>
                   </div>
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2">
-                    Convención Notarial 2025
+                    XVIII Congreso Nacional de Notarios
                   </h2>
-                  <p className="text-green-50 text-center text-sm sm:text-base">
-                    No te pierdas este importante evento
+                  <p className="text-white/90 text-center text-sm sm:text-base">
+                    "Notariado y jurisdicción voluntaria hacia una justicia descongestionada en una época de cambios"
                   </p>
                 </div>
               </div>
@@ -79,7 +85,7 @@ const PopupModal = () => {
                     </div>
                     <div>
                       <p className="text-xs sm:text-sm text-gray-500 mb-1">Fecha</p>
-                      <p className="font-semibold text-gray-800 text-sm sm:text-base">15 - 17 de Febrero, 2025</p>
+                      <p className="font-semibold text-gray-800 text-sm sm:text-base">5 - 7 de Febrero, 2026</p>
                     </div>
                   </div>
 
@@ -89,38 +95,40 @@ const PopupModal = () => {
                     </div>
                     <div>
                       <p className="text-xs sm:text-sm text-gray-500 mb-1">Ubicación</p>
-                      <p className="font-semibold text-gray-800 text-sm sm:text-base">Centro de Convenciones de Puno</p>
+                      <p className="font-semibold text-gray-800 text-sm sm:text-base">Hotel GHL Gran Hotel Lago Titicaca, Isla Esteves – Puno</p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3 sm:gap-4">
                     <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                      <Clock className="w-5 h-5 text-green-600" />
+                      <Building className="w-5 h-5 text-green-600" />
                     </div>
                     <div>
-                      <p className="text-xs sm:text-sm text-gray-500 mb-1">Horario</p>
-                      <p className="font-semibold text-gray-800 text-sm sm:text-base">09:00 AM - 06:00 PM</p>
+                      <p className="text-xs sm:text-sm text-gray-500 mb-1">Organiza</p>
+                      <p className="font-semibold text-gray-800 text-sm sm:text-base">Colegio de Notarios de Puno</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-green-50 rounded-lg p-4 sm:p-5 mb-6">
+                {/* <div className="bg-green-50 rounded-lg p-4 sm:p-5 mb-6">
                   <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
                     Únete a la <span className="font-semibold text-green-700">Convención Notarial 2025</span>, el evento más importante del año para profesionales del notariado. Contaremos con conferencias magistrales, talleres especializados y oportunidades de networking.
                   </p>
-                </div>
+                </div> */}
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3">
                   <button
-                    onClick={handleClose}
-                    className="flex-1 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg"
+                    onClick={() => {
+                      window.open('https://www.facebook.com/colegionotariospuno/?locale=es_LA', '_blank')
+                    }}
+                    className="cursor-pointer flex-1 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg"
                   >
                     Más Información
                   </button>
                   <button
                     onClick={handleClose}
-                    className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-200"
+                    className="cursor-pointer flex-1 px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-200"
                   >
                     Cerrar
                   </button>
