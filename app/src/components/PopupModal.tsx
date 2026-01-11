@@ -56,7 +56,7 @@ const PopupModal = () => {
               <div 
                 className="text-white p-6 sm:p-8 pb-6 relative overflow-hidden bg-cover bg-center bg-no-repeat"
                 style={{
-                  backgroundImage: 'url(https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/Screen%20Shot%202026-01-10%20at%206.34.16%20AM.png)'
+                  backgroundImage: 'url(https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/ScreenShot2026-01-10at6.34.16A.jpeg)'
                 }}
               >
                 {/* Dark overlay for better text readability */}
