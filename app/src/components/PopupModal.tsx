@@ -120,7 +120,7 @@ const PopupModal = () => {
                 <div className="flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={() => {
-                      window.open('https://www.facebook.com/colegionotariospuno/?locale=es_LA', '_blank')
+                      window.open('https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/BROCHURE%20OFICIAL%20CONGRESO.pdf', '_blank')
                     }}
                     className="cursor-pointer flex-1 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg"
                   >
