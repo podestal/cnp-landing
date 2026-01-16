@@ -15,4 +15,4 @@ export interface Participant {
 
 export type CreateParticipant = Omit<Participant, 'is_active' | 'created_at' | 'updated_at'>
 
-export const participantService = new APIClient<Participant>('/participants')
+export const participantService = new APIClient<Participant>('/participants/')

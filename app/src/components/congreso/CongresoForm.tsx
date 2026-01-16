@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import type { FormEvent, ChangeEvent } from 'react'
 import { motion } from 'framer-motion'
-import { User, Mail, Phone, FileText, MapPin, Building2, Upload, CheckCircle2, AlertCircle } from 'lucide-react'
-import APIClient from '../../services/apiClient'
+import { User, Mail, Phone, FileText, MapPin, Building2, Upload, CheckCircle2, AlertCircle, BookOpen, Loader2 } from 'lucide-react'
+import { useGetTemas } from '../../hooks/api/tema/useGetTemas'
+import { useCreateParticipant } from '../../hooks/api/participant/useCreateParticipant'
+import type { Tema } from '../../services/api/temaService'
 
 interface FormData {
   name: string
@@ -12,6 +14,7 @@ interface FormData {
   celphone: string
   ruc: string
   location: string
+  tema: string
   receipt: File | null
 }
 
@@ -20,6 +23,9 @@ interface FormErrors {
 }
 
 const CongresoForm = () => {
+  const { data: temas, isLoading: isLoadingTemas, error: temasError } = useGetTemas()
+  const createParticipant = useCreateParticipant()
+  
   const [formData, setFormData] = useState<FormData>({
     name: '',
     last_name: '',
@@ -28,13 +34,12 @@ const CongresoForm = () => {
     celphone: '',
     ruc: '',
     location: '',
+    tema: '',
     receipt: null
   })
 
   const [errors, setErrors] = useState<FormErrors>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
-  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const validateField = (name: string, value: string): string => {
     switch (name) {
@@ -62,12 +67,15 @@ const CongresoForm = () => {
       case 'location':
         if (!value.trim()) return 'Este campo es requerido'
         return ''
+      case 'tema':
+        if (!value.trim()) return 'Este campo es requerido'
+        return ''
       default:
         return ''
     }
   }
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
     
@@ -76,6 +84,19 @@ const CongresoForm = () => {
       setErrors(prev => {
         const newErrors = { ...prev }
         delete newErrors[name]
+        return newErrors
+      })
+    }
+  }
+
+  const handleTemaSelect = (temaId: number) => {
+    setFormData(prev => ({ ...prev, tema: temaId.toString() }))
+    
+    // Clear error for tema when user selects one
+    if (errors.tema) {
+      setErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors.tema
         return newErrors
       })
     }
@@ -112,61 +133,53 @@ const CongresoForm = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setSubmitError(null)
     setSubmitSuccess(false)
 
     if (!validateForm()) {
       return
     }
 
-    setIsSubmitting(true)
-
-    try {
-      const formDataToSend = new FormData()
-      formDataToSend.append('name', formData.name.trim())
-      formDataToSend.append('last_name', formData.last_name.trim())
-      formDataToSend.append('dni', formData.dni.trim())
-      formDataToSend.append('email', formData.email.trim())
-      formDataToSend.append('celphone', formData.celphone.trim())
-      formDataToSend.append('ruc', formData.ruc.trim())
-      formDataToSend.append('location', formData.location.trim())
-      
-      if (formData.receipt) {
-        formDataToSend.append('receipt', formData.receipt)
-      }
-
-      const apiClient = new APIClient<any, FormData>('/participants/')
-      await apiClient.post(formDataToSend)
-
-      setSubmitSuccess(true)
-      // Reset form
-      setFormData({
-        name: '',
-        last_name: '',
-        dni: '',
-        email: '',
-        celphone: '',
-        ruc: '',
-        location: '',
-        receipt: null
-      })
-      
-      // Reset file input
-      const fileInput = document.getElementById('receipt') as HTMLInputElement
-      if (fileInput) fileInput.value = ''
-
-      // Hide success message after 5 seconds
-      setTimeout(() => setSubmitSuccess(false), 5000)
-    } catch (error: any) {
-      console.error('Error submitting form:', error)
-      setSubmitError(
-        error?.response?.data?.message || 
-        error?.response?.data?.error || 
-        'Error al enviar el formulario. Por favor, intenta nuevamente.'
-      )
-    } finally {
-      setIsSubmitting(false)
+    const formDataToSend = new FormData()
+    formDataToSend.append('name', formData.name.trim())
+    formDataToSend.append('last_name', formData.last_name.trim())
+    formDataToSend.append('dni', formData.dni.trim())
+    formDataToSend.append('email', formData.email.trim())
+    formDataToSend.append('celphone', formData.celphone.trim())
+    formDataToSend.append('ruc', formData.ruc.trim())
+    formDataToSend.append('location', formData.location.trim())
+    formDataToSend.append('tema', formData.tema.trim())
+    
+    if (formData.receipt) {
+      formDataToSend.append('receipt', formData.receipt)
     }
+
+    createParticipant.mutate(formDataToSend, {
+      onSuccess: () => {
+        setSubmitSuccess(true)
+        // Reset form
+        setFormData({
+          name: '',
+          last_name: '',
+          dni: '',
+          email: '',
+          celphone: '',
+          ruc: '',
+          location: '',
+          tema: '',
+          receipt: null
+        })
+        
+        // Reset file input
+        const fileInput = document.getElementById('receipt') as HTMLInputElement
+        if (fileInput) fileInput.value = ''
+
+        // Hide success message after 5 seconds
+        setTimeout(() => setSubmitSuccess(false), 5000)
+      },
+      onError: (error: any) => {
+        console.error('Error submitting form:', error)
+      }
+    })
   }
 
   return (
@@ -217,7 +230,7 @@ const CongresoForm = () => {
           )}
 
           {/* Error Message */}
-          {submitError && (
+          {createParticipant.isError && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -229,7 +242,10 @@ const CongresoForm = () => {
                   Error al enviar
                 </p>
                 <p className="text-red-700 text-xs sm:text-sm mt-1">
-                  {submitError}
+                  {(createParticipant.error as any)?.response?.data?.message || 
+                   (createParticipant.error as any)?.response?.data?.error || 
+                   (createParticipant.error as any)?.message ||
+                   'Error al enviar el formulario. Por favor, intenta nuevamente.'}
                 </p>
               </div>
             </motion.div>
@@ -436,6 +452,87 @@ const CongresoForm = () => {
               )}
             </div>
 
+            {/* Tema Selection */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">
+                <BookOpen className="w-4 h-4 inline mr-2 text-green-600" />
+                Tema *
+              </label>
+              {isLoadingTemas ? (
+                <div className="w-full px-4 py-3 border border-gray-300 rounded-lg flex items-center gap-2 bg-gray-50">
+                  <Loader2 className="w-4 h-4 text-green-600 animate-spin" />
+                  <span className="text-sm text-gray-500">Cargando temas...</span>
+                </div>
+              ) : temasError ? (
+                <div className="w-full px-4 py-3 border border-red-300 rounded-lg bg-red-50">
+                  <p className="text-sm text-red-600 flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4" />
+                    Error al cargar los temas. Por favor, recarga la página.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="space-y-3">
+                    {temas?.map((tema: Tema) => {
+                      const isSelected = formData.tema === tema.id.toString()
+                      return (
+                        <motion.div
+                          key={tema.id}
+                          onClick={() => handleTemaSelect(tema.id)}
+                          className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+                            isSelected
+                              ? 'bg-green-50 border-green-500 shadow-md'
+                              : 'bg-white border-gray-200 hover:border-green-300 hover:bg-green-50/50'
+                          }`}
+                          whileHover={{ scale: 1.01 }}
+                          whileTap={{ scale: 0.99 }}
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className={`mt-1 shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                              isSelected
+                                ? 'bg-green-600 border-green-600'
+                                : 'border-gray-300'
+                            }`}>
+                              {isSelected && (
+                                <CheckCircle2 className="w-3 h-3 text-white" />
+                              )}
+                            </div>
+                            <div className="flex-1">
+                              <h3 className={`font-semibold mb-2 ${
+                                isSelected ? 'text-green-800' : 'text-gray-800'
+                              }`}>
+                                {tema.title}
+                              </h3>
+                              <div className={`mt-2 ${isSelected ? 'pt-3 border-t border-green-200' : 'pt-2'}`}>
+                                <p className={`text-sm mb-3 ${
+                                  isSelected ? 'text-green-700' : 'text-gray-600'
+                                }`}>
+                                  {tema.description}
+                                </p>
+                                <div className={`text-xs ${
+                                  isSelected ? 'text-green-600' : 'text-gray-600'
+                                }`}>
+                                  <p className="font-semibold mb-1">Coordinador:</p>
+                                  <p className="mb-1">{tema.coordinator}</p>
+                                  <p>Tel: {tema.coordinator_celphone}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )
+                    })}
+                  </div>
+                  {errors.tema && (
+                    <p className="mt-2 text-xs text-red-600 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {errors.tema}
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
+
             {/* Receipt Upload */}
             <div>
               <label htmlFor="receipt" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -476,12 +573,12 @@ const CongresoForm = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={createParticipant.isPending}
                 className={`w-full px-6 py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
-                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  createParticipant.isPending ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                {isSubmitting ? (
+                {createParticipant.isPending ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     Enviando...
