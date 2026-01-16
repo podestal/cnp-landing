@@ -217,7 +217,7 @@ const CongresoForm = () => {
     createParticipant.mutate(formDataToSend, {
       onSuccess: () => {
         // Navigate to confirmation page
-        navigate('/congreso2025/confirmacion')
+        navigate('/congreso2026/confirmacion')
       },
       onError: (error: any) => {
         console.error('Error submitting form:', error)
