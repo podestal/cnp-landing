@@ -20,6 +20,7 @@ import Eventos from '../pages/Eventos'
 import Servicios from '../pages/Servicios'
 import PopupModal from '../components/PopupModal'
 import UnderConstruction from '../components/UnderConstruction'
+import CongresoPage from '../pages/congreso/CongresoPage'
 
 const router = createBrowserRouter([
   {
@@ -116,6 +117,10 @@ const router = createBrowserRouter([
         element: <UnderConstruction pageName="Herramientas Tecnológicas" />,
       },
     ],
+  },
+  {
+    path: 'congreso2025',
+    element: <CongresoPage />,
   },
   {
     path: '*',
