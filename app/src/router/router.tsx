@@ -21,6 +21,7 @@ import Servicios from '../pages/Servicios'
 import PopupModal from '../components/PopupModal'
 import UnderConstruction from '../components/UnderConstruction'
 import CongresoPage from '../pages/congreso/CongresoPage'
+import CongresoConfirmationPage from '../pages/congreso/CongresoConfirmationPage'
 
 const router = createBrowserRouter([
   {
@@ -121,6 +122,10 @@ const router = createBrowserRouter([
   {
     path: 'congreso2025',
     element: <CongresoPage />,
+  },
+  {
+    path: 'congreso2025/confirmacion',
+    element: <CongresoConfirmationPage />,
   },
   {
     path: '*',

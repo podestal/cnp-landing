@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import type { FormEvent, ChangeEvent } from 'react'
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { User, Mail, Phone, FileText, MapPin, Building2, Upload, CheckCircle2, AlertCircle, BookOpen, Loader2 } from 'lucide-react'
 import { useGetTemas } from '../../hooks/api/tema/useGetTemas'
 import { useCreateParticipant } from '../../hooks/api/participant/useCreateParticipant'
@@ -23,8 +24,20 @@ interface FormErrors {
 }
 
 const CongresoForm = () => {
+  const navigate = useNavigate()
   const { data: temas, isLoading: isLoadingTemas, error: temasError } = useGetTemas()
   const createParticipant = useCreateParticipant()
+  
+  // Refs for form fields
+  const nameRef = useRef<HTMLInputElement>(null)
+  const lastNameRef = useRef<HTMLInputElement>(null)
+  const dniRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const celphoneRef = useRef<HTMLInputElement>(null)
+  const rucRef = useRef<HTMLInputElement>(null)
+  const locationRef = useRef<HTMLInputElement>(null)
+  const temaRef = useRef<HTMLDivElement>(null)
+  const receiptRef = useRef<HTMLInputElement>(null)
   
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -39,7 +52,6 @@ const CongresoForm = () => {
   })
 
   const [errors, setErrors] = useState<FormErrors>({})
-  const [submitSuccess, setSubmitSuccess] = useState(false)
 
   const validateField = (name: string, value: string): string => {
     switch (name) {
@@ -73,6 +85,13 @@ const CongresoForm = () => {
       default:
         return ''
     }
+  }
+
+  const validateReceipt = (): string => {
+    if (!formData.receipt) {
+      return 'El comprobante de pago es requerido'
+    }
+    return ''
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -115,6 +134,38 @@ const CongresoForm = () => {
     }
   }
 
+  const scrollToFirstError = (errorKeys: string[]) => {
+    if (errorKeys.length === 0) return
+
+    const firstErrorKey = errorKeys[0]
+    const fieldRefs: { [key: string]: React.RefObject<HTMLElement | HTMLInputElement | HTMLDivElement> } = {
+      name: nameRef as React.RefObject<HTMLElement>,
+      last_name: lastNameRef as React.RefObject<HTMLElement>,
+      dni: dniRef as React.RefObject<HTMLElement>,
+      email: emailRef as React.RefObject<HTMLElement>,
+      celphone: celphoneRef as React.RefObject<HTMLElement>,
+      ruc: rucRef as React.RefObject<HTMLElement>,
+      location: locationRef as React.RefObject<HTMLElement>,
+      tema: temaRef as React.RefObject<HTMLElement>,
+      receipt: receiptRef as React.RefObject<HTMLElement>,
+    }
+
+    const ref = fieldRefs[firstErrorKey]
+    if (ref?.current) {
+      // Small delay to ensure error messages are rendered
+      setTimeout(() => {
+        ref.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        })
+        // Focus the input if it's an input field
+        if (ref.current instanceof HTMLInputElement) {
+          ref.current.focus()
+        }
+      }, 100)
+    }
+  }
+
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {}
     
@@ -127,13 +178,24 @@ const CongresoForm = () => {
       }
     })
 
+    // Validate receipt
+    const receiptError = validateReceipt()
+    if (receiptError) {
+      newErrors.receipt = receiptError
+    }
+
     setErrors(newErrors)
+    
+    // Scroll to first error if validation fails
+    if (Object.keys(newErrors).length > 0) {
+      scrollToFirstError(Object.keys(newErrors))
+    }
+    
     return Object.keys(newErrors).length === 0
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setSubmitSuccess(false)
 
     if (!validateForm()) {
       return
@@ -149,32 +211,13 @@ const CongresoForm = () => {
     formDataToSend.append('location', formData.location.trim())
     formDataToSend.append('tema', formData.tema.trim())
     
-    if (formData.receipt) {
-      formDataToSend.append('receipt', formData.receipt)
-    }
+    // Receipt is required
+    formDataToSend.append('receipt', formData.receipt!)
 
     createParticipant.mutate(formDataToSend, {
       onSuccess: () => {
-        setSubmitSuccess(true)
-        // Reset form
-        setFormData({
-          name: '',
-          last_name: '',
-          dni: '',
-          email: '',
-          celphone: '',
-          ruc: '',
-          location: '',
-          tema: '',
-          receipt: null
-        })
-        
-        // Reset file input
-        const fileInput = document.getElementById('receipt') as HTMLInputElement
-        if (fileInput) fileInput.value = ''
-
-        // Hide success message after 5 seconds
-        setTimeout(() => setSubmitSuccess(false), 5000)
+        // Navigate to confirmation page
+        navigate('/congreso2025/confirmacion')
       },
       onError: (error: any) => {
         console.error('Error submitting form:', error)
@@ -210,25 +253,6 @@ const CongresoForm = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10"
         >
-          {/* Success Message */}
-          {submitSuccess && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3"
-            >
-              <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-              <div>
-                <p className="font-semibold text-green-800 text-sm sm:text-base">
-                  ¡Inscripción exitosa!
-                </p>
-                <p className="text-green-700 text-xs sm:text-sm mt-1">
-                  Tu inscripción ha sido registrada correctamente. Te contactaremos pronto.
-                </p>
-              </div>
-            </motion.div>
-          )}
-
           {/* Error Message */}
           {createParticipant.isError && (
             <motion.div
@@ -261,6 +285,7 @@ const CongresoForm = () => {
                   Nombres *
                 </label>
                 <input
+                  ref={nameRef}
                   type="text"
                   id="name"
                   name="name"
@@ -288,6 +313,7 @@ const CongresoForm = () => {
                   Apellidos *
                 </label>
                 <input
+                  ref={lastNameRef}
                   type="text"
                   id="last_name"
                   name="last_name"
@@ -318,6 +344,7 @@ const CongresoForm = () => {
                   DNI *
                 </label>
                 <input
+                  ref={dniRef}
                   type="text"
                   id="dni"
                   name="dni"
@@ -346,6 +373,7 @@ const CongresoForm = () => {
                   Email *
                 </label>
                 <input
+                  ref={emailRef}
                   type="email"
                   id="email"
                   name="email"
@@ -376,6 +404,7 @@ const CongresoForm = () => {
                   Celular *
                 </label>
                 <input
+                  ref={celphoneRef}
                   type="tel"
                   id="celphone"
                   name="celphone"
@@ -403,6 +432,7 @@ const CongresoForm = () => {
                   RUC *
                 </label>
                 <input
+                  ref={rucRef}
                   type="text"
                   id="ruc"
                   name="ruc"
@@ -432,6 +462,7 @@ const CongresoForm = () => {
                 Ubicación *
               </label>
               <input
+                ref={locationRef}
                 type="text"
                 id="location"
                 name="location"
@@ -453,7 +484,7 @@ const CongresoForm = () => {
             </div>
 
             {/* Tema Selection */}
-            <div>
+            <div ref={temaRef}>
               <label className="block text-sm font-semibold text-gray-700 mb-3">
                 <BookOpen className="w-4 h-4 inline mr-2 text-green-600" />
                 Tema *
@@ -537,21 +568,26 @@ const CongresoForm = () => {
             <div>
               <label htmlFor="receipt" className="block text-sm font-semibold text-gray-700 mb-2">
                 <Upload className="w-4 h-4 inline mr-2 text-green-600" />
-                Comprobante de Pago (Opcional)
+                Comprobante de Pago *
               </label>
               <div className="mt-2">
                 <label
                   htmlFor="receipt"
-                  className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-green-500 hover:bg-green-50 transition-colors"
+                  className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                    errors.receipt
+                      ? 'border-red-300 bg-red-50 hover:border-red-400'
+                      : 'border-gray-300 hover:border-green-500 hover:bg-green-50'
+                  }`}
                 >
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <Upload className="w-8 h-8 mb-2 text-gray-400" />
+                    <Upload className={`w-8 h-8 mb-2 ${errors.receipt ? 'text-red-400' : 'text-gray-400'}`} />
                     <p className="mb-2 text-sm text-gray-500">
                       <span className="font-semibold">Click para subir</span> o arrastra el archivo
                     </p>
                     <p className="text-xs text-gray-500">PNG, JPG, PDF (MAX. 5MB)</p>
                   </div>
                   <input
+                    ref={receiptRef}
                     type="file"
                     id="receipt"
                     name="receipt"
@@ -560,7 +596,13 @@ const CongresoForm = () => {
                     className="hidden"
                   />
                 </label>
-                {formData.receipt && (
+                {errors.receipt && (
+                  <p className="mt-2 text-xs text-red-600 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    {errors.receipt}
+                  </p>
+                )}
+                {formData.receipt && !errors.receipt && (
                   <p className="mt-2 text-sm text-green-600 flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4" />
                     Archivo seleccionado: {formData.receipt.name}
