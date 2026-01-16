@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Calendar, MapPin, Building } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { X, Calendar, MapPin, Building, UserPlus } from 'lucide-react'
 
 const PopupModal = () => {
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -15,6 +17,11 @@ const PopupModal = () => {
 
   const handleClose = () => {
     setIsOpen(false)
+  }
+
+  const handleRegister = () => {
+    setIsOpen(false)
+    navigate('/congreso2026')
   }
 
   return (
@@ -117,21 +124,30 @@ const PopupModal = () => {
                 </div> */}
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col gap-3">
                   <button
-                    onClick={() => {
-                      window.open('https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/BROCHURE%20OFICIAL%20CONGRESO.pdf', '_blank')
-                    }}
-                    className="cursor-pointer flex-1 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg"
+                    onClick={handleRegister}
+                    className="cursor-pointer w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
                   >
-                    Más Información
+                    <UserPlus className="w-5 h-5" />
+                    Inscribirse al Congreso
                   </button>
-                  <button
-                    onClick={handleClose}
-                    className="cursor-pointer flex-1 px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-200"
-                  >
-                    Cerrar
-                  </button>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={() => {
+                        window.open('https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/BROCHURE%20OFICIAL%20CONGRESO.pdf', '_blank')
+                      }}
+                      className="cursor-pointer flex-1 px-6 py-3 bg-green-50 text-green-700 font-semibold rounded-lg hover:bg-green-100 transition-colors duration-200 border border-green-200"
+                    >
+                      Más Información
+                    </button>
+                    <button
+                      onClick={handleClose}
+                      className="cursor-pointer flex-1 px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-200"
+                    >
+                      Cerrar
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>

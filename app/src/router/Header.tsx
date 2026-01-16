@@ -12,6 +12,7 @@ const navLinks = [
 //   { path: '/video', label: 'Video' },
 //   { path: '/legislacion', label: 'Legislación' },
   { path: '/contacto', label: 'Contacto' },
+  { path: '/congreso', label: 'Congreso XVIII' },
 ]
 
 export default function Header() {
