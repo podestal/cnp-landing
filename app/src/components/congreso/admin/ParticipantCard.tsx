@@ -1,14 +1,13 @@
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, CheckCircle2, XCircle, Check } from 'lucide-react'
+import { Mail, Phone, MapPin, CheckCircle2, XCircle, Eye, FileText } from 'lucide-react'
 import type { Participant } from '../../../services/api/participantService'
 
 interface ParticipantCardProps {
   participant: Participant
-  onActivate: (participant: Participant) => void
-  isUpdating?: boolean
+  onViewReceipt: (participant: Participant) => void
 }
 
-const ParticipantCard = ({ participant, onActivate, isUpdating = false }: ParticipantCardProps) => {
+const ParticipantCard = ({ participant, onViewReceipt }: ParticipantCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -75,30 +74,24 @@ const ParticipantCard = ({ participant, onActivate, isUpdating = false }: Partic
             <p className="text-sm text-gray-800">{participant.location}</p>
           </div>
         </div>
-      </div>
 
-      {/* Action Buttons */}
-      {!participant.is_active && (
-        <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t border-gray-200">
-          <button
-            onClick={() => onActivate(participant)}
-            disabled={isUpdating}
-            className="flex-1 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            {isUpdating ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Activando...
-              </>
-            ) : (
-              <>
-                <Check className="w-4 h-4" />
-                Activar Participante
-              </>
-            )}
-          </button>
-        </div>
-      )}
+        {/* Comprobante Section */}
+        {participant.receipt && (
+          <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
+            <div className="flex items-center gap-2">
+              <FileText className="w-4 h-4 text-green-600" />
+              <p className="text-sm font-medium text-green-800">Comprobante disponible</p>
+            </div>
+            <button
+              onClick={() => onViewReceipt(participant)}
+              className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
+              title="Ver comprobante"
+            >
+              <Eye className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+      </div>
     </motion.div>
   )
 }

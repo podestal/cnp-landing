@@ -1,14 +1,16 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, FileText, Download, ExternalLink } from 'lucide-react'
+import { X, FileText, Download, ExternalLink, Check } from 'lucide-react'
 import type { Participant } from '../../../services/api/participantService'
 
 interface ReceiptModalProps {
   participant: Participant | null
   isOpen: boolean
   onClose: () => void
+  onActivate?: (participant: Participant) => void
+  isUpdating?: boolean
 }
 
-const ReceiptModal = ({ participant, isOpen, onClose }: ReceiptModalProps) => {
+const ReceiptModal = ({ participant, isOpen, onClose, onActivate, isUpdating = false }: ReceiptModalProps) => {
   if (!participant || !participant.receipt) return null
 
   const receiptUrl = participant.receipt.startsWith('http') 
@@ -116,24 +118,47 @@ const ReceiptModal = ({ participant, isOpen, onClose }: ReceiptModalProps) => {
               </div>
 
               {/* Footer */}
-              <div className="p-6 border-t border-gray-200 flex gap-3">
-                <a
-                  href={receiptUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  Abrir en nueva pestaña
-                </a>
-                <a
-                  href={receiptUrl}
-                  download
-                  className="px-4 py-2 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center gap-2"
-                >
-                  <Download className="w-4 h-4" />
-                  Descargar
-                </a>
+              <div className="p-6 border-t border-gray-200">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {!participant.is_active && onActivate && (
+                    <button
+                      onClick={() => onActivate(participant)}
+                      disabled={isUpdating}
+                      className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {isUpdating ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          Activando...
+                        </>
+                      ) : (
+                        <>
+                          <Check className="w-5 h-5" />
+                          Activar Participante
+                        </>
+                      )}
+                    </button>
+                  )}
+                  <div className="flex gap-3 flex-1 justify-end">
+                    <a
+                      href={receiptUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Abrir en nueva pestaña
+                    </a>
+                    <a
+                      href={receiptUrl}
+                      download
+                      className="px-4 py-2 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center gap-2"
+                    >
+                      <Download className="w-4 h-4" />
+                      Descargar
+                    </a>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </motion.div>

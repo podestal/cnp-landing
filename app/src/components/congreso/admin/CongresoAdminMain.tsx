@@ -5,12 +5,17 @@ import { useGetParticipants } from '../../../hooks/api/participant/useGetPartici
 import { useUpdateParticipant } from '../../../hooks/api/participant/useUpdateParticipant'
 import type { Participant } from '../../../services/api/participantService'
 import ParticipantsList from './ParticipantsList'
+import ReceiptModal from './ReceiptModal'
+import { useNotificationStore } from '../../../utils/notificationStore'
 
 const CongresoAdminMain = () => {
   const { data: participants, isLoading, error } = useGetParticipants()
   const updateParticipant = useUpdateParticipant()
+  const addNotification = useNotificationStore((state: ReturnType<typeof useNotificationStore.getState>) => state.addNotification)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterActive, setFilterActive] = useState<boolean | null>(null)
+  const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null)
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false)
 
   // Filter participants based on search and active status
   const filteredParticipants = participants?.filter((participant: Participant) => {
@@ -29,6 +34,11 @@ const CongresoAdminMain = () => {
   const activeCount = participants?.filter((p: Participant) => p.is_active).length || 0
   const totalCount = participants?.length || 0
 
+  const handleViewReceipt = (participant: Participant) => {
+    setSelectedParticipant(participant)
+    setIsReceiptModalOpen(true)
+  }
+
   const handleActivate = async (participant: Participant) => {
     if (!participant.id) return
 
@@ -37,8 +47,22 @@ const CongresoAdminMain = () => {
         id: participant.id,
         data: { is_active: true }
       })
+      // Close modal first
+      setIsReceiptModalOpen(false)
+      setSelectedParticipant(null)
+      // Show notification after a small delay to ensure modal closes
+      setTimeout(() => {
+        addNotification({
+          type: 'success',
+          message: `Participante ${participant.name} ${participant.last_name} activado exitosamente`,
+        })
+      }, 300)
     } catch (error) {
       console.error('Error activating participant:', error)
+      addNotification({
+        type: 'error',
+        message: 'Error al activar el participante. Por favor, intenta nuevamente.',
+      })
     }
   }
 
@@ -182,8 +206,7 @@ const CongresoAdminMain = () => {
           participants={filteredParticipants}
           isLoading={isLoading}
           error={error}
-          onActivate={handleActivate}
-          updatingParticipantId={updateParticipant.isPending ? (updateParticipant.variables?.id || null) : null}
+          onViewReceipt={handleViewReceipt}
         />
 
         {/* Results Count */}
@@ -192,6 +215,18 @@ const CongresoAdminMain = () => {
             Mostrando {filteredParticipants.length} de {totalCount} participantes
           </div>
         )}
+
+        {/* Receipt Modal */}
+        <ReceiptModal
+          participant={selectedParticipant}
+          isOpen={isReceiptModalOpen}
+          onClose={() => {
+            setIsReceiptModalOpen(false)
+            setSelectedParticipant(null)
+          }}
+          onActivate={handleActivate}
+          isUpdating={updateParticipant.isPending && updateParticipant.variables?.id === selectedParticipant?.id}
+        />
       </div>
     </div>
   )

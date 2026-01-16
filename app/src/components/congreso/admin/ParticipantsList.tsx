@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, CheckCircle2, XCircle, Check, Loader2, AlertCircle, Users } from 'lucide-react'
+import { Mail, Phone, MapPin, CheckCircle2, XCircle, Loader2, AlertCircle, Users, Eye } from 'lucide-react'
 import type { Participant } from '../../../services/api/participantService'
 import ParticipantCard from './ParticipantCard'
 
@@ -7,16 +7,14 @@ interface ParticipantsListProps {
   participants: Participant[]
   isLoading?: boolean
   error?: Error | null
-  onActivate: (participant: Participant) => void
-  updatingParticipantId?: number | null
+  onViewReceipt: (participant: Participant) => void
 }
 
 const ParticipantsList = ({ 
   participants, 
   isLoading, 
   error, 
-  onActivate,
-  updatingParticipantId 
+  onViewReceipt
 }: ParticipantsListProps) => {
   if (isLoading) {
     return (
@@ -127,18 +125,13 @@ const ParticipantsList = ({
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {!participant.is_active && (
+                  {participant.receipt && (
                     <button
-                      onClick={() => onActivate(participant)}
-                      disabled={updatingParticipantId === participant.id}
-                      className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      title="Activar participante"
+                      onClick={() => onViewReceipt(participant)}
+                      className="p-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
+                      title="Ver comprobante"
                     >
-                      {updatingParticipantId === participant.id ? (
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      ) : (
-                        <Check className="w-4 h-4" />
-                      )}
+                      <Eye className="w-4 h-4" />
                     </button>
                   )}
                 </td>
@@ -154,8 +147,7 @@ const ParticipantsList = ({
           <ParticipantCard
             key={participant.id || index}
             participant={participant}
-            onActivate={onActivate}
-            isUpdating={updatingParticipantId === participant.id}
+            onViewReceipt={onViewReceipt}
           />
         ))}
       </div>
