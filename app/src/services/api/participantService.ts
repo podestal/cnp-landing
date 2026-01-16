@@ -1,6 +1,7 @@
 import APIClient from "./apiClient"
 
 export interface Participant {
+    id?: number
     name: string
     last_name: string
     dni: string
@@ -11,8 +12,12 @@ export interface Participant {
     receipt: string
     is_active: boolean
     tema: number
+    created_at?: string
+    updated_at?: string
 }
 
-export type CreateParticipant = Omit<Participant, 'is_active' | 'created_at' | 'updated_at'>
+export type CreateParticipant = Omit<Participant, 'is_active' | 'created_at' | 'updated_at' | 'id'>
 
-export const participantService = new APIClient<Participant>('/participants/')
+export type ParticipantResponse = Participant[]
+
+export const participantService = new APIClient<ParticipantResponse>('/participants/')

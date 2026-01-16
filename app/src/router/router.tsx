@@ -20,9 +20,11 @@ import Eventos from '../pages/Eventos'
 import Servicios from '../pages/Servicios'
 import PopupModal from '../components/PopupModal'
 import UnderConstruction from '../components/UnderConstruction'
+import CongresoLayout from '../pages/congreso/CongresoLayout'
 import CongresoPage from '../pages/congreso/CongresoPage'
 import CongresoConfirmationPage from '../pages/congreso/CongresoConfirmationPage'
 import CongresoInfo from '../pages/CongresoInfo'
+import CongresoAdminPage from '../pages/congreso/CongresoAdminPage'
 
 const router = createBrowserRouter([
   {
@@ -126,11 +128,21 @@ const router = createBrowserRouter([
   },
   {
     path: 'congreso2026',
-    element: <CongresoPage />,
-  },
-  {
-    path: 'congreso2026/confirmacion',
-    element: <CongresoConfirmationPage />,
+    element: <CongresoLayout />,
+    children: [
+      {
+        index: true,
+        element: <CongresoPage />,
+      },
+      {
+        path: 'confirmacion',
+        element: <CongresoConfirmationPage />,
+      },
+      {
+        path: 'admin',
+        element: <CongresoAdminPage />,
+      },
+    ],
   },
   {
     path: '*',
