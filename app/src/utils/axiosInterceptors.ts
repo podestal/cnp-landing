@@ -1,4 +1,5 @@
-import type { AxiosInstance } from 'axios'
+import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import axios from 'axios'
 import { useAuthStore } from '../store/authStore'
 
 // Helper function to get cookie
@@ -16,23 +17,23 @@ const getCookie = (name: string): string | null => {
 export const setupAxiosInterceptors = (axiosInstance: AxiosInstance) => {
   // Request interceptor: Add access token to requests
   axiosInstance.interceptors.request.use(
-    (config) => {
+    (config: InternalAxiosRequestConfig) => {
       // Get token from cookie
       const accessToken = getCookie('access_token')
-      if (accessToken) {
+      if (accessToken && config.headers) {
         config.headers.Authorization = `JWT ${accessToken}`
       }
       return config
     },
-    (error) => {
+    (error: AxiosError) => {
       return Promise.reject(error)
     }
   )
 
   // Response interceptor: Handle token refresh on 401 errors
   axiosInstance.interceptors.response.use(
-    (response) => response,
-    async (error) => {
+    (response: AxiosResponse) => response,
+    async (error: AxiosError) => {
       const originalRequest = error.config
 
       // If error is 401 and we haven't tried to refresh yet
@@ -50,19 +51,24 @@ export const setupAxiosInterceptors = (axiosInstance: AxiosInstance) => {
             return Promise.reject(error)
           }
 
-          // Try to refresh the token
-          const response = await axiosInstance.post('/refresh/', {
+          // Make refresh request directly (without interceptors to avoid circular dependency)
+          // Create a new axios instance without interceptors for the refresh call
+          const refreshInstance = axios.create({
+            baseURL: axiosInstance.defaults.baseURL,
+          })
+          
+          const refreshResponse = await refreshInstance.post<{ access: string }>('/jwt/refresh/', {
             refresh: refreshToken,
           })
-
-          const { access } = response.data
+          
+          const newAccessToken = refreshResponse.data.access
           
           // Update tokens in store (which also updates cookies)
           const authStore = useAuthStore.getState()
-          authStore.setTokens(access, refreshToken)
+          authStore.setTokens(newAccessToken, refreshToken)
 
           // Retry the original request with new token
-          originalRequest.headers.Authorization = `JWT ${access}`
+          originalRequest.headers.Authorization = `JWT ${newAccessToken}`
           return axiosInstance(originalRequest)
         } catch (refreshError) {
           // Refresh failed, clear auth and redirect to login

@@ -26,6 +26,7 @@ import CongresoConfirmationPage from '../pages/congreso/CongresoConfirmationPage
 import CongresoInfo from '../pages/CongresoInfo'
 import CongresoAdminPage from '../pages/congreso/CongresoAdminPage'
 import TemasAdminPage from '../pages/congreso/TemasAdminPage'
+import ActividadesAdminPage from '../pages/congreso/ActividadesAdminPage'
 import LoginPage from '../pages/auth/LoginPage'
 import PrivateRoute from '../components/auth/PrivateRoute'
 
@@ -154,6 +155,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <TemasAdminPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'actividades',
+        element: (
+          <PrivateRoute>
+            <ActividadesAdminPage />
           </PrivateRoute>
         ),
       },
