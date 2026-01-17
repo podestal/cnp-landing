@@ -151,7 +151,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'temasgalaxia69',
+        path: 'temas',
         element: (
           <PrivateRoute>
             <TemasAdminPage />

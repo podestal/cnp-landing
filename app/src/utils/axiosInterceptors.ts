@@ -34,10 +34,10 @@ export const setupAxiosInterceptors = (axiosInstance: AxiosInstance) => {
   axiosInstance.interceptors.response.use(
     (response: AxiosResponse) => response,
     async (error: AxiosError) => {
-      const originalRequest = error.config
+      const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean }
 
       // If error is 401 and we haven't tried to refresh yet
-      if (error.response?.status === 401 && !originalRequest._retry) {
+      if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
         originalRequest._retry = true
 
         try {
@@ -68,7 +68,9 @@ export const setupAxiosInterceptors = (axiosInstance: AxiosInstance) => {
           authStore.setTokens(newAccessToken, refreshToken)
 
           // Retry the original request with new token
-          originalRequest.headers.Authorization = `JWT ${newAccessToken}`
+          if (originalRequest.headers) {
+            originalRequest.headers.Authorization = `JWT ${newAccessToken}`
+          }
           return axiosInstance(originalRequest)
         } catch (refreshError) {
           // Refresh failed, clear auth and redirect to login

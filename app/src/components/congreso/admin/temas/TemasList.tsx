@@ -7,7 +7,7 @@ interface TemasListProps {
   isLoading?: boolean
   error?: Error | null
   onEdit: (tema: Tema) => void
-  onDelete: (id: number) => void
+  onDelete: (tema: Tema) => void
   deletingTemaId?: number | null
 }
 
@@ -100,7 +100,7 @@ const TemasList = ({
                   <Edit className="w-4 h-4" />
                 </button>
                 <button
-                  onClick={() => onDelete(tema.id)}
+                  onClick={() => onDelete(tema)}
                   disabled={deletingTemaId === tema.id}
                   className="p-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   title="Eliminar tema"

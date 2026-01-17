@@ -9,6 +9,7 @@ import { useNotificationStore } from '../../../../utils/notificationStore'
 import type { Tema } from '../../../../services/api/temaService'
 import TemasList from './TemasList'
 import TemaFormModal from './TemaFormModal'
+import DeleteTemaModal from './DeleteTemaModal'
 
 const TemasAdminMain = () => {
   const { data: temas, isLoading, error } = useGetTemas()
@@ -19,6 +20,8 @@ const TemasAdminMain = () => {
   
   const [isFormModalOpen, setIsFormModalOpen] = useState(false)
   const [editingTema, setEditingTema] = useState<Tema | null>(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [temaToDelete, setTemaToDelete] = useState<Tema | null>(null)
 
   const handleCreate = () => {
     setEditingTema(null)
@@ -30,17 +33,22 @@ const TemasAdminMain = () => {
     setIsFormModalOpen(true)
   }
 
-  const handleDelete = async (id: number) => {
-    if (!window.confirm('¿Estás seguro de que deseas eliminar este tema?')) {
-      return
-    }
+  const handleDeleteClick = (tema: Tema) => {
+    setTemaToDelete(tema)
+    setIsDeleteModalOpen(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (!temaToDelete) return
 
     try {
-      await deleteTema.mutateAsync(id)
+      await deleteTema.mutateAsync(temaToDelete.id)
       addNotification({
         type: 'success',
         message: 'Tema eliminado exitosamente',
       })
+      setIsDeleteModalOpen(false)
+      setTemaToDelete(null)
     } catch (error) {
       console.error('Error deleting tema:', error)
       addNotification({
@@ -126,7 +134,7 @@ const TemasAdminMain = () => {
           isLoading={isLoading}
           error={error}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          onDelete={handleDeleteClick}
           deletingTemaId={deleteTema.isPending ? (deleteTema.variables || null) : null}
         />
 
@@ -140,6 +148,18 @@ const TemasAdminMain = () => {
           onSubmit={handleFormSubmit}
           tema={editingTema}
           isSubmitting={createTema.isPending || updateTema.isPending}
+        />
+
+        {/* Delete Confirmation Modal */}
+        <DeleteTemaModal
+          isOpen={isDeleteModalOpen}
+          tema={temaToDelete}
+          onClose={() => {
+            setIsDeleteModalOpen(false)
+            setTemaToDelete(null)
+          }}
+          onConfirm={handleDeleteConfirm}
+          isDeleting={deleteTema.isPending}
         />
       </div>
     </div>

@@ -20,7 +20,7 @@ const AdminSidebar = () => {
       icon: Users,
     },
     {
-      path: '/congreso2026/temasgalaxia69',
+      path: '/congreso2026/temas',
       label: 'Temas',
       icon: BookOpen,
     },
