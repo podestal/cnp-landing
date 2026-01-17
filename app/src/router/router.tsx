@@ -25,6 +25,7 @@ import CongresoPage from '../pages/congreso/CongresoPage'
 import CongresoConfirmationPage from '../pages/congreso/CongresoConfirmationPage'
 import CongresoInfo from '../pages/CongresoInfo'
 import CongresoAdminPage from '../pages/congreso/CongresoAdminPage'
+import TemasAdminPage from '../pages/congreso/TemasAdminPage'
 
 const router = createBrowserRouter([
   {
@@ -141,6 +142,10 @@ const router = createBrowserRouter([
       {
         path: 'admin',
         element: <CongresoAdminPage />,
+      },
+      {
+        path: 'temasgalaxia69',
+        element: <TemasAdminPage />,
       },
     ],
   },

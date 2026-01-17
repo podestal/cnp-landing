@@ -14,10 +14,18 @@ export interface Participant {
     tema: number
     created_at?: string
     updated_at?: string
+    activities?: any[]
 }
 
-export type CreateParticipant = Omit<Participant, 'is_active' | 'created_at' | 'updated_at' | 'id'>
+export type CreateParticipant = Omit<Participant, 'is_active' | 'created_at' | 'updated_at' | 'id' | 'activities'>
 
-export type ParticipantResponse = Participant[]
+export interface ParticipantPaginatedResponse {
+    count: number
+    total_active: number
+    total_inactive: number
+    next: string | null
+    previous: string | null
+    results: Participant[]
+}
 
-export const participantService = new APIClient<ParticipantResponse>('/participants/')
+export const participantService = new APIClient<ParticipantPaginatedResponse>('/participants/')

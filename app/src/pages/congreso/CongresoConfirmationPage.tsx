@@ -83,7 +83,7 @@ const CongresoConfirmationPage = () => {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
             <button
-              onClick={() => navigate('/congreso2025')}
+              onClick={() => navigate('/congreso2026')}
               className="cursor-pointer flex-1 px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" />

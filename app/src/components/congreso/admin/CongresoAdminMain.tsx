@@ -7,9 +7,12 @@ import type { Participant } from '../../../services/api/participantService'
 import ParticipantsList from './ParticipantsList'
 import ReceiptModal from './ReceiptModal'
 import { useNotificationStore } from '../../../utils/notificationStore'
+import Paginator from '../../../utils/Paginator'
 
 const CongresoAdminMain = () => {
-  const { data: participants, isLoading, error } = useGetParticipants()
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 10
+  const { participants, count, total_active, total_inactive, isLoading, error } = useGetParticipants(currentPage, pageSize)
   const updateParticipant = useUpdateParticipant()
   const addNotification = useNotificationStore((state: ReturnType<typeof useNotificationStore.getState>) => state.addNotification)
   const [searchTerm, setSearchTerm] = useState('')
@@ -17,8 +20,10 @@ const CongresoAdminMain = () => {
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null)
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false)
 
-  // Filter participants based on search and active status
-  const filteredParticipants = participants?.filter((participant: Participant) => {
+  const totalPages = Math.ceil(count / pageSize)
+
+  // Filter participants based on search and active status (client-side filtering on current page)
+  const filteredParticipants = participants.filter((participant: Participant) => {
     const matchesSearch = 
       participant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       participant.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -29,10 +34,13 @@ const CongresoAdminMain = () => {
     const matchesFilter = filterActive === null || participant.is_active === filterActive
     
     return matchesSearch && matchesFilter
-  }) || []
+  })
 
-  const activeCount = participants?.filter((p: Participant) => p.is_active).length || 0
-  const totalCount = participants?.length || 0
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   const handleViewReceipt = (participant: Participant) => {
     setSelectedParticipant(participant)
@@ -100,7 +108,7 @@ const CongresoAdminMain = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Total</p>
-                <p className="text-2xl sm:text-3xl font-bold text-gray-800">{totalCount}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-800">{count}</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                 <Users className="w-6 h-6 text-blue-600" />
@@ -117,7 +125,7 @@ const CongresoAdminMain = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Activos</p>
-                <p className="text-2xl sm:text-3xl font-bold text-green-600">{activeCount}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-green-600">{total_active}</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                 <CheckCircle2 className="w-6 h-6 text-green-600" />
@@ -134,7 +142,7 @@ const CongresoAdminMain = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Inactivos</p>
-                <p className="text-2xl sm:text-3xl font-bold text-red-600">{totalCount - activeCount}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-red-600">{total_inactive}</p>
               </div>
               <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
                 <XCircle className="w-6 h-6 text-red-600" />
@@ -209,12 +217,15 @@ const CongresoAdminMain = () => {
           onViewReceipt={handleViewReceipt}
         />
 
-        {/* Results Count */}
-        {filteredParticipants.length > 0 && (
-          <div className="mt-6 text-center text-sm text-gray-600">
-            Mostrando {filteredParticipants.length} de {totalCount} participantes
-          </div>
-        )}
+        {/* Paginator */}
+        <Paginator
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          totalItems={count}
+          itemsPerPage={pageSize}
+          showInfo={true}
+        />
 
         {/* Receipt Modal */}
         <ReceiptModal

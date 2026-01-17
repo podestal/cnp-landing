@@ -459,7 +459,7 @@ const CongresoForm = () => {
             <div>
               <label htmlFor="location" className="block text-sm font-semibold text-gray-700 mb-2">
                 <MapPin className="w-4 h-4 inline mr-2 text-green-600" />
-                Ubicación *
+                Distrito Notarial *
               </label>
               <input
                 ref={locationRef}
