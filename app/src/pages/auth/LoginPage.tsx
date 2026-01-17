@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import type { FormEvent, ChangeEvent } from 'react'
 import { motion } from 'framer-motion'
-import { User, Lock, AlertCircle, LogIn } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { User, Lock, AlertCircle, LogIn, Home } from 'lucide-react'
+import { useNavigate, Link } from 'react-router-dom'
 import { useLogin } from '../../hooks/api/auth/useLogin'
 import { useAuthStore } from '../../store/authStore'
 
@@ -268,6 +268,17 @@ const LoginPage = () => {
                   </>
                 )}
               </button>
+            </div>
+
+            {/* Back to Home Link */}
+            <div className="mt-4 text-center">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 transition-colors duration-200 text-sm font-medium"
+              >
+                <Home className="w-4 h-4" />
+                <span>Volver al inicio</span>
+              </Link>
             </div>
           </form>
         </motion.div>

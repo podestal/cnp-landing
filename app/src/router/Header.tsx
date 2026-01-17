@@ -13,6 +13,7 @@ const navLinks = [
 //   { path: '/legislacion', label: 'Legislación' },
   { path: '/contacto', label: 'Contacto' },
   { path: '/congreso', label: 'Congreso XVIII' },
+  { path: '/congreso2026/admin', label: 'Administración' },
 ]
 
 export default function Header() {

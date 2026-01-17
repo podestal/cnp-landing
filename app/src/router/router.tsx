@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
 import Layout from '../pages/MainPage'
 import NotFound from '../components/errors/NotFound'
 import Hero from '../components/main/Hero'
@@ -18,8 +19,10 @@ import InstitucionalMisionVision from '../pages/institucional/InstitucionalMisio
 import Contacto from '../pages/Contacto'
 import Eventos from '../pages/Eventos'
 import Servicios from '../pages/Servicios'
-import PopupModal from '../components/PopupModal'
 import UnderConstruction from '../components/UnderConstruction'
+
+// Lazy load PopupModal for better performance
+const PopupModal = lazy(() => import('../components/PopupModal'))
 import CongresoLayout from '../pages/congreso/CongresoLayout'
 import CongresoPage from '../pages/congreso/CongresoPage'
 import CongresoConfirmationPage from '../pages/congreso/CongresoConfirmationPage'
@@ -40,7 +43,9 @@ const router = createBrowserRouter([
         index: true,
         element: (
           <>
-            <PopupModal />
+            <Suspense fallback={null}>
+              <PopupModal />
+            </Suspense>
             <Hero />
             <ServicesSection />
             <ComunicadosSection />

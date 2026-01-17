@@ -1,19 +1,33 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { X, Calendar, MapPin, Building, UserPlus } from 'lucide-react'
 
+const IMAGE_URL = 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/ScreenShot2026-01-10at6.34.16A.jpeg'
+
 const PopupModal = () => {
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const imageRef = useRef<HTMLImageElement | null>(null)
+
+  // Preload image
+  useEffect(() => {
+    const img = new Image()
+    img.src = IMAGE_URL
+    img.onload = () => setImageLoaded(true)
+    imageRef.current = img
+  }, [])
 
   useEffect(() => {
-    // Small delay to ensure smooth animation
-    const timer = setTimeout(() => {
-      setIsOpen(true)
-    }, 500)
-    return () => clearTimeout(timer)
-  }, [])
+    // Only show popup after image is loaded and with a delay
+    if (imageLoaded) {
+      const timer = setTimeout(() => {
+        setIsOpen(true)
+      }, 300)
+      return () => clearTimeout(timer)
+    }
+  }, [imageLoaded])
 
   const handleClose = () => {
     setIsOpen(false)
@@ -33,22 +47,23 @@ const PopupModal = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
+            style={{ willChange: 'opacity' }}
             onClick={handleClose}
           >
             {/* Modal */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
               transition={{ 
-                type: 'spring',
-                stiffness: 300,
-                damping: 30
+                duration: 0.3,
+                ease: 'easeOut'
               }}
               onClick={(e) => e.stopPropagation()}
               className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg sm:max-w-xl lg:max-w-2xl overflow-hidden max-h-[90vh] flex flex-col"
+              style={{ willChange: 'transform, opacity' }}
             >
               {/* Close Button */}
               <button
@@ -63,7 +78,8 @@ const PopupModal = () => {
               <div 
                 className="text-white p-6 sm:p-8 pb-6 relative overflow-hidden bg-cover bg-center bg-no-repeat"
                 style={{
-                  backgroundImage: 'url(https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/ScreenShot2026-01-10at6.34.16A.jpeg)'
+                  backgroundImage: imageLoaded ? `url(${IMAGE_URL})` : 'none',
+                  backgroundColor: imageLoaded ? 'transparent' : '#1f2937'
                 }}
               >
                 {/* Dark overlay for better text readability */}
