@@ -26,6 +26,8 @@ import CongresoConfirmationPage from '../pages/congreso/CongresoConfirmationPage
 import CongresoInfo from '../pages/CongresoInfo'
 import CongresoAdminPage from '../pages/congreso/CongresoAdminPage'
 import TemasAdminPage from '../pages/congreso/TemasAdminPage'
+import LoginPage from '../pages/auth/LoginPage'
+import PrivateRoute from '../components/auth/PrivateRoute'
 
 const router = createBrowserRouter([
   {
@@ -141,13 +143,25 @@ const router = createBrowserRouter([
       },
       {
         path: 'admin',
-        element: <CongresoAdminPage />,
+        element: (
+          <PrivateRoute>
+            <CongresoAdminPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'temasgalaxia69',
-        element: <TemasAdminPage />,
+        element: (
+          <PrivateRoute>
+            <TemasAdminPage />
+          </PrivateRoute>
+        ),
       },
     ],
+  },
+  {
+    path: 'login',
+    element: <LoginPage />,
   },
   {
     path: '*',

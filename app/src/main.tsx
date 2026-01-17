@@ -5,6 +5,7 @@ import './index.css'
 import router from './router/router.tsx'
 import { RouterProvider } from 'react-router-dom'
 import NotificationContainer from './utils/NotificationContainer'
+import { useAuthStore } from './store/authStore'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,6 +15,9 @@ const queryClient = new QueryClient({
     },
   },
 })
+
+// Initialize auth state from cookies on app load
+useAuthStore.getState().initializeFromCookies()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

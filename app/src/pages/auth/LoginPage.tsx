@@ -1,7 +1,10 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import type { FormEvent, ChangeEvent } from 'react'
 import { motion } from 'framer-motion'
 import { User, Lock, AlertCircle, LogIn } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { useLogin } from '../../hooks/api/auth/useLogin'
+import { useAuthStore } from '../../store/authStore'
 
 interface LoginData {
   username: string
@@ -15,6 +18,8 @@ interface LoginErrors {
 const LoginPage = () => {
   const usernameRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
+  const navigate = useNavigate()
+  const loginMutation = useLogin()
   
   const [formData, setFormData] = useState<LoginData>({
     username: '',
@@ -22,8 +27,21 @@ const LoginPage = () => {
   })
 
   const [errors, setErrors] = useState<LoginErrors>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [loginError, setLoginError] = useState<string | null>(null)
+  const isAuthenticated = useAuthStore((state: ReturnType<typeof useAuthStore.getState>) => state.isAuthenticated)
+  const initializeFromCookies = useAuthStore((state: ReturnType<typeof useAuthStore.getState>) => state.initializeFromCookies)
+
+  // Initialize auth state from cookies on mount
+  useEffect(() => {
+    initializeFromCookies()
+  }, [initializeFromCookies])
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/congreso2026/admin', { replace: true })
+    }
+  }, [isAuthenticated, navigate])
 
   const validateField = (name: string, value: string): string => {
     switch (name) {
@@ -109,29 +127,17 @@ const LoginPage = () => {
       return
     }
 
-    setIsSubmitting(true)
-
     try {
-      // TODO: Implement actual login API call
-      // const response = await loginService.login(formData)
-      // Handle successful login (store token, redirect, etc.)
-      
-      console.log('Login attempt:', formData)
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // For now, just show an error message
-      setLoginError('Credenciales inválidas. Por favor, verifica tu usuario y contraseña.')
+      await loginMutation.mutateAsync(formData)
+      // Success is handled in the hook (redirect and notification)
     } catch (error: any) {
       console.error('Error logging in:', error)
-      setLoginError(
+      const errorMessage = 
         error?.response?.data?.message || 
         error?.response?.data?.error || 
-        'Error al iniciar sesión. Por favor, intenta nuevamente.'
-      )
-    } finally {
-      setIsSubmitting(false)
+        error?.response?.data?.detail ||
+        'Error al iniciar sesión. Por favor, verifica tus credenciales e intenta nuevamente.'
+      setLoginError(errorMessage)
     }
   }
 
@@ -245,12 +251,12 @@ const LoginPage = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={loginMutation.isPending}
                 className={`w-full px-6 py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
-                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  loginMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                {isSubmitting ? (
+                {loginMutation.isPending ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     Iniciando sesión...
