@@ -4,27 +4,27 @@ import { Award, Users, UserCheck } from 'lucide-react'
 const InstitucionalTribunalHonor = () => {
   const tribunal2025 = {
     titulares: [
-      { name: 'RAUL SANTOS MONTESINOS SOLÓRZANO', role: 'MIEMBRO TITULAR' },
-      { name: 'REYNALDO PANDIA MENDOZA', role: 'MIEMBRO TITULAR' },
-      { name: 'HUMBERTO JUAN CALSIN COILA', role: 'MIEMBRO TITULAR' },
+      { name: 'RAUL SANTOS MONTESINOS SOLÓRZANO', role: 'MIEMBRO TITULAR', image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp-staff/raul%20santos.png' },
+      { name: 'REYNALDO PANDIA MENDOZA', role: 'MIEMBRO TITULAR', image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp-staff/Reynaldo-Pandia.png' },
+      { name: 'HUMBERTO JUAN CALSIN COILA', role: 'MIEMBRO TITULAR', image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp-staff/Juan-Calsin.png' },
     ],
     suplentes: [
-      { name: 'CÉSAR AUGUSTO GONZÁLES CÁCERES', role: 'MIEMBRO SUPLENTE' },
-      { name: 'GUIDO MELECIO PERALTA AGUILAR', role: 'MIEMBRO SUPLENTE' },
-      { name: 'SONIA MARIZELA ISÍA LARICO', role: 'MIEMBRO SUPLENTE' },
+      { name: 'CÉSAR AUGUSTO GONZÁLES CÁCERES', role: 'MIEMBRO SUPLENTE', image: '' },
+      { name: 'GUIDO MELECIO PERALTA AGUILAR', role: 'MIEMBRO SUPLENTE', image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp-staff/guido-melecio.png' },
+      { name: 'SONIA MARIZELA ISÍA LARICO', role: 'MIEMBRO SUPLENTE', image: '' },
     ],
   }
 
   const tribunal2024 = {
-    presidente: { name: 'ARTURO POMA RODRIGO', role: 'PRESIDENTE' },
+    presidente: { name: 'ARTURO POMA RODRIGO', role: 'PRESIDENTE', image: '' },
     titulares: [
-      { name: 'JESSIE TARCILA ZEGARRA CABRERA', role: 'PRIMER MIEMBRO TITULAR' },
-      { name: 'IVAN FREDDY VILLAR GONZALES', role: 'SEGUNDO MIEMBRO TITULAR' },
+      { name: 'JESSIE TARCILA ZEGARRA CABRERA', role: 'PRIMER MIEMBRO TITULAR', image: '' },
+      { name: 'IVAN FREDDY VILLAR GONZALES', role: 'SEGUNDO MIEMBRO TITULAR', image: '' },
     ],
     suplentes: [
-      { name: 'MARCO ZULUAGA GUERRA', role: 'PRESIDENTE SUPLENTE' },
-      { name: 'ASUNCION BEATRIZ GRACIA PONZE CUBA', role: 'PRIMER MIEMBRO SUPLENTE' },
-      { name: 'RAÚL SANTOS MONTESINOS SOLÓRZANO', role: 'SEGUNDO MIEMBRO SUPLENTE' },
+      { name: 'MARCO ZULUAGA GUERRA', role: 'PRESIDENTE SUPLENTE', image: '' },
+      { name: 'ASUNCION BEATRIZ GRACIA PONZE CUBA', role: 'PRIMER MIEMBRO SUPLENTE', image: '' },
+      { name: 'RAÚL SANTOS MONTESINOS SOLÓRZANO', role: 'SEGUNDO MIEMBRO SUPLENTE', image: '' },
     ],
   }
 
@@ -32,57 +32,63 @@ const InstitucionalTribunalHonor = () => {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=200&background=10b981&color=fff&bold=true&font-size=0.5`
   }
 
-  const MemberCard = ({ member, index }: { member: { name: string; role: string }; index: number }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -5, transition: { duration: 0.3 } }}
-      className="bg-white rounded-xl shadow-md hover:shadow-xl p-6 transition-shadow duration-300 flex flex-col items-center text-center"
-    >
-      <div className="w-32 h-32 rounded-full overflow-hidden mb-4 ring-4 ring-green-100">
-        <img
-          src={getImageUrl(member.name)}
-          alt={member.name}
-          className="w-full h-full object-cover"
-        />
-      </div>
+  const MemberCard = ({ member, index }: { member: { name: string; role: string; image?: string }; index: number }) => {
+    const hasImage = member.image && member.image.trim()
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        whileHover={{ y: -5, transition: { duration: 0.3 } }}
+        className="bg-white rounded-xl shadow-md hover:shadow-xl p-6 transition-shadow duration-300 flex flex-col items-center text-center"
+      >
+        <div className={`w-32 h-32 rounded-full overflow-hidden mb-4 ${hasImage ? '' : 'ring-4 ring-green-100'}`}>
+          <img
+            src={hasImage ? member.image : getImageUrl(member.name)}
+            alt={member.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
       <div className="w-20 h-1 bg-green-600 mb-3" />
       <p className="text-xs font-semibold text-green-600 mb-2 uppercase tracking-wide">
         {member.role}
       </p>
-      <h3 className="text-base font-bold text-gray-800 leading-tight">
-        {member.name}
-      </h3>
-    </motion.div>
-  )
+        <h3 className="text-base font-bold text-gray-800 leading-tight">
+          {member.name}
+        </h3>
+      </motion.div>
+    )
+  }
 
-  const PresidentCard = ({ member, index }: { member: { name: string; role: string }; index: number }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -5, transition: { duration: 0.3 } }}
-      className="bg-gradient-to-br from-green-600 to-green-700 rounded-xl shadow-lg hover:shadow-xl p-8 transition-shadow duration-300 flex flex-col items-center text-center text-white"
-    >
-      <div className="w-40 h-40 rounded-full overflow-hidden mb-4 ring-4 ring-white/30">
-        <img
-          src={getImageUrl(member.name)}
-          alt={member.name}
-          className="w-full h-full object-cover"
-        />
-      </div>
+  const PresidentCard = ({ member, index }: { member: { name: string; role: string; image?: string }; index: number }) => {
+    const hasImage = member.image && member.image.trim()
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        whileHover={{ y: -5, transition: { duration: 0.3 } }}
+        className="bg-gradient-to-br from-green-600 to-green-700 rounded-xl shadow-lg hover:shadow-xl p-8 transition-shadow duration-300 flex flex-col items-center text-center text-white"
+      >
+        <div className={`w-40 h-40 rounded-full overflow-hidden mb-4 ${hasImage ? '' : 'ring-4 ring-white/30'}`}>
+          <img
+            src={hasImage ? member.image : getImageUrl(member.name)}
+            alt={member.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
       <div className="w-24 h-1 bg-white/50 mb-3" />
       <p className="text-sm font-semibold text-green-100 mb-2 uppercase tracking-wide">
         {member.role}
       </p>
-      <h3 className="text-lg font-bold leading-tight">
-        {member.name}
-      </h3>
-    </motion.div>
-  )
+        <h3 className="text-lg font-bold leading-tight">
+          {member.name}
+        </h3>
+      </motion.div>
+    )
+  }
 
   return (
     <>
