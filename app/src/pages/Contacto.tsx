@@ -202,9 +202,8 @@ const Contacto = () => {
             {/* Contact Info */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
               className="lg:col-span-1"
             >
               <div className="bg-white rounded-2xl shadow-lg p-8 sticky top-24">
@@ -217,9 +216,8 @@ const Contacto = () => {
                         key={index}
                         href={info.link}
                         initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
                         whileHover={{ x: 5 }}
                         className="flex items-start space-x-4 group"
                       >
@@ -256,9 +254,8 @@ const Contacto = () => {
             {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               className="lg:col-span-2"
             >
               <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">

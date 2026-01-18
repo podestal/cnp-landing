@@ -24,9 +24,8 @@ const InstitucionalJuntaDirectiva = () => {
     return (
       <motion.div
         initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
         whileHover={{ y: -5, transition: { duration: 0.3 } }}
         className="bg-white rounded-xl shadow-md hover:shadow-xl p-6 transition-shadow duration-300 flex flex-col items-center text-center"
       >
@@ -58,9 +57,8 @@ const InstitucionalJuntaDirectiva = () => {
     return (
       <motion.div
         initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
         whileHover={{ y: -5, transition: { duration: 0.3 } }}
         className="bg-gradient-to-br from-green-600 to-green-700 rounded-xl shadow-lg hover:shadow-xl p-8 transition-shadow duration-300 flex flex-col items-center text-center text-white"
       >
@@ -90,8 +88,7 @@ const InstitucionalJuntaDirectiva = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="mb-12"
         >

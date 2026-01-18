@@ -8,7 +8,7 @@ const InstitucionalMisionVision = () => {
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.8 }}
         className="bg-green-50 py-16 md:py-20"
       >
@@ -17,7 +17,7 @@ const InstitucionalMisionVision = () => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.6 }}
               className="bg-white rounded-2xl shadow-lg p-8 md:p-12"
             >
@@ -52,7 +52,7 @@ const InstitucionalMisionVision = () => {
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, margin: '-100px' }}
                     transition={{ duration: 0.4, delay: index * 0.05 }}
                     className="flex items-start space-x-4 p-4 rounded-lg hover:bg-green-50 transition-colors duration-200"
                   >
@@ -74,7 +74,7 @@ const InstitucionalMisionVision = () => {
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.8 }}
         className="py-16 md:py-20 bg-white"
       >
@@ -83,7 +83,7 @@ const InstitucionalMisionVision = () => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.6 }}
               className="bg-gradient-to-br from-green-600 to-green-700 rounded-2xl shadow-xl p-8 md:p-12 text-white"
             >

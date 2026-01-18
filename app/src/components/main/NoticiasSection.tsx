@@ -5,7 +5,7 @@ import { ArrowRight, Calendar, Newspaper } from 'lucide-react'
 export const noticias = [
   {
     id: 1,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-1.jpeg',
+    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/noticias/Screen%20Shot%202026-01-18%20at%206.59.22%20AM.png',
     title: "Campaña 'EL NOTARIO EN TU BARRIO' - Orientación jurídica notarial gratuita",
     content: 'Con el firme compromiso de fortalecer la seguridad jurídica y promover el ejercicio pleno de los derechos ciudadanos, el Colegio de Notarios de Puno impulsa la campaña informativa y de orientación jurídica notarial gratuita "EL NOTARIO EN TU BARRIO", con el auspicio de la Junta de Decanos de los Colegios de Notarios del Perú.',
     fullContent: 'Campaña informativa y de orientación jurídica notarial gratuita\n"EL NOTARIO EN TU BARRIO"\n\nCon el firme compromiso de fortalecer la seguridad jurídica y promover el ejercicio pleno de los derechos ciudadanos, el Colegio de Notarios de Puno impulsa la campaña informativa y de orientación jurídica notarial gratuita "EL NOTARIO EN TU BARRIO", con el auspicio de la Junta de Decanos de los Colegios de Notarios del Perú. Esta iniciativa busca acercar el servicio notarial a la población, brindando información clara, accesible y confiable sobre los principales actos y procedimientos legales que forman parte de la vida cotidiana de las personas.\n\nLa campaña tiene como objetivo principal orientar a los ciudadanos en temas fundamentales como la formalización de la propiedad, otorgamiento de testamentos, constitución de empresas, otorgamiento de poderes, contratos, sucesiones intestadas, reconocimiento de uniones de hecho, matrimonio civil en sede notarial, separación convencional y divorcio ulterior en sede notarial, prevención de fraudes y protección del patrimonio, entre otros. A través de estas campañas informativas y de orientación jurídica notarial gratuita, los notarios del Perú cumplen su rol de asesoramiento imparcial e independiente, propio del notariado adscrito al Sistema Notarial Latino.\n\nEsta labor resulta especialmente relevante para los sectores más vulnerables, quienes con frecuencia desconocen los mecanismos legales disponibles para proteger sus derechos. Al brindar orientación preventiva, la función notarial contribuye al orden social, a la confianza en las instituciones y al desarrollo económico del país.\n\nPor otro lado, la campaña informativa y de orientación jurídica notarial gratuita "EL NOTARIO EN TU BARRIO" reafirma el papel del notariado como aliado estratégico del Estado y de la ciudadanía, promoviendo una cultura de legalidad, inclusión y seguridad jurídica. De esta manera, se fortalece la convivencia social y se impulsa una sociedad más justa, informada y responsable en el ejercicio de sus derechos y obligaciones.\n\nEstas actividades del notariado peruano se realizaron desde el año 2024, en las provincias de El Collao, Lampa, San Román y otras, en la región de Puno, con masiva concurrencia de usuarios del servicio público notarial. Asimismo, participan diversas instituciones públicas, como SUNARP (Registros Públicos), COFOPRI, SUNAT, Ministerio de Relaciones Exteriores, MIGRACIONES, Ministerio de la Producción a través del Programa Nacional "Tu Empresa", Subgerencia de Saneamiento de la Propiedad Agraria y Catastro Rural del Gobierno Regional de Puno, las subgerencias de catastro de las municipalidades de la jurisdicción, entre otras.',
@@ -21,7 +21,7 @@ const NoticiasSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
@@ -42,7 +42,7 @@ const NoticiasSection = () => {
               key={noticia.id}
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-100px' }}
               transition={{ 
                 duration: 0.6, 
                 delay: index * 0.1,
@@ -108,7 +108,7 @@ const NoticiasSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-12"
         >

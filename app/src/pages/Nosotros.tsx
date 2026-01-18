@@ -67,7 +67,7 @@ const Nosotros = () => {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="prose prose-lg max-w-none"
               >
@@ -95,7 +95,7 @@ const Nosotros = () => {
                   key={feature.title}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, margin: '-100px' }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ y: -5, transition: { duration: 0.3 } }}
                   className="bg-white rounded-xl shadow-md hover:shadow-xl p-6 transition-shadow duration-300"
@@ -120,7 +120,7 @@ const Nosotros = () => {
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.8 }}
         className="bg-green-50 py-16 md:py-20"
       >
@@ -129,7 +129,7 @@ const Nosotros = () => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.6 }}
               className="bg-white rounded-2xl shadow-lg p-8 md:p-12"
             >
@@ -164,7 +164,7 @@ const Nosotros = () => {
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, margin: '-100px' }}
                     transition={{ duration: 0.4, delay: index * 0.05 }}
                     className="flex items-start space-x-4 p-4 rounded-lg hover:bg-green-50 transition-colors duration-200"
                   >
@@ -186,7 +186,7 @@ const Nosotros = () => {
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.8 }}
         className="py-16 md:py-20 bg-white"
       >
@@ -195,7 +195,7 @@ const Nosotros = () => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.6 }}
               className="bg-gradient-to-br from-green-600 to-green-700 rounded-2xl shadow-xl p-8 md:p-12 text-white"
             >
@@ -220,7 +220,7 @@ const Nosotros = () => {
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.8 }}
         className="bg-gray-50 py-16 md:py-20"
       >
@@ -229,7 +229,7 @@ const Nosotros = () => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.6 }}
               className="bg-white rounded-2xl shadow-lg p-8 md:p-12"
             >

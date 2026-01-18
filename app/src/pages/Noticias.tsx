@@ -47,9 +47,8 @@ const Noticias = () => {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.article
               initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
               className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden"
             >
               {/* Image Header */}
@@ -59,9 +58,8 @@ const Noticias = () => {
                   alt={noticia.title}
                   className="w-full h-full object-cover"
                   initial={{ scale: 1.1 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
                 
@@ -92,9 +90,8 @@ const Noticias = () => {
                     <motion.p
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
                       className="text-gray-700 text-base md:text-lg leading-relaxed mb-6"
                     >
                       {paragraph}
@@ -146,11 +143,10 @@ const Noticias = () => {
               <motion.article
                 key={noticia.id}
                 initial={{ opacity: 0, y: 50, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ 
                   duration: 0.6, 
-                  delay: index * 0.1,
+                  delay: 0.4 + index * 0.1,
                   type: 'spring',
                   stiffness: 100,
                   damping: 15
