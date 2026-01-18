@@ -6,38 +6,11 @@ export const noticias = [
   {
     id: 1,
     image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-1.jpeg',
-    title: 'Colegio de Notarios de Puno celebra 50 años de servicio',
-    content: 'El Colegio de Notarios de Puno conmemora cinco décadas de servicio a la comunidad, destacando su compromiso con la excelencia notarial y el desarrollo legal de la región.',
-    fullContent: 'El Colegio de Notarios de Puno conmemora cinco décadas de servicio a la comunidad, destacando su compromiso con la excelencia notarial y el desarrollo legal de la región. Durante estos 50 años, la institución ha sido un pilar fundamental en la garantía de la seguridad jurídica de los ciudadanos de Puno, brindando servicios notariales de calidad y contribuyendo al desarrollo económico y social de la región.\n\nA lo largo de su historia, el Colegio ha mantenido los más altos estándares de profesionalismo y ética, formando a generaciones de notarios comprometidos con el servicio público. Este aniversario representa un hito importante que refleja la confianza de la comunidad en la labor notarial y el compromiso continuo con la excelencia.',
-    date: '20 de Diciembre, 2024',
-    category: 'Aniversario',
-  },
-  {
-    id: 2,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-2.jpeg',
-    title: 'Nuevas normativas para la legalización de documentos',
-    content: 'Se implementan nuevas normativas que mejoran los procesos de legalización de documentos, facilitando el trámite para los ciudadanos y garantizando mayor seguridad jurídica.',
-    fullContent: 'Se implementan nuevas normativas que mejoran los procesos de legalización de documentos, facilitando el trámite para los ciudadanos y garantizando mayor seguridad jurídica. Estas actualizaciones responden a las necesidades modernas del ejercicio notarial y buscan agilizar los procesos sin comprometer la seguridad y validez legal de los documentos.\n\nLas nuevas normativas incluyen mejoras en los procedimientos de verificación de identidad, digitalización de procesos, y nuevos protocolos para la legalización de documentos que serán utilizados en el extranjero. El Colegio ha trabajado en conjunto con las autoridades competentes para asegurar que estas normativas beneficien tanto a los notarios como a los ciudadanos que requieren de sus servicios.',
-    date: '18 de Diciembre, 2024',
-    category: 'Normativa',
-  },
-  {
-    id: 3,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-3.jpeg',
-    title: 'Taller de actualización profesional para notarios',
-    content: 'Se realizó exitosamente el taller de actualización profesional dirigido a todos los notarios del colegio, abordando temas de actualidad jurídica y mejores prácticas.',
-    fullContent: 'Se realizó exitosamente el taller de actualización profesional dirigido a todos los notarios del colegio, abordando temas de actualidad jurídica y mejores prácticas. El evento contó con la participación de destacados juristas y expertos en derecho notarial, quienes compartieron sus conocimientos y experiencias con los asistentes.\n\nDurante el taller se abordaron temas como las últimas modificaciones en la legislación notarial, nuevas interpretaciones jurisprudenciales, casos prácticos de resolución de problemas comunes, y estrategias para mejorar la atención al público. Los participantes tuvieron la oportunidad de interactuar con los expositores y resolver dudas sobre situaciones específicas que enfrentan en su ejercicio profesional diario.',
-    date: '12 de Diciembre, 2024',
-    category: 'Capacitación',
-  },
-  {
-    id: 4,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-4.jpeg',
-    title: 'Reconocimiento a notarios destacados del año',
-    content: 'El Colegio reconoce la labor destacada de notarios que han demostrado excelencia en su servicio durante el año, contribuyendo al prestigio de la institución.',
-    fullContent: 'El Colegio reconoce la labor destacada de notarios que han demostrado excelencia en su servicio durante el año, contribuyendo al prestigio de la institución. Este reconocimiento se otorga a aquellos profesionales que han destacado por su compromiso, ética profesional, y contribución al desarrollo del notariado en la región.\n\nLos criterios para este reconocimiento incluyen la calidad del servicio prestado, la puntualidad en el cumplimiento de obligaciones, la participación activa en actividades del colegio, y el compromiso con la formación continua. Este reconocimiento no solo honra a los notarios destacados, sino que también inspira a otros miembros del colegio a mantener los más altos estándares de excelencia profesional.',
-    date: '10 de Diciembre, 2024',
-    category: 'Reconocimiento',
+    title: "Campaña 'EL NOTARIO EN TU BARRIO' - Orientación jurídica notarial gratuita",
+    content: 'Con el firme compromiso de fortalecer la seguridad jurídica y promover el ejercicio pleno de los derechos ciudadanos, el Colegio de Notarios de Puno impulsa la campaña informativa y de orientación jurídica notarial gratuita "EL NOTARIO EN TU BARRIO", con el auspicio de la Junta de Decanos de los Colegios de Notarios del Perú.',
+    fullContent: 'Campaña informativa y de orientación jurídica notarial gratuita\n"EL NOTARIO EN TU BARRIO"\n\nCon el firme compromiso de fortalecer la seguridad jurídica y promover el ejercicio pleno de los derechos ciudadanos, el Colegio de Notarios de Puno impulsa la campaña informativa y de orientación jurídica notarial gratuita "EL NOTARIO EN TU BARRIO", con el auspicio de la Junta de Decanos de los Colegios de Notarios del Perú. Esta iniciativa busca acercar el servicio notarial a la población, brindando información clara, accesible y confiable sobre los principales actos y procedimientos legales que forman parte de la vida cotidiana de las personas.\n\nLa campaña tiene como objetivo principal orientar a los ciudadanos en temas fundamentales como la formalización de la propiedad, otorgamiento de testamentos, constitución de empresas, otorgamiento de poderes, contratos, sucesiones intestadas, reconocimiento de uniones de hecho, matrimonio civil en sede notarial, separación convencional y divorcio ulterior en sede notarial, prevención de fraudes y protección del patrimonio, entre otros. A través de estas campañas informativas y de orientación jurídica notarial gratuita, los notarios del Perú cumplen su rol de asesoramiento imparcial e independiente, propio del notariado adscrito al Sistema Notarial Latino.\n\nEsta labor resulta especialmente relevante para los sectores más vulnerables, quienes con frecuencia desconocen los mecanismos legales disponibles para proteger sus derechos. Al brindar orientación preventiva, la función notarial contribuye al orden social, a la confianza en las instituciones y al desarrollo económico del país.\n\nPor otro lado, la campaña informativa y de orientación jurídica notarial gratuita "EL NOTARIO EN TU BARRIO" reafirma el papel del notariado como aliado estratégico del Estado y de la ciudadanía, promoviendo una cultura de legalidad, inclusión y seguridad jurídica. De esta manera, se fortalece la convivencia social y se impulsa una sociedad más justa, informada y responsable en el ejercicio de sus derechos y obligaciones.\n\nEstas actividades del notariado peruano se realizaron desde el año 2024, en las provincias de El Collao, Lampa, San Román y otras, en la región de Puno, con masiva concurrencia de usuarios del servicio público notarial. Asimismo, participan diversas instituciones públicas, como SUNARP (Registros Públicos), COFOPRI, SUNAT, Ministerio de Relaciones Exteriores, MIGRACIONES, Ministerio de la Producción a través del Programa Nacional "Tu Empresa", Subgerencia de Saneamiento de la Propiedad Agraria y Catastro Rural del Gobierno Regional de Puno, las subgerencias de catastro de las municipalidades de la jurisdicción, entre otras.',
+    date: '15 de Enero, 2025',
+    category: 'Campaña',
   },
 ]
 
@@ -64,7 +37,7 @@ const NoticiasSection = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {noticias.slice(0, 4).map((noticia, index) => (
+          {noticias.map((noticia, index) => (
             <motion.article
               key={noticia.id}
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
