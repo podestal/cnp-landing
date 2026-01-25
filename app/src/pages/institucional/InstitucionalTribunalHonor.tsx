@@ -60,33 +60,33 @@ const InstitucionalTribunalHonor = () => {
     )
   }
 
-  const PresidentCard = ({ member, index }: { member: { name: string; role: string; image?: string }; index: number }) => {
-    const hasImage = member.image && member.image.trim()
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-        whileHover={{ y: -5, transition: { duration: 0.3 } }}
-        className="bg-gradient-to-br from-green-600 to-green-700 rounded-xl shadow-lg hover:shadow-xl p-8 transition-shadow duration-300 flex flex-col items-center text-center text-white"
-      >
-        <div className={`w-40 h-40 rounded-full overflow-hidden mb-4 ${hasImage ? '' : 'ring-4 ring-white/30'}`}>
-          <img
-            src={hasImage ? member.image : getImageUrl(member.name)}
-            alt={member.name}
-            className="w-full h-full object-cover"
-          />
-        </div>
-      <div className="w-24 h-1 bg-white/50 mb-3" />
-      <p className="text-sm font-semibold text-green-100 mb-2 uppercase tracking-wide">
-        {member.role}
-      </p>
-        <h3 className="text-lg font-bold leading-tight">
-          {member.name}
-        </h3>
-      </motion.div>
-    )
-  }
+  // const PresidentCard = ({ member, index }: { member: { name: string; role: string; image?: string }; index: number }) => {
+  //   const hasImage = member.image && member.image.trim()
+  //   return (
+  //     <motion.div
+  //       initial={{ opacity: 0, y: 30 }}
+  //       animate={{ opacity: 1, y: 0 }}
+  //       transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+  //       whileHover={{ y: -5, transition: { duration: 0.3 } }}
+  //       className="bg-gradient-to-br from-green-600 to-green-700 rounded-xl shadow-lg hover:shadow-xl p-8 transition-shadow duration-300 flex flex-col items-center text-center text-white"
+  //     >
+  //       <div className={`w-40 h-40 rounded-full overflow-hidden mb-4 ${hasImage ? '' : 'ring-4 ring-white/30'}`}>
+  //         <img
+  //           src={hasImage ? member.image : getImageUrl(member.name)}
+  //           alt={member.name}
+  //           className="w-full h-full object-cover"
+  //         />
+  //       </div>
+  //     <div className="w-24 h-1 bg-white/50 mb-3" />
+  //     <p className="text-sm font-semibold text-green-100 mb-2 uppercase tracking-wide">
+  //       {member.role}
+  //     </p>
+  //       <h3 className="text-lg font-bold leading-tight">
+  //         {member.name}
+  //       </h3>
+  //     </motion.div>
+  //   )
+  // }
 
   return (
     <>

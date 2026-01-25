@@ -205,7 +205,7 @@ const CongresoInfo = () => {
                 <div className="flex items-start gap-3">
                   <Phone className="w-5 h-5 text-green-600 shrink-0 mt-1" />
                   <div>
-                    <p className="text-sm text-gray-600">Celular: 950 866 620</p>
+                    <p className="text-sm text-gray-600">Celular: 950 866 610</p>
                     <p className="text-sm text-gray-600">Fijo: 051-364155</p>
                   </div>
                 </div>

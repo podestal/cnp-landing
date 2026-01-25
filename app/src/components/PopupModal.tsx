@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { X, Calendar, MapPin, Building, UserPlus } from 'lucide-react'
+import { Calendar, MapPin, Building, UserPlus } from 'lucide-react'
 
 const IMAGE_URL = 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/ScreenShot2026-01-10at6.34.16A.jpeg'
 
@@ -66,13 +66,13 @@ const PopupModal = () => {
               style={{ willChange: 'transform, opacity' }}
             >
               {/* Close Button */}
-              <button
+              {/* <button
                 onClick={handleClose}
                 className="absolute top-4 right-4 z-10 w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200 group"
                 aria-label="Cerrar"
               >
                 <X className="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors" />
-              </button>
+              </button> */}
 
               {/* Header with image background */}
               <div 
@@ -151,7 +151,7 @@ const PopupModal = () => {
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button
                       onClick={() => {
-                        window.open('https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/BROCHURE%20OFICIAL%20CONGRESO.pdf', '_blank')
+                        navigate('/congreso')
                       }}
                       className="cursor-pointer flex-1 px-6 py-3 bg-green-50 text-green-700 font-semibold rounded-lg hover:bg-green-100 transition-colors duration-200 border border-green-200"
                     >
