@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Users, BookOpen, Calendar, LogOut } from 'lucide-react'
+import { Users, BookOpen, Calendar, LogOut, UserPlus } from 'lucide-react'
 import { useAuthStore } from '../../../store/authStore'
 import { useNotificationStore } from '../../../utils/notificationStore'
 
@@ -15,6 +15,11 @@ const AdminNavigator = () => {
       path: '/congreso2026/admin',
       label: 'Participantes',
       icon: Users,
+    },
+    {
+      path: '/congreso2026/registrar-participante',
+      label: 'Registrar',
+      icon: UserPlus,
     },
     {
       path: '/congreso2026/temas',

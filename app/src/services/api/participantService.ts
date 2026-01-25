@@ -12,6 +12,7 @@ export interface Participant {
     receipt: string
     is_active: boolean
     tema: number
+    qr_code?: string
     created_at?: string
     updated_at?: string
     activities?: any[]

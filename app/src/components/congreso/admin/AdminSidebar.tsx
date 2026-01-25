@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Users, BookOpen, Calendar, LogOut, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Users, BookOpen, Calendar, LogOut, ChevronLeft, ChevronRight, UserPlus } from 'lucide-react'
 import { useState } from 'react'
 import { useAuthStore } from '../../../store/authStore'
 import { useNotificationStore } from '../../../utils/notificationStore'
@@ -16,6 +16,11 @@ const AdminSidebar = () => {
       path: '/congreso2026/admin',
       label: 'Participantes',
       icon: Users,
+    },
+    {
+      path: '/congreso2026/registrar-participante',
+      label: 'Registrar Participante',
+      icon: UserPlus,
     },
     {
       path: '/congreso2026/temas',
