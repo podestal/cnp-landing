@@ -1,9 +1,44 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Loader2 } from 'lucide-react'
 import { useGetActivities } from '../../../../hooks/api/activity/useGetActivities'
+import { useUpdateActivityStatus } from '../../../../hooks/api/activity/useUpdateActivityStatus'
+import { useNotificationStore } from '../../../../utils/notificationStore'
+import type { Activity } from '../../../../services/api/activityService'
 
 const ActivityManageTab = () => {
   const { data: activities, isLoading, error } = useGetActivities()
+  const updateActivityStatus = useUpdateActivityStatus()
+  const addNotification = useNotificationStore((state: ReturnType<typeof useNotificationStore.getState>) => state.addNotification)
+  const [updatingIds, setUpdatingIds] = useState<Set<number>>(new Set())
+
+  const handleToggleStatus = async (activity: Activity) => {
+    setUpdatingIds(prev => new Set(prev).add(activity.id))
+    
+    try {
+      await updateActivityStatus.mutateAsync({
+        id: activity.id,
+        data: { is_active: !activity.is_active },
+      })
+      
+      addNotification({
+        type: 'success',
+        message: `Actividad ${!activity.is_active ? 'activada' : 'desactivada'} exitosamente`,
+      })
+    } catch (error) {
+      console.error('Error updating activity status:', error)
+      addNotification({
+        type: 'error',
+        message: 'Error al actualizar el estado de la actividad. Por favor, intenta nuevamente.',
+      })
+    } finally {
+      setUpdatingIds(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(activity.id)
+        return newSet
+      })
+    }
+  }
 
   if (isLoading) {
     return (
@@ -55,7 +90,16 @@ const ActivityManageTab = () => {
                 >
                   {activity.is_active ? 'Activa' : 'Inactiva'}
                 </span>
-                {/* Toggle button will be implemented next */}
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={activity.is_active}
+                    onChange={() => handleToggleStatus(activity)}
+                    disabled={updatingIds.has(activity.id) || updateActivityStatus.isPending}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"></div>
+                </label>
               </div>
             </div>
           ))}

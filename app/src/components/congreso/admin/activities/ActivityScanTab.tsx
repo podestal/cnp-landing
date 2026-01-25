@@ -28,6 +28,9 @@ const ActivityScanTab = () => {
     )
   }
 
+  // Filter only active activities for the selector
+  const activeActivities = activities?.filter(activity => activity.is_active) || []
+
   return (
     <div className="space-y-6">
       {/* Activity Selector */}
@@ -37,39 +40,31 @@ const ActivityScanTab = () => {
         className="bg-white rounded-xl shadow-lg p-6"
       >
         <h2 className="text-xl font-bold text-gray-800 mb-4">Seleccionar Actividad</h2>
-        {activities && activities.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {activities.map((activity) => (
-              <button
-                key={activity.id}
-                onClick={() => setSelectedActivity(activity)}
-                className={`
-                  p-4 rounded-lg border-2 transition-all duration-200 text-left
-                  ${
-                    selectedActivity?.id === activity.id
-                      ? 'border-green-500 bg-green-50'
-                      : 'border-gray-200 hover:border-gray-300 bg-white'
-                  }
-                  ${!activity.is_active ? 'opacity-50 cursor-not-allowed' : ''}
-                `}
-                disabled={!activity.is_active}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold text-gray-800">{activity.name}</h3>
-                  {!activity.is_active && (
-                    <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">
-                      Inactiva
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm text-gray-600">
-                  {activity.day} - {activity.time}
-                </p>
-              </button>
-            ))}
+        {activeActivities.length > 0 ? (
+          <div>
+            <label htmlFor="activity-select" className="block text-sm font-medium text-gray-700 mb-2">
+              Actividad
+            </label>
+            <select
+              id="activity-select"
+              value={selectedActivity?.id || ''}
+              onChange={(e) => {
+                const activityId = parseInt(e.target.value)
+                const activity = activities?.find(a => a.id === activityId) || null
+                setSelectedActivity(activity)
+              }}
+              className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 bg-white"
+            >
+              <option value="">Selecciona una actividad</option>
+              {activeActivities.map((activity) => (
+                <option key={activity.id} value={activity.id}>
+                  {activity.name} - {activity.day} {activity.time}
+                </option>
+              ))}
+            </select>
           </div>
         ) : (
-          <p className="text-gray-600">No hay actividades disponibles</p>
+          <p className="text-gray-600">No hay actividades activas disponibles</p>
         )}
       </motion.div>
 
