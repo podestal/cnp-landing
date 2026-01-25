@@ -1,6 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Users, BookOpen, Calendar, LogOut, Menu, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Users, BookOpen, Calendar, LogOut, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 import { useAuthStore } from '../../../store/authStore'
 import { useNotificationStore } from '../../../utils/notificationStore'
@@ -10,7 +9,6 @@ const AdminSidebar = () => {
   const navigate = useNavigate()
   const clearTokens = useAuthStore((state: ReturnType<typeof useAuthStore.getState>) => state.clearTokens)
   const addNotification = useNotificationStore((state: ReturnType<typeof useNotificationStore.getState>) => state.addNotification)
-  const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(false)
 
   const menuItems = [
@@ -46,33 +44,13 @@ const AdminSidebar = () => {
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-green-600 text-white rounded-lg shadow-lg hover:bg-green-700 transition-colors"
-        aria-label="Toggle menu"
-      >
-        {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
-
-      {/* Mobile Overlay */}
-      {isMobileOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="lg:hidden fixed inset-0 bg-black/50 z-40"
-          onClick={() => setIsMobileOpen(false)}
-        />
-      )}
-      {/* Sidebar */}
+      {/* Sidebar - Hidden on mobile, visible on desktop */}
       <aside
         className={`
-          fixed lg:sticky top-0 left-0 h-screen z-50
+          hidden lg:flex fixed lg:sticky top-0 left-0 h-screen z-50
           ${isCollapsed ? 'w-20' : 'w-64'} bg-black text-white shadow-xl border-r border-gray-800
-          flex flex-col
+          flex-col
           transition-all duration-300 ease-in-out
-          ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
         {/* Header */}
@@ -116,7 +94,6 @@ const AdminSidebar = () => {
                 <li key={item.path}>
                   <Link
                     to={item.path}
-                    onClick={() => setIsMobileOpen(false)}
                     className={`
                       flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} px-4 py-3 rounded-lg
                       transition-all duration-200
