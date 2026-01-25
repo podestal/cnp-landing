@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Search, CreditCard, Loader2 } from 'lucide-react'
 import { useGetParticipantByDNI } from '../../../../hooks/api/participant/useGetParticipantByDNI'
@@ -23,6 +23,7 @@ const SearchParticipantByDni = ({ onParticipantFound, isLoading = false, setIsLo
   const [dni, setDni] = useState('')
   const [searchDni, setSearchDni] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const processedParticipantRef = useRef<string | null>(null) // Track which participant we've already processed
   
   const accessToken = useAuthStore((state: ReturnType<typeof useAuthStore.getState>) => state.accessToken) || getCookie('access_token') || ''
   
@@ -40,11 +41,28 @@ const SearchParticipantByDni = ({ onParticipantFound, isLoading = false, setIsLo
 
   // Handle successful participant fetch
   useEffect(() => {
-    if (participant) {
-      onParticipantFound(participant)
-      setError(null)
+    // Only process if we have a participant, matching DNI, and haven't processed it yet
+    // IMPORTANT: Only process if we have an active search (searchDni matches dni)
+    if (participant && dni && searchDni && searchDni === dni && dni.length === 8) {
+      const participantKey = `${participant.id}-${searchDni}`
+      if (processedParticipantRef.current !== participantKey) {
+        processedParticipantRef.current = participantKey
+        onParticipantFound(participant)
+        setError(null)
+      }
     }
-  }, [participant, onParticipantFound])
+  }, [participant, onParticipantFound, dni, searchDni])
+  
+  // Reset processed participant when DNI input changes or component unmounts
+  useEffect(() => {
+    if (!dni) {
+      processedParticipantRef.current = null
+    }
+    
+    return () => {
+      processedParticipantRef.current = null
+    }
+  }, [dni])
 
   // Handle query errors
   useEffect(() => {
@@ -56,6 +74,9 @@ const SearchParticipantByDni = ({ onParticipantFound, isLoading = false, setIsLo
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
+    
+    // Reset processed participant ref when starting a new search
+    processedParticipantRef.current = null
 
     if (!dni.trim()) {
       setError('Por favor, ingresa un DNI')
