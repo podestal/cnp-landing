@@ -17,6 +17,9 @@ const QrCodeScanner = ({ onQrCodeScanned, onClose, participantName, isLinking = 
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const scannerElementId = 'qr-reader'
   const isProcessingRef = useRef(false) // Prevent multiple scans
+  const processingTimeoutRef = useRef<number | null>(null)
+  const lastScannedQrRef = useRef<string | null>(null) // Track last scanned QR to prevent duplicates
+  const scanDelayTimeoutRef = useRef<number | null>(null) // Delay before processing scan
 
   useEffect(() => {
     // Check for camera permission
@@ -33,13 +36,53 @@ const QrCodeScanner = ({ onQrCodeScanned, onClose, participantName, isLinking = 
     return () => {
       // Cleanup: stop scanner when component unmounts
       stopScanning()
+      // Clear all timeouts
+      if (processingTimeoutRef.current) {
+        clearTimeout(processingTimeoutRef.current)
+        processingTimeoutRef.current = null
+      }
+      if (scanDelayTimeoutRef.current) {
+        clearTimeout(scanDelayTimeoutRef.current)
+        scanDelayTimeoutRef.current = null
+      }
+      // Reset ALL refs when component unmounts
+      isProcessingRef.current = false
+      lastScannedQrRef.current = null
     }
   }, [])
+
+  // Reset processing state when isLinking becomes false after being true (error occurred)
+  useEffect(() => {
+    // When isLinking becomes false after being true, it means an error occurred
+    // Reset the processing flag immediately so user can scan again
+    if (!isLinking && isProcessingRef.current) {
+      isProcessingRef.current = false
+      lastScannedQrRef.current = null
+      if (processingTimeoutRef.current) {
+        clearTimeout(processingTimeoutRef.current)
+        processingTimeoutRef.current = null
+      }
+      if (scanDelayTimeoutRef.current) {
+        clearTimeout(scanDelayTimeoutRef.current)
+        scanDelayTimeoutRef.current = null
+      }
+    }
+  }, [isLinking])
 
   const startScanning = async () => {
     try {
       setError(null)
-      isProcessingRef.current = false // Reset processing flag
+      // Reset ALL refs when starting a new scan session
+      isProcessingRef.current = false
+      lastScannedQrRef.current = null
+      if (processingTimeoutRef.current) {
+        clearTimeout(processingTimeoutRef.current)
+        processingTimeoutRef.current = null
+      }
+      if (scanDelayTimeoutRef.current) {
+        clearTimeout(scanDelayTimeoutRef.current)
+        scanDelayTimeoutRef.current = null
+      }
       
       // Set scanning state first to show the container
       setIsScanning(true)
@@ -74,12 +117,39 @@ const QrCodeScanner = ({ onQrCodeScanned, onClose, participantName, isLinking = 
         },
         (decodedText) => {
           // QR code successfully scanned - only process once
-          // Stop scanning immediately after successful scan to prevent multiple calls
-          if (!isProcessingRef.current) {
-            isProcessingRef.current = true
-            stopScanning()
-            onQrCodeScanned(decodedText)
+          // Don't stop scanning here - let the parent handle success/error
+          // Keep scanner running so user can scan another QR if there's an error
+          
+          // Prevent processing if already processing or if it's the same QR code
+          if (isProcessingRef.current || lastScannedQrRef.current === decodedText) {
+            return
           }
+
+          // Clear any existing delay timeout
+          if (scanDelayTimeoutRef.current) {
+            clearTimeout(scanDelayTimeoutRef.current)
+          }
+
+          // Add delay before processing to prevent multiple rapid scans
+          isProcessingRef.current = true
+          lastScannedQrRef.current = decodedText
+
+          scanDelayTimeoutRef.current = setTimeout(() => {
+            onQrCodeScanned(decodedText)
+            
+            // Reset processing flag after a delay to allow scanning again if there's an error
+            // The useEffect watching isLinking will reset this immediately if there's an error
+            if (processingTimeoutRef.current) {
+              clearTimeout(processingTimeoutRef.current)
+            }
+            processingTimeoutRef.current = setTimeout(() => {
+              isProcessingRef.current = false
+              lastScannedQrRef.current = null
+              processingTimeoutRef.current = null
+            }, 2000)
+            
+            scanDelayTimeoutRef.current = null
+          }, 500) // 500ms delay before processing the scan
         },
         (errorMessage) => {
           // Ignore scanning errors, just keep scanning
@@ -107,10 +177,16 @@ const QrCodeScanner = ({ onQrCodeScanned, onClose, participantName, isLinking = 
       scannerRef.current = null
     }
     setIsScanning(false)
-    // Reset processing flag after a delay to allow for new scans if needed
-    // setTimeout(() => {
-    //   isProcessingRef.current = false
-    // }, 1000)
+    isProcessingRef.current = false // Reset processing flag when stopping
+    lastScannedQrRef.current = null
+    if (processingTimeoutRef.current) {
+      clearTimeout(processingTimeoutRef.current)
+      processingTimeoutRef.current = null
+    }
+    if (scanDelayTimeoutRef.current) {
+      clearTimeout(scanDelayTimeoutRef.current)
+      scanDelayTimeoutRef.current = null
+    }
   }
 
   const handleManualInput = () => {
