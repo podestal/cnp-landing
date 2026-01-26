@@ -32,3 +32,5 @@ export interface ParticipantPaginatedResponse {
 export const participantService = new APIClient<ParticipantPaginatedResponse>('/participants/')
 
 export const getParticipantByDni = new APIClient<Participant>('/participants/by_dni/')
+
+export const updateParticipantByQR = new APIClient<Participant>('/participants/registar_qr_code/')

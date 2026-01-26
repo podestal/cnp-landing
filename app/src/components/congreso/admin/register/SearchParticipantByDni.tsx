@@ -25,9 +25,17 @@ const SearchParticipantByDni = ({ onParticipantFound, isLoading = false, setIsLo
   const [error, setError] = useState<string | null>(null)
   const processedParticipantRef = useRef<string | null>(null) // Track which participant we've already processed
   
+  // Reset everything when component mounts (when key changes)
+  useEffect(() => {
+    setDni('')
+    setSearchDni('')
+    setError(null)
+    processedParticipantRef.current = null
+  }, [])
+  
   const accessToken = useAuthStore((state: ReturnType<typeof useAuthStore.getState>) => state.accessToken) || getCookie('access_token') || ''
   
-  const { data: participant, isLoading: queryLoading, error: queryError, refetch } = useGetParticipantByDNI({
+  const { data: participant, isLoading: queryLoading, error: queryError } = useGetParticipantByDNI({
     access: accessToken,
     dni: searchDni,
   })
@@ -37,7 +45,8 @@ const SearchParticipantByDni = ({ onParticipantFound, isLoading = false, setIsLo
     if (setIsLoading) {
       setIsLoading(queryLoading)
     }
-  }, [queryLoading, setIsLoading])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryLoading]) // Removed setIsLoading from dependencies to prevent loops
 
   // Handle successful participant fetch
   useEffect(() => {
@@ -51,7 +60,8 @@ const SearchParticipantByDni = ({ onParticipantFound, isLoading = false, setIsLo
         setError(null)
       }
     }
-  }, [participant, onParticipantFound, dni, searchDni])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [participant, dni, searchDni]) // Removed onParticipantFound from dependencies to prevent loops
   
   // Reset processed participant when DNI input changes or component unmounts
   useEffect(() => {
@@ -88,9 +98,11 @@ const SearchParticipantByDni = ({ onParticipantFound, isLoading = false, setIsLo
       return
     }
 
-    // Trigger the query by setting searchDni
-    setSearchDni(dni)
-    refetch()
+    // Only trigger the query if the DNI is different from the current search
+    // This prevents duplicate requests
+    if (searchDni !== dni) {
+      setSearchDni(dni)
+    }
   }
 
   return (

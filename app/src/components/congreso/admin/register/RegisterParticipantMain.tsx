@@ -5,7 +5,7 @@ import ParticipantFoundCard from './ParticipantFoundCard'
 import QrCodeScanner from './QrCodeScanner'
 import QrCodeLinked from './QrCodeLinked'
 import { useQueryClient } from '@tanstack/react-query'
-import { useUpdateParticipant } from '../../../../hooks/api/participant/useUpdateParticipant'
+import { useRegisterParticipantQR } from '../../../../hooks/api/participant/useRegisterParticipantQR'
 import { useNotificationStore } from '../../../../utils/notificationStore'
 import type { Participant } from '../../../../services/api/participantService'
 
@@ -20,7 +20,7 @@ const RegisterParticipantMain = () => {
   const hasProcessedQrRef = useRef<string | null>(null) // Track processed QR codes
   const isResettingRef = useRef(false) // Track if we're in reset state
   
-  const updateParticipant = useUpdateParticipant()
+  const registerParticipantQR = useRegisterParticipantQR()
   const addNotification = useNotificationStore((state: ReturnType<typeof useNotificationStore.getState>) => state.addNotification)
   const queryClient = useQueryClient()
 
@@ -36,7 +36,7 @@ const RegisterParticipantMain = () => {
     setCurrentStep('scanning')
   }
 
-  const handleQrCodeScanned = async (qrCode: string) => {
+  const handleQrCodeScanned = useCallback(async (qrCode: string) => {
     // Only process if we're in the scanning step - prevent processing after navigation
     if (currentStep !== 'scanning') {
       return
@@ -47,78 +47,70 @@ const RegisterParticipantMain = () => {
       return
     }
 
-    if (!selectedParticipant?.id) {
+    if (!selectedParticipant?.dni) {
       addNotification({
         type: 'error',
-        message: 'Error: No se pudo identificar al participante',
+        message: 'Error: No se pudo identificar el DNI del participante',
       })
       return
     }
 
     // Prevent multiple calls if already processing or if this QR was already processed
-    if (updateParticipant.isPending || hasProcessedQrRef.current === qrCode) {
+    if (registerParticipantQR.isPending || hasProcessedQrRef.current === qrCode) {
       return
     }
 
-    // Mark this QR as being processed
+    // Mark this QR as being processed IMMEDIATELY
     hasProcessedQrRef.current = qrCode
 
     try {
-      // Update participant with QR code - only one request
-      await updateParticipant.mutateAsync({
-        id: selectedParticipant.id,
-        data: { qr_code: qrCode },
+      // Register QR code using the new endpoint
+      const updatedParticipant = await registerParticipantQR.mutateAsync({
+        dni: selectedParticipant.dni,
+        qr: qrCode,
       })
 
       // Update local state
       setScannedQrCode(qrCode)
-      setSelectedParticipant({ ...selectedParticipant, qr_code: qrCode })
+      setSelectedParticipant(updatedParticipant)
       
       // Show success notification
       addNotification({
         type: 'success',
-        message: `Código QR vinculado exitosamente a ${selectedParticipant.name} ${selectedParticipant.last_name}`,
+        message: `Código QR vinculado exitosamente a ${updatedParticipant.name} ${updatedParticipant.last_name}`,
       })
 
-      // Move to linked step
+      // Move to linked step IMMEDIATELY to prevent any more scans
       setCurrentStep('linked')
       
-      // Don't invalidate queries here - let it happen naturally when needed
-      // This prevents any side effects from interfering with navigation
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error linking QR code:', error)
       // Reset the processed flag on error so user can retry
       hasProcessedQrRef.current = null
+      
+      const errorMessage = error?.response?.data?.message || error?.response?.data?.error || error?.message || ''
       addNotification({
         type: 'error',
-        message: 'Error al vincular el código QR. Por favor, intenta nuevamente.',
+        message: errorMessage || 'Error al vincular el código QR. Por favor, intenta nuevamente.',
       })
     }
-  }
+  }, [currentStep, selectedParticipant, registerParticipantQR, addNotification])
 
   const handleLinkAnother = useCallback(() => {
-    // Set resetting flag to block any processing IMMEDIATELY
-    isResettingRef.current = true
-    hasProcessedQrRef.current = 'RESET'
-    
     // Clear all participant queries from cache to prevent stale data
     queryClient.removeQueries({ queryKey: ['participant'] })
     
-    // Change step FIRST to hide QrCodeLinked immediately
-    setCurrentStep('search')
-    
-    // Reset all state AFTER changing step
+    // Reset all state
     setScannedQrCode(null)
     setSelectedParticipant(null)
+    hasProcessedQrRef.current = null
+    isResettingRef.current = false
+    
+    // Change step to show search
+    setCurrentStep('search')
     
     // Force remount of SearchParticipantByDni to clear its internal state
     setSearchKey(prev => prev + 1)
-    
-    // Reset flags after a delay to ensure all callbacks have been cancelled
-    // setTimeout(() => {
-    //   isResettingRef.current = false
-    //   hasProcessedQrRef.current = null
-    // }, 500)
   }, [queryClient])
 
   const handleCloseScanner = () => {
@@ -218,7 +210,7 @@ const RegisterParticipantMain = () => {
               onQrCodeScanned={handleQrCodeScanned}
               onClose={handleCloseScanner}
               participantName={`${selectedParticipant.name} ${selectedParticipant.last_name}`}
-              isLinking={updateParticipant.isPending}
+              isLinking={registerParticipantQR.isPending}
             />
           )}
 

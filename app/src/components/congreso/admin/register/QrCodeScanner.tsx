@@ -74,6 +74,7 @@ const QrCodeScanner = ({ onQrCodeScanned, onClose, participantName, isLinking = 
         },
         (decodedText) => {
           // QR code successfully scanned - only process once
+          // Stop scanning immediately after successful scan to prevent multiple calls
           if (!isProcessingRef.current) {
             isProcessingRef.current = true
             stopScanning()
@@ -107,9 +108,9 @@ const QrCodeScanner = ({ onQrCodeScanned, onClose, participantName, isLinking = 
     }
     setIsScanning(false)
     // Reset processing flag after a delay to allow for new scans if needed
-    setTimeout(() => {
-      isProcessingRef.current = false
-    }, 1000)
+    // setTimeout(() => {
+    //   isProcessingRef.current = false
+    // }, 1000)
   }
 
   const handleManualInput = () => {
