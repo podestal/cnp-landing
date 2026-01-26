@@ -77,19 +77,19 @@ const RegisterParticipantMain = () => {
 
     try {
       // Register QR code using the new endpoint
-      const updatedParticipant = await registerParticipantQR.mutateAsync({
+      const response = await registerParticipantQR.mutateAsync({
         dni: selectedParticipant.dni,
         qr: qrCode,
       })
 
-      // Update local state
+      // Update local state with the participant from response
       setScannedQrCode(qrCode)
-      setSelectedParticipant(updatedParticipant)
+      setSelectedParticipant(response.participant)
       
-      // Show success notification
+      // Show success notification using the message from backend
       addNotification({
         type: 'success',
-        message: `Código QR vinculado exitosamente a ${updatedParticipant.name} ${updatedParticipant.last_name}`,
+        message: response.message,
       })
 
       // Move to linked step IMMEDIATELY to prevent any more scans

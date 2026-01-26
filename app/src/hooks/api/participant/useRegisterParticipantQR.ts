@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { updateParticipantByQR, type Participant } from '../../../services/api/participantService'
+import { updateParticipantByQR, type RegisterQRResponse } from '../../../services/api/participantService'
 import { useAuthStore } from '../../../store/authStore'
 
 // Helper function to get cookie
@@ -23,7 +23,7 @@ export const useRegisterParticipantQR = () => {
   const queryClient = useQueryClient()
   const accessToken = useAuthStore((state: ReturnType<typeof useAuthStore.getState>) => state.accessToken) || getCookie('access_token')
 
-  return useMutation<Participant, Error, RegisterParticipantQRData>({
+  return useMutation<RegisterQRResponse, Error, RegisterParticipantQRData>({
     mutationFn: (data: RegisterParticipantQRData) => {
       return updateParticipantByQR.post(data, accessToken || undefined)
     },

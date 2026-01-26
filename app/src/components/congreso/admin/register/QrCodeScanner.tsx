@@ -14,6 +14,8 @@ const QrCodeScanner = ({ onQrCodeScanned, onClose, participantName, isLinking = 
   const [isScanning, setIsScanning] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [hasPermission, setHasPermission] = useState<boolean | null>(null)
+  const [showManualModal, setShowManualModal] = useState(false)
+  const [manualQrCode, setManualQrCode] = useState('2026-000')
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const scannerElementId = 'qr-reader'
   const isProcessingRef = useRef(false) // Prevent multiple scans
@@ -190,10 +192,38 @@ const QrCodeScanner = ({ onQrCodeScanned, onClose, participantName, isLinking = 
   }
 
   const handleManualInput = () => {
-    const qrCode = prompt('Ingresa el código QR manualmente:')
-    if (qrCode && qrCode.trim()) {
-      onQrCodeScanned(qrCode.trim())
+    setShowManualModal(true)
+    setManualQrCode('2026-000')
+  }
+
+  const handleManualQrChange = (value: string) => {
+    // Extract only digits from the input
+    let digits = value.replace(/\D/g, '')
+    
+    // If the input contains "2026", remove it to get just the number part
+    if (value.includes('2026')) {
+      // Remove "2026" and any non-digits, keep only the number part
+      digits = value.replace(/2026-?/g, '').replace(/\D/g, '')
     }
+    
+    // Take only the last 3 digits (right-to-left replacement)
+    // This means: type "1" -> "001", type "16" -> "016", type "123" -> "123"
+    const lastThreeDigits = digits.slice(-3).padStart(3, '0')
+    
+    // Format as 2026-XXX
+    setManualQrCode(`2026-${lastThreeDigits}`)
+  }
+
+  const handleManualSubmit = () => {
+    if (manualQrCode && manualQrCode.trim()) {
+      onQrCodeScanned(manualQrCode.trim())
+      setShowManualModal(false)
+    }
+  }
+
+  const handleManualCancel = () => {
+    setShowManualModal(false)
+    setManualQrCode('2026-000')
   }
 
   return (
@@ -350,6 +380,74 @@ const QrCodeScanner = ({ onQrCodeScanned, onClose, participantName, isLinking = 
           </div>
         </motion.div>
       </motion.div>
+
+      {/* Manual Input Modal */}
+      <AnimatePresence>
+        {showManualModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
+            onClick={handleManualCancel}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-gray-800">Ingresar Código QR Manualmente</h3>
+                <button
+                  onClick={handleManualCancel}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-600" />
+                </button>
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Código QR
+                </label>
+                <input
+                  type="text"
+                  value={manualQrCode}
+                  onChange={(e) => handleManualQrChange(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleManualSubmit()
+                    }
+                  }}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg font-mono text-center"
+                  placeholder="2026-000"
+                  autoFocus
+                />
+                <p className="mt-2 text-sm text-gray-500 text-center">
+                  Ingresa solo los números (ej: 1, 16, 123)
+                </p>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={handleManualCancel}
+                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleManualSubmit}
+                  className="flex-1 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  Confirmar
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AnimatePresence>
   )
 }
