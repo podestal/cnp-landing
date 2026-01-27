@@ -10,8 +10,27 @@ const AdminSidebar = () => {
   const clearTokens = useAuthStore((state: ReturnType<typeof useAuthStore.getState>) => state.clearTokens)
   const addNotification = useNotificationStore((state: ReturnType<typeof useNotificationStore.getState>) => state.addNotification)
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const userId = useAuthStore((state: ReturnType<typeof useAuthStore.getState>) => state.userId)
 
-  const menuItems = [
+  const userMenuItems = [
+    {
+      path: '/congreso2026/admin',
+      label: 'Participantes',
+      icon: Users,
+    },
+    {
+      path: '/congreso2026/registrar-participante',
+      label: 'Registrar Participante',
+      icon: UserPlus,
+    },
+    {
+      path: '/congreso2026/actividades',
+      label: 'Actividades',
+      icon: Calendar,
+    },
+  ]
+
+  const adminMenuItems = [
     {
       path: '/congreso2026/admin',
       label: 'Participantes',
@@ -34,6 +53,9 @@ const AdminSidebar = () => {
     },
   ]
 
+  const isAdmin = userId === "1" || userId === "2"
+
+  const menuItems = isAdmin ? adminMenuItems : userMenuItems
   const handleLogout = () => {
     clearTokens()
     addNotification({

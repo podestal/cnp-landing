@@ -3,10 +3,41 @@ import { create } from 'zustand'
 interface AuthState {
   accessToken: string | null
   refreshToken: string | null
+  userId: string | null
   isAuthenticated: boolean
   setTokens: (access: string, refresh: string) => void
   clearTokens: () => void
   initializeFromCookies: () => void
+}
+
+// Helper function to decode JWT token and extract user ID
+const decodeJWT = (token: string): string | null => {
+  try {
+    // JWT has 3 parts: header.payload.signature
+    const parts = token.split('.')
+    if (parts.length !== 3) {
+      return null
+    }
+    
+    // Decode the payload (second part)
+    const payload = parts[1]
+    // Replace URL-safe base64 characters
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/')
+    // Add padding if needed
+    const padded = base64 + '='.repeat((4 - base64.length % 4) % 4)
+    // Decode base64
+    const decoded = atob(padded)
+    // Parse JSON
+    const parsed = JSON.parse(decoded)
+    
+    // Try different common field names for user ID
+    const id = parsed.user_id || parsed.userId || parsed.id || null
+    // Convert to string if it's a number
+    return id !== null ? String(id) : null
+  } catch (error) {
+    console.error('Error decoding JWT token:', error)
+    return null
+  }
 }
 
 // Helper functions for cookies
@@ -34,9 +65,13 @@ const deleteCookie = (name: string) => {
 export const useAuthStore = create<AuthState>((set) => ({
   accessToken: null,
   refreshToken: null,
+  userId: null,
   isAuthenticated: false,
 
   setTokens: (access: string, refresh: string) => {
+    // Decode JWT to extract user ID
+    const userId = decodeJWT(access)
+    
     // Save to cookies
     setCookie('access_token', access, 7)
     setCookie('refresh_token', refresh, 7)
@@ -45,6 +80,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({
       accessToken: access,
       refreshToken: refresh,
+      userId: userId,
       isAuthenticated: true,
     })
   },
@@ -58,6 +94,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({
       accessToken: null,
       refreshToken: null,
+      userId: null,
       isAuthenticated: false,
     })
   },
@@ -67,9 +104,13 @@ export const useAuthStore = create<AuthState>((set) => ({
     const refreshToken = getCookie('refresh_token')
     
     if (accessToken && refreshToken) {
+      // Decode JWT to extract user ID
+      const userId = decodeJWT(accessToken)
+      
       set({
         accessToken,
         refreshToken,
+        userId: userId,
         isAuthenticated: true,
       })
     } else {
@@ -77,6 +118,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({
         accessToken: null,
         refreshToken: null,
+        userId: null,
         isAuthenticated: false,
       })
     }
