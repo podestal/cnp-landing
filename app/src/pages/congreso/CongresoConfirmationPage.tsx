@@ -1,13 +1,21 @@
 import { motion } from 'framer-motion'
-import { CheckCircle2, Calendar, MapPin, Building, ArrowLeft } from 'lucide-react'
+import { CheckCircle2, Calendar, MapPin, Building, ArrowLeft, UserPlus } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useParticipantRegistrationStore } from '../../store/participantRegistrationStore'
 
 const CongresoConfirmationPage = () => {
   const navigate = useNavigate()
+  const participant = useParticipantRegistrationStore((state: ReturnType<typeof useParticipantRegistrationStore.getState>) => state.participant)
+  console.log('participant', participant);
+  
+  const handleAddCompanions = () => {
+    navigate('/congreso2026/acompanantes')
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-green-50 to-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
+        <>{  console.log('participant', participant)}</>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -89,6 +97,15 @@ const CongresoConfirmationPage = () => {
               <ArrowLeft className="w-4 h-4" />
               Volver al Formulario
             </button>
+            {participant?.id && (
+              <button
+                onClick={handleAddCompanions}
+                className="cursor-pointer flex-1 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+              >
+                <UserPlus className="w-4 h-4" />
+                Agregar Acompañantes
+              </button>
+            )}
             <button
               onClick={() => navigate('/')}
               className="cursor-pointer flex-1 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg"

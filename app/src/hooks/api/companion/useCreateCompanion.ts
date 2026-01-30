@@ -1,20 +1,8 @@
-import { useMutation, type useMutationResult } from "@tanstack/react-query"
-import companionService, { type CompanionRequest, type Companion } from "../../../services/api/companionService"
+import { useMutation, type UseMutationResult } from "@tanstack/react-query"
+import companionService, { type Companion } from "../../../services/api/companionService"
 
-interface Props {
-    data: CompanionRequest
-}
-
-const useCreateCompanion = ({ data }: Props): useMutationResult<Companion, Error, CompanionRequest> => {
+export const useCreateCompanion = (): UseMutationResult<Companion, Error, FormData> => {
     return useMutation({
-        mutationFn: companionService.post(data),
-        onSuccess: (res) => {
-            console.log('Companion created successfully', res)
-        },
-        onError: (error) => {
-            console.log('Error creating companion', error)
-        },
+        mutationFn: (data: FormData) => companionService.post(data),
     })
 }
-
-export default useCreateCompanion

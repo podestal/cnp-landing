@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import { User, Mail, Phone, FileText, MapPin, Building2, Upload, CheckCircle2, AlertCircle, BookOpen, Loader2 } from 'lucide-react'
 import { useGetTemas } from '../../hooks/api/tema/useGetTemas'
 import { useCreateParticipant } from '../../hooks/api/participant/useCreateParticipant'
+import { useParticipantRegistrationStore } from '../../store/participantRegistrationStore'
 import type { Tema } from '../../services/api/temaService'
+import type { Participant } from '../../services/api/participantService'
 
 interface FormData {
   name: string
@@ -27,6 +29,7 @@ const CongresoForm = () => {
   const navigate = useNavigate()
   const { data: temas, isLoading: isLoadingTemas, error: temasError } = useGetTemas()
   const createParticipant = useCreateParticipant()
+  const setParticipant = useParticipantRegistrationStore((state: ReturnType<typeof useParticipantRegistrationStore.getState>) => state.setParticipant)
   
   // Refs for form fields
   const nameRef = useRef<HTMLInputElement>(null)
@@ -215,9 +218,11 @@ const CongresoForm = () => {
     formDataToSend.append('receipt', formData.receipt!)
 
     createParticipant.mutate(formDataToSend, {
-      onSuccess: () => {
-        // Navigate to confirmation page
-        navigate('/congreso2026/confirmacion')
+      onSuccess: (participant: Participant) => {
+        // Save participant to store
+        setParticipant(participant)
+        // Navigate to companion form page
+        navigate('/congreso2026/acompanantes', { replace: true })
       },
       onError: (error: any) => {
         console.error('Error submitting form:', error)

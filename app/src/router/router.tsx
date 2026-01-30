@@ -26,6 +26,7 @@ const PopupModal = lazy(() => import('../components/PopupModal'))
 import CongresoLayout from '../pages/congreso/CongresoLayout'
 import CongresoPage from '../pages/congreso/CongresoPage'
 import CongresoConfirmationPage from '../pages/congreso/CongresoConfirmationPage'
+import CompanionForm from '../components/congreso/CompanionForm'
 import CongresoInfo from '../pages/CongresoInfo'
 import CongresoAdminPage from '../pages/congreso/CongresoAdminPage'
 import TemasAdminPage from '../pages/congreso/TemasAdminPage'
@@ -143,6 +144,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <CongresoPage />,
+      },
+      {
+        path: 'acompanantes',
+        element: <CompanionForm />,
       },
       {
         path: 'confirmacion',
