@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, CheckCircle2, XCircle, Eye, FileText } from 'lucide-react'
 import type { Participant } from '../../../services/api/participantService'
+import CompanionsDropdown from './CompanionsDropdown'
 
 interface ParticipantCardProps {
   participant: Participant
@@ -92,6 +93,11 @@ const ParticipantCard = ({ participant, onViewReceipt }: ParticipantCardProps) =
           </div>
         )}
       </div>
+
+      {/* Companions Dropdown */}
+      {participant.id && (
+        <CompanionsDropdown participantId={participant.id} />
+      )}
     </motion.div>
   )
 }

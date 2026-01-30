@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, CheckCircle2, XCircle, Loader2, AlertCircle, Users, Eye } from 'lucide-react'
 import type { Participant } from '../../../services/api/participantService'
 import ParticipantCard from './ParticipantCard'
+import CompanionsDropdown from './CompanionsDropdown'
 
 interface ParticipantsListProps {
   participants: Participant[]
@@ -65,77 +66,86 @@ const ParticipantsList = ({
           </thead>
           <tbody className="divide-y divide-gray-200">
             {participants.map((participant: Participant, index: number) => (
-              <motion.tr
-                key={participant.id || index}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="hover:bg-gray-50 transition-colors"
-              >
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <p className="font-semibold text-gray-800">
-                    {participant.name} {participant.last_name}
-                  </p>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Mail className="w-4 h-4 text-green-600" />
-                      {participant.email}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Phone className="w-4 h-4 text-green-600" />
-                      {participant.celphone}
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="space-y-1 text-sm">
-                    <p className="text-gray-600">
-                      <span className="font-semibold">DNI:</span> {participant.dni}
+              <>
+                <motion.tr
+                  key={participant.id || index}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  className="hover:bg-gray-50 transition-colors"
+                >
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <p className="font-semibold text-gray-800">
+                      {participant.name} {participant.last_name}
                     </p>
-                    <p className="text-gray-600">
-                      <span className="font-semibold">RUC:</span> {participant.ruc}
-                    </p>
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <MapPin className="w-4 h-4 text-green-600" />
-                    {participant.location}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${
-                    participant.is_active
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                    {participant.is_active ? (
-                      <>
-                        <CheckCircle2 className="w-3 h-3" />
-                        Activo
-                      </>
-                    ) : (
-                      <>
-                        <XCircle className="w-3 h-3" />
-                        Inactivo
-                      </>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Mail className="w-4 h-4 text-green-600" />
+                        {participant.email}
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Phone className="w-4 h-4 text-green-600" />
+                        {participant.celphone}
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="space-y-1 text-sm">
+                      <p className="text-gray-600">
+                        <span className="font-semibold">DNI:</span> {participant.dni}
+                      </p>
+                      <p className="text-gray-600">
+                        <span className="font-semibold">RUC:</span> {participant.ruc}
+                      </p>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <MapPin className="w-4 h-4 text-green-600" />
+                      {participant.location}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${
+                      participant.is_active
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}>
+                      {participant.is_active ? (
+                        <>
+                          <CheckCircle2 className="w-3 h-3" />
+                          Activo
+                        </>
+                      ) : (
+                        <>
+                          <XCircle className="w-3 h-3" />
+                          Inactivo
+                        </>
+                      )}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {participant.receipt && (
+                      <button
+                        onClick={() => onViewReceipt(participant)}
+                        className="p-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
+                        title="Ver comprobante"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
                     )}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {participant.receipt && (
-                    <button
-                      onClick={() => onViewReceipt(participant)}
-                      className="p-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
-                      title="Ver comprobante"
-                    >
-                      <Eye className="w-4 h-4" />
-                    </button>
-                  )}
-                </td>
-              </motion.tr>
+                  </td>
+                </motion.tr>
+                {participant.id && (
+                  <tr key={`companions-${participant.id}`}>
+                    <td colSpan={6} className="px-0">
+                      <CompanionsDropdown participantId={participant.id} />
+                    </td>
+                  </tr>
+                )}
+              </>
             ))}
           </tbody>
         </table>
