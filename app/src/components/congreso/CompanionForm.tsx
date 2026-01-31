@@ -208,6 +208,9 @@ const CompanionForm = () => {
           <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
             Agrega los acompañantes que asistirán contigo al congreso (opcional)
           </p>
+          <p className="bg-yellow-100 border border-yellow-200 p-2 rounded-lg text-sm sm:text-base text-gray-600 max-w-2xl mx-auto mt-2 font-bold">
+            El costo por acompañante es de S/250.00.
+          </p>
         </motion.div>
 
         {/* Companions List */}

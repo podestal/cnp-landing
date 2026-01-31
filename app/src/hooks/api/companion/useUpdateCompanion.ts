@@ -27,7 +27,7 @@ export const useUpdateCompanion = () => {
   return useMutation({
     mutationFn: ({ id, data }: UpdateCompanionData) => {
       // Create a client for this specific companion
-      const updateClient = new APIClient<Companion>(`/companions/${id}/`)
+      const updateClient = new APIClient<Companion, Partial<Companion>>(`/companions/${id}/`)
       return updateClient.update(data, accessToken || undefined)
     },
     onSuccess: () => {
