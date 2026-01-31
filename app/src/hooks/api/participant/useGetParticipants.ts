@@ -25,12 +25,21 @@ export interface UseGetParticipantsResult {
   error: Error | null
 }
 
-export const useGetParticipants = (page: number = 1, pageSize: number = 10): UseGetParticipantsResult => {
+export const useGetParticipants = (page: number = 1, pageSize: number = 10, search?: string): UseGetParticipantsResult => {
   const accessToken = useAuthStore((state: ReturnType<typeof useAuthStore.getState>) => state.accessToken) || getCookie('access_token')
   
+  const params: Record<string, string> = {
+    page: page.toString(),
+    page_size: pageSize.toString(),
+  }
+  
+  if (search && search.trim()) {
+    params.search = search.trim()
+  }
+  
   const { data, isLoading, error } = useQuery<ParticipantPaginatedResponse>({
-    queryKey: ['participants', page, pageSize],
-    queryFn: () => participantService.get(accessToken || undefined, { page: page.toString(), page_size: pageSize.toString() }),
+    queryKey: ['participants', page, pageSize, search],
+    queryFn: () => participantService.get(accessToken || undefined, params),
   })
 
   return {

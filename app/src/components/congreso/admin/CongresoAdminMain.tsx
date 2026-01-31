@@ -11,35 +11,28 @@ import Paginator from '../../../utils/Paginator'
 
 const CongresoAdminMain = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const pageSize = 10
-  const { participants, count, total_active, total_inactive, isLoading, error } = useGetParticipants(currentPage, pageSize)
-  const updateParticipant = useUpdateParticipant()
-  const addNotification = useNotificationStore((state: ReturnType<typeof useNotificationStore.getState>) => state.addNotification)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterActive, setFilterActive] = useState<boolean | null>(null)
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null)
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false)
+  
+  const pageSize = 10
+  const { participants, count, total_active, total_inactive, isLoading, error } = useGetParticipants(currentPage, pageSize, searchTerm)
+  const updateParticipant = useUpdateParticipant()
+  const addNotification = useNotificationStore((state: ReturnType<typeof useNotificationStore.getState>) => state.addNotification)
 
   const totalPages = Math.ceil(count / pageSize)
-
-  // Filter participants based on search and active status (client-side filtering on current page)
-  const filteredParticipants = participants.filter((participant: Participant) => {
-    const matchesSearch = 
-      participant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      participant.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      participant.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      participant.dni.includes(searchTerm) ||
-      participant.celphone.includes(searchTerm)
-    
-    const matchesFilter = filterActive === null || participant.is_active === filterActive
-    
-    return matchesSearch && matchesFilter
-  })
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     // Scroll to top when page changes
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Reset to page 1 when search term changes
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value)
+    setCurrentPage(1)
   }
 
   const handleViewReceipt = (participant: Participant) => {
@@ -167,7 +160,7 @@ const CongresoAdminMain = () => {
                   type="text"
                   placeholder="Buscar por nombre, email, DNI, teléfono..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                 />
               </div>
@@ -211,7 +204,7 @@ const CongresoAdminMain = () => {
 
         {/* Participants List */}
         <ParticipantsList
-          participants={filteredParticipants}
+          participants={participants}
           isLoading={isLoading}
           error={error}
           onViewReceipt={handleViewReceipt}
