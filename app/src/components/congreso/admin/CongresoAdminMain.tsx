@@ -17,7 +17,7 @@ const CongresoAdminMain = () => {
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false)
   
   const pageSize = 10
-  const { participants, count, total_active, total_inactive, isLoading, error } = useGetParticipants(currentPage, pageSize, searchTerm)
+  const { participants, count, total_active, total_inactive, isLoading, error } = useGetParticipants(currentPage, pageSize, searchTerm, filterActive)
   const updateParticipant = useUpdateParticipant()
   const addNotification = useNotificationStore((state: ReturnType<typeof useNotificationStore.getState>) => state.addNotification)
 
@@ -32,6 +32,12 @@ const CongresoAdminMain = () => {
   // Reset to page 1 when search term changes
   const handleSearchChange = (value: string) => {
     setSearchTerm(value)
+    setCurrentPage(1)
+  }
+
+  // Reset to page 1 when filter changes
+  const handleFilterChange = (filter: boolean | null) => {
+    setFilterActive(filter)
     setCurrentPage(1)
   }
 
@@ -169,7 +175,7 @@ const CongresoAdminMain = () => {
             {/* Filter Buttons */}
             <div className="flex gap-2">
               <button
-                onClick={() => setFilterActive(null)}
+                onClick={() => handleFilterChange(null)}
                 className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
                   filterActive === null
                     ? 'bg-green-600 text-white'
@@ -179,7 +185,7 @@ const CongresoAdminMain = () => {
                 Todos
               </button>
               <button
-                onClick={() => setFilterActive(true)}
+                onClick={() => handleFilterChange(true)}
                 className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
                   filterActive === true
                     ? 'bg-green-600 text-white'
@@ -189,7 +195,7 @@ const CongresoAdminMain = () => {
                 Activos
               </button>
               <button
-                onClick={() => setFilterActive(false)}
+                onClick={() => handleFilterChange(false)}
                 className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
                   filterActive === false
                     ? 'bg-green-600 text-white'

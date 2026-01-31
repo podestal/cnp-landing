@@ -25,7 +25,12 @@ export interface UseGetParticipantsResult {
   error: Error | null
 }
 
-export const useGetParticipants = (page: number = 1, pageSize: number = 10, search?: string): UseGetParticipantsResult => {
+export const useGetParticipants = (
+  page: number = 1, 
+  pageSize: number = 10, 
+  search?: string,
+  isActive?: boolean | null
+): UseGetParticipantsResult => {
   const accessToken = useAuthStore((state: ReturnType<typeof useAuthStore.getState>) => state.accessToken) || getCookie('access_token')
   
   const params: Record<string, string> = {
@@ -37,8 +42,12 @@ export const useGetParticipants = (page: number = 1, pageSize: number = 10, sear
     params.search = search.trim()
   }
   
+  if (isActive !== null && isActive !== undefined) {
+    params.is_active = isActive.toString()
+  }
+  
   const { data, isLoading, error } = useQuery<ParticipantPaginatedResponse>({
-    queryKey: ['participants', page, pageSize, search],
+    queryKey: ['participants', page, pageSize, search, isActive],
     queryFn: () => participantService.get(accessToken || undefined, params),
   })
 
