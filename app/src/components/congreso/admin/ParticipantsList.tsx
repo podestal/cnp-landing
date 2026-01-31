@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, CheckCircle2, XCircle, Loader2, AlertCircle, Users, Eye } from 'lucide-react'
 import type { Participant } from '../../../services/api/participantService'
@@ -66,9 +67,8 @@ const ParticipantsList = ({
           </thead>
           <tbody className="divide-y divide-gray-200">
             {participants.map((participant: Participant, index: number) => (
-              <>
+              <Fragment key={participant.id || `participant-${index}`}>
                 <motion.tr
-                  key={participant.id || index}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -139,13 +139,13 @@ const ParticipantsList = ({
                   </td>
                 </motion.tr>
                 {participant.id && (
-                  <tr key={`companions-${participant.id}`}>
+                  <tr>
                     <td colSpan={6} className="px-0">
                       <CompanionsDropdown participantId={participant.id} />
                     </td>
                   </tr>
                 )}
-              </>
+              </Fragment>
             ))}
           </tbody>
         </table>
