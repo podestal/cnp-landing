@@ -1,4 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
+// import ServiceUnavailable from '../pages/ServiceUnavailable'
+
+// All original routes are commented out - only showing ServiceUnavailable page
 import { lazy, Suspense } from 'react'
 import Layout from '../pages/MainPage'
 import NotFound from '../components/errors/NotFound'
@@ -36,6 +39,11 @@ import LoginPage from '../pages/auth/LoginPage'
 import PrivateRoute from '../components/auth/PrivateRoute'
 
 const router = createBrowserRouter([
+  // {
+  //   path: '*',
+  //   element: <ServiceUnavailable />,
+  // },
+  // Original routes commented out:
   {
     path: '/',
     element: <Layout />,

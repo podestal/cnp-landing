@@ -16,6 +16,8 @@ export type CompanionRequest = Omit<Companion, 'id' | 'created_at' | 'updated_at
 
 const companionService = new APIClient<Companion, CompanionRequest>('/companions/')
 
+export const getAllCompanions = new APIClient<Companion[]>('/companions/')
+
 export const getCompanionsByParticipant = new APIClient<Companion[]>('/companions/by_participant/')
 
 export default companionService

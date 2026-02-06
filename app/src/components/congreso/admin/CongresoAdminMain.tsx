@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Users, Search, CheckCircle2, XCircle } from 'lucide-react'
+import { Users, Search, CheckCircle2, XCircle, FileText } from 'lucide-react'
 import { useGetParticipants } from '../../../hooks/api/participant/useGetParticipants'
 import { useUpdateParticipant } from '../../../hooks/api/participant/useUpdateParticipant'
 import type { Participant } from '../../../services/api/participantService'
 import ParticipantsList from './ParticipantsList'
+import ParticipantsReport from './ParticipantsReport'
 import ReceiptModal from './ReceiptModal'
 import { useNotificationStore } from '../../../utils/notificationStore'
 import Paginator from '../../../utils/Paginator'
 
 const CongresoAdminMain = () => {
+  const [activeTab, setActiveTab] = useState<'list' | 'report'>('list')
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterActive, setFilterActive] = useState<boolean | null>(null)
@@ -96,7 +98,45 @@ const CongresoAdminMain = () => {
           </p>
         </motion.div>
 
-        {/* Stats Cards */}
+        {/* Tabs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-8"
+        >
+          <div className="bg-white rounded-xl shadow-lg p-2 inline-flex gap-2">
+            <button
+              onClick={() => setActiveTab('list')}
+              className={`px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2 ${
+                activeTab === 'list'
+                  ? 'bg-green-600 text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <Users className="w-5 h-5" />
+              Lista
+            </button>
+            <button
+              onClick={() => setActiveTab('report')}
+              className={`px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2 ${
+                activeTab === 'report'
+                  ? 'bg-green-600 text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <FileText className="w-5 h-5" />
+              Reporte
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Tab Content */}
+        {activeTab === 'report' ? (
+          <ParticipantsReport />
+        ) : (
+          <>
+            {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -208,23 +248,25 @@ const CongresoAdminMain = () => {
           </div>
         </motion.div>
 
-        {/* Participants List */}
-        <ParticipantsList
-          participants={participants}
-          isLoading={isLoading}
-          error={error}
-          onViewReceipt={handleViewReceipt}
-        />
+            {/* Participants List */}
+            <ParticipantsList
+              participants={participants}
+              isLoading={isLoading}
+              error={error}
+              onViewReceipt={handleViewReceipt}
+            />
 
-        {/* Paginator */}
-        <Paginator
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          totalItems={count}
-          itemsPerPage={pageSize}
-          showInfo={true}
-        />
+            {/* Paginator */}
+            <Paginator
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              totalItems={count}
+              itemsPerPage={pageSize}
+              showInfo={true}
+            />
+          </>
+        )}
 
         {/* Receipt Modal */}
         <ReceiptModal
