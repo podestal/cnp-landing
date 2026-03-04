@@ -24,4 +24,6 @@ export const getUpdateActivityStatusService = ({ id}: {id: number}) => {
 }
 
 
+
+
 export default getActivityService
