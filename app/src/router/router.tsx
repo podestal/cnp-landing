@@ -37,6 +37,7 @@ import ActividadesAdminPage from '../pages/congreso/ActividadesAdminPage'
 import RegisterParticipantPage from '../pages/congreso/RegisterParticipantPage'
 import LoginPage from '../pages/auth/LoginPage'
 import PrivateRoute from '../components/auth/PrivateRoute'
+import ValidatorPage from '../pages/congreso/ValidatorPage'
 
 const router = createBrowserRouter([
   // {
@@ -143,6 +144,10 @@ const router = createBrowserRouter([
         path: 'congreso',
         element: <CongresoInfo />,
       },
+      {
+        path: 'validar-certificado',
+        element: <ValidatorPage />,
+      }
     ],
   },
   {
