@@ -5,6 +5,41 @@ import { ArrowRight, Calendar } from 'lucide-react'
 export const comunicados = [
   {
     id: 1,
+    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-2.jpeg', // puedes cambiarlo si quieres algo más específico
+    title: 'CONCURSO PÚBLICO DE MÉRITOS PARA EL INGRESO AL NOTARIADO Nº 001-2026-CNP/PUNO-PERÚ',
+    content: 'El Colegio de Notarios de Puno convoca al Concurso Público de Méritos para el ingreso al notariado Nº 001-2026, con el objetivo de cubrir plazas notariales en el distrito notarial de Puno. Se detallan requisitos, cronograma, evaluación psicológica y proceso de inscripción para los postulantes.',
+    date: '23 de Marzo, 2026',
+    button: true,
+    buttonLabel: 'Descargar comunicado',
+    buttonUrl: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/comunicados/BO20260323_004.pdf',
+    fullContent: `De conformidad con el artículo 9 del Decreto Legislativo Nº 1049, modificado por el Decreto Legislativo Nº 1232, y el artículo 4 del Decreto Supremo Nº 006-2022-JUS, el Colegio de Notarios de Puno convoca al CONCURSO PÚBLICO DE MÉRITOS PARA EL INGRESO AL NOTARIADO Nº 001-2026-CNP/PUNO-PERÚ.
+  
+  El concurso tiene como finalidad cubrir diversas plazas notariales en el Distrito Notarial de Puno, comprendiendo distintas provincias y distritos como Azángaro, Carabaya, Chucuito, El Collao, Huancané, Lampa, Melgar, Puno, San Antonio de Putina, San Román, Sandia y Yunguyo.
+  
+  Como requisito previo, los postulantes deberán rendir evaluaciones psicológicas ante la institución designada por el Ministerio de Justicia - Consejo de Notariado, a cargo de la Universidad Cayetano Heredia.
+  
+  INSCRIPCIÓN EXAMEN PSICOLÓGICO:
+  Plazo: del 02 al 30 de abril de 2026
+  Costo: S/ 424.80 (incluido IGV)
+  Evaluación: 02 y 03 de mayo de 2026 (modalidad presencial en Lima)
+  Resultados: 06 de mayo de 2026
+  
+  INSCRIPCIÓN AL CONCURSO:
+  Plazo: del 08 de mayo al 26 de junio de 2026
+  Lugar: Colegio de Notarios de Puno (Jr. Vilque N° 157 – Barrio Orkapata, Puno)
+  Horario: Lunes a viernes de 09:00 a.m. a 02:00 p.m. y de 04:00 p.m. a 07:00 p.m.
+  Derecho de inscripción: S/ 2,670.00
+  
+  El pago deberá realizarse mediante depósito en Caja Arequipa a nombre del Colegio de Notarios de Puno.
+  
+  Para mayor información, los interesados pueden acercarse al local institucional, visitar la página web oficial o comunicarse al teléfono correspondiente.
+  
+  Puno, marzo de 2026.
+  
+  Colegio de Notarios de Puno`
+  },
+  {
+    id: 2,
     image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-1.jpeg',
     title: 'LA JUNTA DE DECANOS DE LOS COLEGIOS DE NOTARIOS DEL PERU INFORMA A LA COLECTIVIDAD',
     content: 'El notariado peruano encargado, por ley, para dar fe y velar por la seguridad jurídica de los contratos de los ciudadanos, hace de conocimiento de la opinión publica el grave riesgo que se generará con la entrada en vigor del nuevo Régimen de Garantías Mobiliarias – Decreto Legislativo 1400, prevista para el 3 de marzo de 2025...',
@@ -26,30 +61,18 @@ En consecuencia, corresponde que el Congreso de la República ratifique, en segu
 Lima, 27 de febrero de 2025.
 Junta de Decanos de los Colegios de Notarios del Perú`,
   },
-  {
-    id: 2,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-2.jpeg',
-    title: 'Actualización en Procedimientos Notariales 2025',
-    content: 'El Colegio de Notarios de Puno informa sobre las actualizaciones en los procedimientos notariales que entrarán en vigor a partir del próximo mes, mejorando la eficiencia y seguridad de los trámites.',
-    date: '15 de Enero, 2025',
-    fullContent: `El Colegio de Notarios de Puno informa sobre las actualizaciones en los procedimientos notariales que entrarán en vigor a partir del próximo mes, mejorando la eficiencia y seguridad de los trámites.
+//   {
+//     id: 3,
+//     image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-3.jpeg',
+//     title: 'Convocatoria a Asamblea Extraordinaria',
+//     content: 'Se convoca a todos los miembros del Colegio de Notarios de Puno a participar en la Asamblea Extraordinaria que se llevará a cabo para tratar temas urgentes de interés institucional.',
+//     date: '5 de Enero, 2025',
+//     fullContent: `Se convoca a todos los miembros del Colegio de Notarios de Puno a participar en la Asamblea Extraordinaria que se llevará a cabo para tratar temas urgentes de interés institucional.
 
-Estas actualizaciones incluyen mejoras en los procesos de verificación de documentos, nuevos protocolos de atención al público, y la implementación de sistemas digitales que agilizarán los trámites sin comprometer la seguridad jurídica. Los notarios recibirán capacitación especializada para implementar estos nuevos procedimientos de manera efectiva.
+// En esta asamblea se abordarán temas de gran importancia para el futuro del colegio, incluyendo propuestas de reforma estatutaria, actualización de tarifas, y estrategias para mejorar los servicios notariales en la región. La participación de todos los miembros es fundamental para tomar decisiones que beneficien a la institución y a la comunidad.
 
-El objetivo principal de estas actualizaciones es modernizar el servicio notarial, hacerlo más accesible para los ciudadanos, y mantener los más altos estándares de calidad y seguridad jurídica que caracterizan al Colegio de Notarios de Puno.`,
-  },
-  {
-    id: 3,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-3.jpeg',
-    title: 'Convocatoria a Asamblea Extraordinaria',
-    content: 'Se convoca a todos los miembros del Colegio de Notarios de Puno a participar en la Asamblea Extraordinaria que se llevará a cabo para tratar temas urgentes de interés institucional.',
-    date: '5 de Enero, 2025',
-    fullContent: `Se convoca a todos los miembros del Colegio de Notarios de Puno a participar en la Asamblea Extraordinaria que se llevará a cabo para tratar temas urgentes de interés institucional.
-
-En esta asamblea se abordarán temas de gran importancia para el futuro del colegio, incluyendo propuestas de reforma estatutaria, actualización de tarifas, y estrategias para mejorar los servicios notariales en la región. La participación de todos los miembros es fundamental para tomar decisiones que beneficien a la institución y a la comunidad.
-
-Se solicita a todos los notarios confirmar su asistencia con anticipación para poder organizar adecuadamente el evento y garantizar que se cumplan los quórums necesarios para la toma de decisiones.`,
-  },
+// Se solicita a todos los notarios confirmar su asistencia con anticipación para poder organizar adecuadamente el evento y garantizar que se cumplan los quórums necesarios para la toma de decisiones.`,
+//   },
 ]
 
 const ComunicadosSection = () => {
@@ -105,7 +128,7 @@ const ComunicadosSection = () => {
                   whileHover={{ scale: 1.2 }}
                   transition={{ duration: 0.5 }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-gray-900/80 to-transparent" />
               </motion.div>
               
               <div className="p-6 flex flex-col grow">
