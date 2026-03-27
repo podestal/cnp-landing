@@ -124,17 +124,43 @@ const Comunicado = ({
 
               {/* Content Text */}
               <div className="prose prose-lg max-w-none">
-                {comunicado.fullContent.split('\n\n').map((paragraph, index) => (
-                  <motion.p
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                    className="text-gray-700 text-base md:text-lg leading-relaxed mb-6"
-                  >
-                    {paragraph}
-                  </motion.p>
-                ))}
+                {comunicado.fullContent.split('\n\n').map((paragraph, index) => {
+                  const trimmed = paragraph.trim()
+                  if (!trimmed) return null
+                  // Detect section headers (all-caps lines like "INSCRIPCIÓN AL CONCURSO:")
+                  const lines = trimmed.split('\n').map(l => l.trim())
+                  const isSection = lines.length > 1
+                  if (isSection) {
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                        className="mb-6 bg-green-50 rounded-lg p-4 border-l-4 border-green-500"
+                      >
+                        {lines.map((line, i) => (
+                          i === 0 ? (
+                            <p key={i} className="font-bold text-green-800 text-base md:text-lg mb-2">{line}</p>
+                          ) : (
+                            <p key={i} className="text-gray-700 text-sm md:text-base leading-relaxed">{line}</p>
+                          )
+                        ))}
+                      </motion.div>
+                    )
+                  }
+                  return (
+                    <motion.p
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                      className="text-gray-700 text-base md:text-lg leading-relaxed mb-6"
+                    >
+                      {trimmed}
+                    </motion.p>
+                  )
+                })}
               </div>
 
               {shouldRenderButton && (

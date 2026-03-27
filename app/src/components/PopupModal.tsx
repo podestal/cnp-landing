@@ -1,26 +1,27 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { Calendar, MapPin, Building, UserPlus } from 'lucide-react'
+import { FileText, Download, X } from 'lucide-react'
+import { comunicados } from './main/ComunicadosSection'
 
-const IMAGE_URL = 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/ScreenShot2026-01-10at6.34.16A.jpeg'
+const comunicado = comunicados.find(c => c.id === 1)!
 
 const PopupModal = () => {
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
   const imageRef = useRef<HTMLImageElement | null>(null)
 
   // Preload image
   useEffect(() => {
     const img = new Image()
-    img.src = IMAGE_URL
+    img.src = comunicado.image
     img.onload = () => setImageLoaded(true)
     imageRef.current = img
   }, [])
 
   useEffect(() => {
-    // Only show popup after image is loaded and with a delay
     if (imageLoaded) {
       const timer = setTimeout(() => {
         setIsOpen(true)
@@ -29,13 +30,32 @@ const PopupModal = () => {
     }
   }, [imageLoaded])
 
-  const handleClose = () => {
+  const handleClose = () => setIsOpen(false)
+
+  const handleReadMore = () => {
     setIsOpen(false)
+    navigate(`/comunicados/${comunicado.id}`)
   }
 
-  const handleRegister = () => {
-    setIsOpen(false)
-    navigate('/congreso2026')
+  const handleDownload = async () => {
+    if (!comunicado.buttonUrl) return
+    setIsDownloading(true)
+    try {
+      const response = await fetch(comunicado.buttonUrl)
+      const blob = await response.blob()
+      const objectUrl = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = objectUrl
+      a.download = comunicado.buttonUrl.split('/').pop() || 'comunicado.pdf'
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(objectUrl)
+    } catch {
+      window.open(comunicado.buttonUrl, '_blank')
+    } finally {
+      setIsDownloading(false)
+    }
   }
 
   return (
@@ -57,105 +77,67 @@ const PopupModal = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              transition={{ 
-                duration: 0.3,
-                ease: 'easeOut'
-              }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
               onClick={(e) => e.stopPropagation()}
               className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg sm:max-w-xl lg:max-w-2xl overflow-hidden max-h-[90vh] flex flex-col"
               style={{ willChange: 'transform, opacity' }}
             >
               {/* Close Button */}
-              {/* <button
+              <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 z-10 w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200 group"
+                className="absolute top-4 right-4 z-10 w-9 h-9 bg-black/40 hover:bg-black/60 rounded-full flex items-center justify-center transition-colors duration-200"
                 aria-label="Cerrar"
               >
-                <X className="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors" />
-              </button> */}
+                <X className="w-4 h-4 text-white" />
+              </button>
 
               {/* Header with image background */}
-              <div 
-                className="text-white p-6 sm:p-8 pb-6 relative overflow-hidden bg-cover bg-center bg-no-repeat"
+              <div
+                className="text-white p-6 sm:p-8 pb-6 relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[180px] flex items-end"
                 style={{
-                  backgroundImage: imageLoaded ? `url(${IMAGE_URL})` : 'none',
-                  backgroundColor: imageLoaded ? 'transparent' : '#1f2937'
+                  backgroundImage: imageLoaded ? `url(${comunicado.image})` : 'none',
+                  backgroundColor: imageLoaded ? 'transparent' : '#1f2937',
                 }}
               >
-                {/* Dark overlay for better text readability */}
                 <div className="absolute inset-0 bg-black/60" />
-                <div className="relative z-10">
-                  <div className="flex items-center justify-center mb-4">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                      <Calendar className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                <div className="relative z-10 w-full">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                      <FileText className="w-4 h-4 text-white" />
                     </div>
+                    <span className="text-white/80 text-xs font-medium uppercase tracking-wider">Comunicado</span>
                   </div>
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2">
-                    XVIII Congreso Nacional de Notarios
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight">
+                    {comunicado.title}
                   </h2>
-                  <p className="text-white/90 text-center text-sm sm:text-base">
-                    "Notariado y jurisdicción voluntaria hacia una justicia descongestionada en una época de cambios"
-                  </p>
+                  <p className="text-white/70 text-xs mt-1">{comunicado.date}</p>
                 </div>
               </div>
 
               {/* Content */}
               <div className="p-5 sm:p-6 md:p-8 overflow-y-auto">
-                <div className="space-y-4 sm:space-y-5 mb-6">
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                      <Calendar className="w-5 h-5 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs sm:text-sm text-gray-500 mb-1">Fecha</p>
-                      <p className="font-semibold text-gray-800 text-sm sm:text-base">5 - 7 de Febrero, 2026</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                      <MapPin className="w-5 h-5 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs sm:text-sm text-gray-500 mb-1">Ubicación</p>
-                      <p className="font-semibold text-gray-800 text-sm sm:text-base">Hotel GHL Gran Hotel Lago Titicaca, Isla Esteves – Puno</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                      <Building className="w-5 h-5 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs sm:text-sm text-gray-500 mb-1">Organiza</p>
-                      <p className="font-semibold text-gray-800 text-sm sm:text-base">Colegio de Notarios de Puno</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* <div className="bg-green-50 rounded-lg p-4 sm:p-5 mb-6">
-                  <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
-                    Únete a la <span className="font-semibold text-green-700">Convención Notarial 2025</span>, el evento más importante del año para profesionales del notariado. Contaremos con conferencias magistrales, talleres especializados y oportunidades de networking.
-                  </p>
-                </div> */}
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6 line-clamp-4">
+                  {comunicado.content}
+                </p>
 
                 {/* Action Buttons */}
                 <div className="flex flex-col gap-3">
-                  <button
-                    onClick={handleRegister}
-                    className="cursor-pointer w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-                  >
-                    <UserPlus className="w-5 h-5" />
-                    Inscribirse al Congreso
-                  </button>
+                  {comunicado.button && comunicado.buttonUrl && (
+                    <button
+                      onClick={handleDownload}
+                      disabled={isDownloading}
+                      className="cursor-pointer w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <Download className="w-5 h-5" />
+                      {isDownloading ? 'Descargando...' : (comunicado.buttonLabel || 'Descargar comunicado')}
+                    </button>
+                  )}
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button
-                      onClick={() => {
-                        navigate('/congreso')
-                      }}
+                      onClick={handleReadMore}
                       className="cursor-pointer flex-1 px-6 py-3 bg-green-50 text-green-700 font-semibold rounded-lg hover:bg-green-100 transition-colors duration-200 border border-green-200"
                     >
-                      Más Información
+                      Leer más
                     </button>
                     <button
                       onClick={handleClose}
@@ -175,4 +157,3 @@ const PopupModal = () => {
 }
 
 export default PopupModal
-

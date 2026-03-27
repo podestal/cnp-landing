@@ -13,30 +13,28 @@ export const comunicados = [
     buttonLabel: 'Descargar comunicado',
     buttonUrl: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/comunicados/BO20260323_004.pdf',
     fullContent: `De conformidad con el artículo 9 del Decreto Legislativo Nº 1049, modificado por el Decreto Legislativo Nº 1232, y el artículo 4 del Decreto Supremo Nº 006-2022-JUS, el Colegio de Notarios de Puno convoca al CONCURSO PÚBLICO DE MÉRITOS PARA EL INGRESO AL NOTARIADO Nº 001-2026-CNP/PUNO-PERÚ.
-  
-  El concurso tiene como finalidad cubrir diversas plazas notariales en el Distrito Notarial de Puno, comprendiendo distintas provincias y distritos como Azángaro, Carabaya, Chucuito, El Collao, Huancané, Lampa, Melgar, Puno, San Antonio de Putina, San Román, Sandia y Yunguyo.
-  
-  Como requisito previo, los postulantes deberán rendir evaluaciones psicológicas ante la institución designada por el Ministerio de Justicia - Consejo de Notariado, a cargo de la Universidad Cayetano Heredia.
-  
-  INSCRIPCIÓN EXAMEN PSICOLÓGICO:
-  Plazo: del 02 al 30 de abril de 2026
-  Costo: S/ 424.80 (incluido IGV)
-  Evaluación: 02 y 03 de mayo de 2026 (modalidad presencial en Lima)
-  Resultados: 06 de mayo de 2026
-  
-  INSCRIPCIÓN AL CONCURSO:
-  Plazo: del 08 de mayo al 26 de junio de 2026
-  Lugar: Colegio de Notarios de Puno (Jr. Vilque N° 157 – Barrio Orkapata, Puno)
-  Horario: Lunes a viernes de 09:00 a.m. a 02:00 p.m. y de 04:00 p.m. a 07:00 p.m.
-  Derecho de inscripción: S/ 2,670.00
-  
-  El pago deberá realizarse mediante depósito en Caja Arequipa a nombre del Colegio de Notarios de Puno.
-  
-  Para mayor información, los interesados pueden acercarse al local institucional, visitar la página web oficial o comunicarse al teléfono correspondiente.
-  
-  Puno, marzo de 2026.
-  
-  Colegio de Notarios de Puno`
+
+El concurso tiene como finalidad cubrir diversas plazas notariales en el Distrito Notarial de Puno, comprendiendo distintas provincias y distritos como Azángaro, Carabaya, Chucuito, El Collao, Huancané, Lampa, Melgar, Puno, San Antonio de Putina, San Román, Sandia y Yunguyo.
+
+Como requisito previo, los postulantes deberán rendir evaluaciones psicológicas ante la institución designada por el Ministerio de Justicia - Consejo de Notariado, a cargo de la Universidad Cayetano Heredia.
+
+INSCRIPCIÓN EXAMEN PSICOLÓGICO:
+Plazo: del 02 al 30 de abril de 2026
+Costo: S/ 424.80 (incluido IGV)
+Evaluación: 02 y 03 de mayo de 2026 (modalidad presencial en Lima)
+Resultados: 06 de mayo de 2026
+
+INSCRIPCIÓN AL CONCURSO:
+Plazo: del 08 de mayo al 26 de junio de 2026
+Lugar: Colegio de Notarios de Puno (Jr. Vilque N° 157 – Barrio Orkapata, Puno)
+Horario: Lunes a viernes de 09:00 a.m. a 02:00 p.m. y de 04:00 p.m. a 07:00 p.m.
+Derecho de inscripción: S/ 2,670.00
+
+El pago deberá realizarse mediante depósito en Caja Arequipa a nombre del Colegio de Notarios de Puno.
+
+Para mayor información, los interesados pueden acercarse al local institucional, visitar la página web oficial o comunicarse al teléfono correspondiente.
+
+Puno, marzo de 2026. — Colegio de Notarios de Puno`
   },
   {
     id: 2,
