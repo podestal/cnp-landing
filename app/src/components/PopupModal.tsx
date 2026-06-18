@@ -6,6 +6,15 @@ import { comunicados } from './main/ComunicadosSection'
 
 const comunicado = comunicados.find(c => c.id === 1)!
 
+const popupContent = {
+  title: 'CONCURSO PÚBLICO DE MÉRITOS PARA EL INGRESO AL NOTARIADO Nº 001-2026-CNP/PUNO-PERÚ — AMPLIACIÓN DE PLAZO DE INSCRIPCIÓN',
+  date: '17 de Junio, 2026',
+  content:
+    'El Colegio de Notarios de Puno informa que, por acuerdo de Junta Directiva, se amplía el plazo de inscripción al concurso. Las inscripciones se recibirán del 08 de mayo al 31 de julio de 2026 en el local institucional (Jr. Vilque N° 157 – Barrio Orkapata, Puno), de lunes a viernes de 09:00 a.m. a 02:00 p.m. y de 04:00 p.m. a 07:00 p.m. Derecho de inscripción: S/ 2,670.00 mediante depósito en Caja Arequipa a nombre del Colegio de Notarios de Puno.',
+  buttonUrl:
+    'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/comunicados/cnp_comunicados_BO20260323_004.pdf',
+}
+
 const PopupModal = () => {
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
@@ -38,21 +47,21 @@ const PopupModal = () => {
   }
 
   const handleDownload = async () => {
-    if (!comunicado.buttonUrl) return
+    if (!popupContent.buttonUrl) return
     setIsDownloading(true)
     try {
-      const response = await fetch(comunicado.buttonUrl)
+      const response = await fetch(popupContent.buttonUrl)
       const blob = await response.blob()
       const objectUrl = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = objectUrl
-      a.download = comunicado.buttonUrl.split('/').pop() || 'comunicado.pdf'
+      a.download = popupContent.buttonUrl.split('/').pop() || 'comunicado.pdf'
       document.body.appendChild(a)
       a.click()
       a.remove()
       URL.revokeObjectURL(objectUrl)
     } catch {
-      window.open(comunicado.buttonUrl, '_blank')
+      window.open(popupContent.buttonUrl, '_blank')
     } finally {
       setIsDownloading(false)
     }
@@ -108,21 +117,21 @@ const PopupModal = () => {
                     <span className="text-white/80 text-xs font-medium uppercase tracking-wider">Comunicado</span>
                   </div>
                   <h2 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight">
-                    {comunicado.title}
+                    {popupContent.title}
                   </h2>
-                  <p className="text-white/70 text-xs mt-1">{comunicado.date}</p>
+                  <p className="text-white/70 text-xs mt-1">{popupContent.date}</p>
                 </div>
               </div>
 
               {/* Content */}
               <div className="p-5 sm:p-6 md:p-8 overflow-y-auto">
                 <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6 line-clamp-4">
-                  {comunicado.content}
+                  {popupContent.content}
                 </p>
 
                 {/* Action Buttons */}
                 <div className="flex flex-col gap-3">
-                  {comunicado.button && comunicado.buttonUrl && (
+                  {popupContent.buttonUrl && (
                     <button
                       onClick={handleDownload}
                       disabled={isDownloading}

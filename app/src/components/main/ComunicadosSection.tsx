@@ -34,7 +34,26 @@ El pago deberá realizarse mediante depósito en Caja Arequipa a nombre del Cole
 
 Para mayor información, los interesados pueden acercarse al local institucional, visitar la página web oficial o comunicarse al teléfono correspondiente.
 
-Puno, marzo de 2026. — Colegio de Notarios de Puno`
+Puno, marzo de 2026. — Colegio de Notarios de Puno`,
+    updateContent: `AMPLIACIÓN DE PLAZO DE INSCRIPCIÓN
+
+El Colegio de Notarios de Puno pone en conocimiento que, por acuerdo de Junta Directiva, se acordó ampliar el plazo de inscripción al concurso de la siguiente manera:
+
+INSCRIPCIONES AL CONCURSO:
+El postulante deberá presentar los documentos a que se refiere el artículo 7° del Decreto Supremo N° 006-2022-JUS.
+Plazo: desde el día 08 de mayo de 2026 hasta el día 31 de julio de 2026.
+Lugar: Colegio de Notarios de Puno, local institucional ubicado en Jr. Vilque N° 157 – Barrio Orkapata, del distrito, provincia y departamento de Puno.
+Horario: Lunes a viernes de 09:00 a.m. a 02:00 p.m. y de 04:00 p.m. a 07:00 p.m.
+Derecho de inscripción: S/ 2,670.00 (dos mil seiscientos setenta con 00/100 soles).
+Forma de pago: Depósito en Caja Arequipa - Cta. de ahorro en soles N° 00075796802100004003 a nombre de Colegio de Notarios de Puno.
+
+La renuncia del postulante en cualquier etapa del concurso o su descalificación no dará a lugar a la devolución del importe abonado.
+
+Los postulantes deberán presentar solicitud dirigida al Decano del Colegio de Notarios de Puno presentando la documentación precisada en el artículo 7° del Decreto Supremo N° 006-2022-JUS.
+
+La inscripción del postulante es personal y no se aceptan inscripciones vía fax, teléfono, correo electrónico, courier u otro análogo.`,
+    updateButtonLabel: 'Descargar ampliación de plazo',
+    updateButtonUrl: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/comunicados/cnp_comunicados_BO20260323_004.pdf',
   },
   {
     id: 2,

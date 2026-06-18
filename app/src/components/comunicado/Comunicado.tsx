@@ -12,6 +12,9 @@ type ComunicadoData = {
   button?: boolean
   buttonLabel?: string
   buttonUrl?: string
+  updateContent?: string
+  updateButtonLabel?: string
+  updateButtonUrl?: string
 }
 
 type ComunicadoProps = {
@@ -32,28 +35,66 @@ const Comunicado = ({
   onButtonClick,
 }: ComunicadoProps) => {
   const [isDownloading, setIsDownloading] = useState(false)
+  const [isDownloadingUpdate, setIsDownloadingUpdate] = useState(false)
   const shouldRenderButton = showButton && (buttonHref || onButtonClick)
 
-  const handleDownload = async () => {
-    if (!buttonHref) return
-    setIsDownloading(true)
+  const handleDownload = async (url: string, setLoading: (value: boolean) => void) => {
+    setLoading(true)
     try {
-      const response = await fetch(buttonHref)
+      const response = await fetch(url)
       const blob = await response.blob()
       const objectUrl = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = objectUrl
-      a.download = buttonHref.split('/').pop() || 'comunicado.pdf'
+      a.download = url.split('/').pop() || 'comunicado.pdf'
       document.body.appendChild(a)
       a.click()
       a.remove()
       URL.revokeObjectURL(objectUrl)
     } catch {
-      window.open(buttonHref, '_blank')
+      window.open(url, '_blank')
     } finally {
-      setIsDownloading(false)
+      setLoading(false)
     }
   }
+
+  const renderContent = (content: string, baseDelay = 0.5) =>
+    content.split('\n\n').map((paragraph, index) => {
+      const trimmed = paragraph.trim()
+      if (!trimmed) return null
+      const lines = trimmed.split('\n').map(l => l.trim())
+      const isSection = lines.length > 1
+      if (isSection) {
+        return (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: baseDelay + index * 0.1 }}
+            className="mb-6 bg-green-50 rounded-lg p-4 border-l-4 border-green-500"
+          >
+            {lines.map((line, i) => (
+              i === 0 ? (
+                <p key={i} className="font-bold text-green-800 text-base md:text-lg mb-2">{line}</p>
+              ) : (
+                <p key={i} className="text-gray-700 text-sm md:text-base leading-relaxed">{line}</p>
+              )
+            ))}
+          </motion.div>
+        )
+      }
+      return (
+        <motion.p
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: baseDelay + index * 0.1 }}
+          className="text-gray-700 text-base md:text-lg leading-relaxed mb-6"
+        >
+          {trimmed}
+        </motion.p>
+      )
+    })
 
   return (
     <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
@@ -124,43 +165,7 @@ const Comunicado = ({
 
               {/* Content Text */}
               <div className="prose prose-lg max-w-none">
-                {comunicado.fullContent.split('\n\n').map((paragraph, index) => {
-                  const trimmed = paragraph.trim()
-                  if (!trimmed) return null
-                  // Detect section headers (all-caps lines like "INSCRIPCIÓN AL CONCURSO:")
-                  const lines = trimmed.split('\n').map(l => l.trim())
-                  const isSection = lines.length > 1
-                  if (isSection) {
-                    return (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                        className="mb-6 bg-green-50 rounded-lg p-4 border-l-4 border-green-500"
-                      >
-                        {lines.map((line, i) => (
-                          i === 0 ? (
-                            <p key={i} className="font-bold text-green-800 text-base md:text-lg mb-2">{line}</p>
-                          ) : (
-                            <p key={i} className="text-gray-700 text-sm md:text-base leading-relaxed">{line}</p>
-                          )
-                        ))}
-                      </motion.div>
-                    )
-                  }
-                  return (
-                    <motion.p
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                      className="text-gray-700 text-base md:text-lg leading-relaxed mb-6"
-                    >
-                      {trimmed}
-                    </motion.p>
-                  )
-                })}
+                {renderContent(comunicado.fullContent)}
               </div>
 
               {shouldRenderButton && (
@@ -173,12 +178,45 @@ const Comunicado = ({
                   <button
                     type="button"
                     disabled={isDownloading}
-                    onClick={buttonDownload ? handleDownload : onButtonClick}
+                    onClick={buttonDownload && buttonHref
+                      ? () => handleDownload(buttonHref, setIsDownloading)
+                      : onButtonClick}
                     className="inline-flex items-center gap-2 justify-center rounded-lg bg-green-600 px-5 py-2.5 text-white font-medium hover:bg-green-700 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <Download className="w-4 h-4" />
                     {isDownloading ? 'Descargando...' : buttonLabel}
                   </button>
+                </motion.div>
+              )}
+
+              {comunicado.updateContent && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="mt-12 pt-8 border-t border-gray-200"
+                >
+                  <p className="text-sm font-semibold uppercase tracking-wider text-green-700 mb-6">
+                    Actualización
+                  </p>
+                  <div className="prose prose-lg max-w-none">
+                    {renderContent(comunicado.updateContent, 0.7)}
+                  </div>
+                  {comunicado.updateButtonUrl && (
+                    <div className="mt-8">
+                      <button
+                        type="button"
+                        disabled={isDownloadingUpdate}
+                        onClick={() => handleDownload(comunicado.updateButtonUrl!, setIsDownloadingUpdate)}
+                        className="inline-flex items-center gap-2 justify-center rounded-lg bg-green-600 px-5 py-2.5 text-white font-medium hover:bg-green-700 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        <Download className="w-4 h-4" />
+                        {isDownloadingUpdate
+                          ? 'Descargando...'
+                          : (comunicado.updateButtonLabel || 'Descargar actualización')}
+                      </button>
+                    </div>
+                  )}
                 </motion.div>
               )}
 
