@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import { Link, useParams } from 'react-router-dom'
 import { Calendar, Clock, MapPin, ArrowLeft, ArrowRight } from 'lucide-react'
 import { eventos } from '../components/main/EventosSection'
+import CongresoInfo from './CongresoInfo'
+import EventoExtendedDetail from '../components/evento/EventoExtendedDetail'
 
 const Eventos = () => {
   const { id } = useParams<{ id: string }>()
@@ -10,6 +12,14 @@ const Eventos = () => {
 
   // If there's an ID and event found, show single event detail
   if (eventoId && evento) {
+    if (evento.isCongreso) {
+      return <CongresoInfo />
+    }
+
+    if (evento.isExtended) {
+      return <EventoExtendedDetail evento={evento} />
+    }
+
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
         {/* Hero Section */}
@@ -195,6 +205,9 @@ const Eventos = () => {
                 </motion.div>
                 
                 <div className="p-6 flex flex-col grow">
+                  {'subtitle' in evento && evento.subtitle && (
+                    <p className="text-sm font-medium text-green-600 mb-2">{evento.subtitle}</p>
+                  )}
                   <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 leading-tight">
                     {evento.title}
                   </h3>

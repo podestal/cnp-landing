@@ -4,54 +4,70 @@ import { Calendar, ArrowRight, MapPin, Clock } from 'lucide-react'
 
 export const eventos = [
   {
-    id: 1,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-1.jpeg',
-    title: 'Seminario de Actualización Notarial 2025',
-    date: '15 de Marzo, 2025',
-    time: '09:00 AM - 05:00 PM',
-    location: 'Auditorio del Colegio de Notarios de Puno',
-    description: 'Seminario especializado en actualización de normativa notarial, nuevas disposiciones legales y mejores prácticas en el ejercicio notarial.',
-    fullDescription: 'Este seminario está diseñado para proporcionar a los notarios las herramientas y conocimientos necesarios para mantenerse actualizados con las últimas normativas y disposiciones legales. Se abordarán temas como la digitalización de procesos notariales, nuevas regulaciones en materia de contratos, y las mejores prácticas para garantizar la seguridad jurídica en los actos notariales. El evento contará con la participación de expertos en derecho notarial y representantes de instituciones relacionadas.',
-  },
-  {
-    id: 2,
+    id: 7,
     image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-2.jpeg',
-    title: 'Asamblea General Anual 2025',
-    date: '20 de Abril, 2025',
-    time: '10:00 AM - 02:00 PM',
-    location: 'Sede del Colegio de Notarios de Puno',
-    description: 'Reunión anual de todos los miembros del colegio para tratar temas importantes, elecciones y propuestas para el próximo período.',
-    fullDescription: 'La Asamblea General Anual es el evento más importante del año para el Colegio de Notarios de Puno. En esta reunión se tratarán temas fundamentales como la presentación del informe anual de actividades, la aprobación del presupuesto para el próximo año, elecciones de nuevos miembros de la junta directiva, y la discusión de propuestas para mejorar los servicios notariales. Todos los miembros del colegio están invitados a participar y expresar sus opiniones.',
+    title: 'Tributación en la Transferencia de Bienes',
+    subtitle: 'Evento especial para Notarios y Operadores Jurídicos',
+    tagline: 'Preguntas que inquietan... Respuestas que iluminan.',
+    date: 'Sábado 20 de Junio, 2026',
+    time: '9:00 a.m. – 11:00 a.m.',
+    location: 'Modalidad Virtual',
+    description: 'El Colegio de Notarios de Puno invita a notarios y operadores jurídicos a un evento especial sobre tributación en la transferencia de bienes, con el ponente Walker Villanueva.',
+    fullDescription: 'Será un espacio para resolver dudas críticas y fortalecer la seguridad jurídica en operaciones tributarias que se verifican en el ejercicio de la función notarial. No será un curso más: aprenderás de casos reales y obtendrás criterios claros frente a SUNAT y demás entes de la administración tributaria.',
+    isExtended: true,
+    speaker: {
+      name: 'Walker Villanueva',
+      credentials: [
+        'Máster en Asesoría Fiscal por la Universidad de Navarra (España).',
+        'Estudios de Postgrado en Tributación Internacional por la Universidad Austral (Argentina) y la Universidad de Leiden (Holanda).',
+        'Profesor de la Maestría en Tributación de la Universidad de Lima y Maestría en Derecho Tributario de la PUCP.',
+        'Autor de diversas obras especializadas en Derecho Tributario.',
+        'Socio del estudio de abogados Philipi Prietocarrizosa Ferrero DU & Uría PPU, experto en consultoría tributaria y en operaciones de planeamiento tributario nacional e internacional.',
+      ],
+    },
+    questions: [
+      '¿Qué pasa si el notario eleva una escritura con un voucher de impuesto a la renta ya usado en otra operación?',
+      '¿Cómo debe actuar el notario cuando el contribuyente declara un precio notoriamente inferior al valor real del inmueble para evitar la bancarización?',
+      '¿Qué responsabilidad tiene el notario si formaliza una transferencia con constancias municipales poco claras sobre predial, alcabala o patrimonio vehicular?',
+      '¿Debe el notario exigir resolución oficial de prescripción del impuesto a la renta por ganancia de capital, o basta con documentos que acrediten el transcurso del plazo?',
+      '¿Cómo puede el notario detectar que una persona ha realizado varias ventas de inmuebles en un mismo año y que, por tanto, está afecta a renta de tercera categoría?',
+    ],
+    benefits: [
+      {
+        title: 'Resolverás problemas reales',
+        description: 'Las preguntas que se absolverán son los verdaderos problemas que enfrentamos en la práctica.',
+      },
+      {
+        title: 'Casos prácticos',
+        description: 'Aprenderás de casos reales y te llevarás advertencias prácticas para tu ejercicio profesional.',
+      },
+      {
+        title: 'Criterios sólidos',
+        description: 'Obtendrás criterios claros y defensas sólidas frente a SUNAT y demás entes encargados de la administración de tributos.',
+      },
+    ],
+    cost: {
+      amount: 'S/ 50',
+      notes: [
+        'Incluye certificado',
+        'Válido para todos los concursos de acceso al notariado.',
+      ],
+    },
+    modality: 'Virtual',
+    certification: 'A nombre del Colegio de Notarios de Puno',
+    registrationNote: 'Inscríbete ahora mediante el link o escaneando el código QR.',
+    closingMessage: 'Este no será un curso más. Será un espacio para resolver dudas críticas y fortalecer la seguridad jurídica en operaciones tributarias que se verifican en el ejercicio de la función notarial.',
   },
   {
-    id: 3,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-3.jpeg',
-    title: 'Taller de Herramientas Digitales para Notarios',
-    date: '5 de Mayo, 2025',
-    time: '02:00 PM - 06:00 PM',
-    location: 'Sala de Capacitación del Colegio',
-    description: 'Taller práctico sobre el uso de herramientas digitales y plataformas tecnológicas para optimizar el trabajo notarial y mejorar la atención al público.',
-    fullDescription: 'En este taller práctico, los notarios aprenderán a utilizar las últimas herramientas digitales disponibles para el ejercicio notarial. Se cubrirán temas como la firma electrónica, la gestión documental digital, plataformas de consulta legal en línea, y sistemas de gestión de clientes. El taller incluirá sesiones prácticas donde los participantes podrán experimentar con las herramientas y resolver dudas con los instructores especializados.',
-  },
-  {
-    id: 4,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-4.jpeg',
-    title: 'Conferencia sobre Ética Notarial y Buenas Prácticas',
-    date: '12 de Junio, 2025',
-    time: '09:00 AM - 01:00 PM',
-    location: 'Auditorio Principal - Universidad Nacional del Altiplano',
-    description: 'Conferencia magistral sobre ética profesional, código de conducta notarial y las mejores prácticas para mantener la integridad y prestigio de la profesión.',
-    fullDescription: 'Esta conferencia abordará los principios fundamentales de la ética notarial y su importancia en el ejercicio profesional. Se analizarán casos prácticos, situaciones complejas que pueden presentarse en el día a día, y las mejores formas de resolverlas manteniendo siempre los más altos estándares éticos. La conferencia será dictada por reconocidos expertos en ética profesional y contará con la participación de representantes del Tribunal de Honor del Colegio.',
-  },
-  {
-    id: 5,
-    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/banner/cnp-banner-1.jpeg',
-    title: 'Jornada de Actualización en Derecho Registral',
-    date: '25 de Julio, 2025',
-    time: '08:00 AM - 04:00 PM',
-    location: 'Centro de Convenciones de Puno',
-    description: 'Jornada completa de actualización sobre las últimas modificaciones en la legislación registral, procedimientos SUNARP y nuevas normativas que afectan el trabajo notarial.',
-    fullDescription: 'Esta jornada está dirigida a todos los notarios que deseen actualizarse en materia registral. Se revisarán las últimas modificaciones legislativas, cambios en los procedimientos de SUNARP, nuevas modalidades de inscripción, y casos prácticos de resolución de problemas comunes en el registro de propiedades. La jornada incluirá sesiones de preguntas y respuestas con expertos registrales y representantes de SUNARP.',
+    id: 6,
+    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/pop-up/ScreenShot2026-01-10at6.34.16A.jpeg',
+    title: 'XVIII Congreso Nacional del Notariado Peruano',
+    date: '5 - 7 de Febrero, 2026',
+    time: 'Varios horarios',
+    location: 'Hotel GHL Gran Hotel Lago Titicaca, Isla Esteves – Puno',
+    description: 'Notariado y jurisdicción voluntaria: Hacia una justicia descongestionada en una época de cambios. Organizado por el Colegio de Notarios de Puno.',
+    fullDescription: 'El XVIII Congreso Nacional del Notariado Peruano reunirá a notarios de todo el país para abordar temas sobre administración preventiva de justicia, jurisdicción voluntaria y nuevas competencias del notariado. Incluye actividades académicas, visitas culturales, trabajo en comisiones y cena de gala.',
+    isCongreso: true,
   },
 ]
 
@@ -67,7 +83,7 @@ const EventosSection = () => {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-            Próximos Eventos
+            Eventos
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
             Mantente informado sobre los eventos y actividades del Colegio de Notarios de Puno
@@ -122,6 +138,9 @@ const EventosSection = () => {
               </motion.div>
               
               <div className="p-6 md:p-8 flex flex-col grow">
+                {'subtitle' in evento && evento.subtitle && (
+                  <p className="text-sm font-medium text-green-600 mb-2">{evento.subtitle}</p>
+                )}
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 leading-tight">
                   {evento.title}
                 </h3>

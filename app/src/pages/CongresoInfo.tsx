@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { Calendar, MapPin, Building, Clock, Phone, Mail, FileText, Download, Hotel, DollarSign } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Calendar, MapPin, Building, Clock, Phone, Mail, FileText, Download, Hotel, DollarSign, ArrowLeft } from 'lucide-react'
 
 const CongresoInfo = () => {
   return (
@@ -35,6 +36,13 @@ const CongresoInfo = () => {
       {/* Main Content */}
       <div className="pb-8 sm:pb-12 px-4 sm:px-6 lg:px-8 lg:pt-20 pt-30">
         <div className="max-w-6xl mx-auto -mt-8 sm:-mt-12 md:-mt-16">
+          <Link
+            to="/eventos"
+            className="inline-flex items-center gap-2 text-green-700 hover:text-green-800 mb-6 transition-colors duration-200"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Volver a Eventos</span>
+          </Link>
           {/* Event Details Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <motion.div

@@ -30,7 +30,6 @@ import CongresoLayout from '../pages/congreso/CongresoLayout'
 import CongresoPage from '../pages/congreso/CongresoPage'
 import CongresoConfirmationPage from '../pages/congreso/CongresoConfirmationPage'
 import CompanionForm from '../components/congreso/CompanionForm'
-import CongresoInfo from '../pages/CongresoInfo'
 import CongresoAdminPage from '../pages/congreso/CongresoAdminPage'
 import TemasAdminPage from '../pages/congreso/TemasAdminPage'
 import ActividadesAdminPage from '../pages/congreso/ActividadesAdminPage'
@@ -139,10 +138,6 @@ const router = createBrowserRouter([
       {
         path: 'herramientas',
         element: <UnderConstruction pageName="Herramientas Tecnológicas" />,
-      },
-      {
-        path: 'congreso',
-        element: <CongresoInfo />,
       },
       {
         path: 'validar-certificado',

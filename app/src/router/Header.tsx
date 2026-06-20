@@ -6,13 +6,12 @@ const navLinks = [
   { path: '/', label: 'Inicio' },
   { path: '/institucional', label: 'Institucional' },
 //   { path: '/nosotros', label: 'Nosotros' },
-//   { path: '/eventos', label: 'Eventos' },
+  { path: '/eventos', label: 'Eventos' },
 //   { path: '/comunicados', label: 'Comunicados' },
   { path: '/noticias', label: 'Noticias' },
 //   { path: '/video', label: 'Video' },
 //   { path: '/legislacion', label: 'Legislación' },
   { path: '/contacto', label: 'Contacto' },
-  { path: '/congreso', label: 'Congreso XVIII' },
   { path: '/congreso2026/admin', label: 'Administración' },
 ]
 
@@ -90,7 +89,8 @@ export default function Header() {
           <div className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path || 
-                (link.path === '/institucional' && location.pathname.startsWith('/institucional'))
+                (link.path === '/institucional' && location.pathname.startsWith('/institucional')) ||
+                (link.path === '/eventos' && location.pathname.startsWith('/eventos'))
               const isInstitucional = link.path === '/institucional'
               
               const institucionalSubLinks = [
@@ -242,7 +242,8 @@ export default function Header() {
               <div className="py-4 space-y-2">
                 {navLinks.map((link, index) => {
                   const isActive = location.pathname === link.path || 
-                    (link.path === '/institucional' && location.pathname.startsWith('/institucional'))
+                    (link.path === '/institucional' && location.pathname.startsWith('/institucional')) ||
+                    (link.path === '/eventos' && location.pathname.startsWith('/eventos'))
                   const isInstitucional = link.path === '/institucional'
                   
                   const institucionalSubLinks = [
