@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link, useParams } from 'react-router-dom'
-import { Calendar, ArrowLeft, ArrowRight } from 'lucide-react'
+import { Calendar, ArrowLeft, ArrowRight, Play } from 'lucide-react'
 import { noticias } from '../components/main/NoticiasSection'
 
 const Noticias = () => {
@@ -98,6 +98,34 @@ const Noticias = () => {
                     </motion.p>
                   ))}
                 </div>
+
+                {'youtubeId' in noticia && noticia.youtubeId && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.8 }}
+                    className="mt-10 pt-10 border-t border-gray-200"
+                  >
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                        <Play className="w-5 h-5 text-green-600 fill-green-600" />
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-bold text-gray-800">
+                        Video del evento
+                      </h3>
+                    </div>
+                    <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-xl ring-1 ring-gray-200 bg-gray-900">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${noticia.youtubeId}`}
+                        title="Tributación en la Transferencia de Bienes — Video del evento"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                        className="absolute inset-0 w-full h-full border-0"
+                      />
+                    </div>
+                  </motion.div>
+                )}
               </div>
             </motion.article>
           </div>

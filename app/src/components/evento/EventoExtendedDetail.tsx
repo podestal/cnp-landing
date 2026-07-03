@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import {
   ArrowLeft,
   Calendar,
@@ -12,6 +13,7 @@ import {
   Monitor,
   Award,
   ClipboardList,
+  Download,
 } from 'lucide-react'
 
 type Benefit = {
@@ -24,8 +26,14 @@ type Speaker = {
   credentials: string[]
 }
 
-type Cost = {
+type CostTier = {
+  label: string
   amount: string
+}
+
+type Cost = {
+  amount?: string
+  tiers?: CostTier[]
   notes: string[]
 }
 
@@ -48,6 +56,8 @@ export type ExtendedEvento = {
   certification?: string
   registrationNote?: string
   closingMessage?: string
+  downloadUrl?: string
+  downloadLabel?: string
 }
 
 type EventoExtendedDetailProps = {
@@ -55,6 +65,29 @@ type EventoExtendedDetailProps = {
 }
 
 const EventoExtendedDetail = ({ evento }: EventoExtendedDetailProps) => {
+  const [isDownloading, setIsDownloading] = useState(false)
+
+  const handleDownload = async () => {
+    if (!evento.downloadUrl) return
+    setIsDownloading(true)
+    try {
+      const response = await fetch(evento.downloadUrl)
+      const blob = await response.blob()
+      const objectUrl = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = objectUrl
+      a.download = evento.downloadUrl.split('/').pop() || 'afiche-evento.jpeg'
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(objectUrl)
+    } catch {
+      window.open(evento.downloadUrl, '_blank')
+    } finally {
+      setIsDownloading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <motion.section
@@ -235,7 +268,20 @@ const EventoExtendedDetail = ({ evento }: EventoExtendedDetailProps) => {
                       <DollarSign className="w-7 h-7 text-green-600" />
                       Costo
                     </h2>
-                    <p className="text-3xl font-bold text-green-700 mb-4">{evento.cost.amount}</p>
+                    {evento.cost.tiers ? (
+                      <div className="space-y-3 mb-4">
+                        {evento.cost.tiers.map((tier, index) => (
+                          <div key={index} className="flex items-center justify-between bg-green-50 rounded-lg px-4 py-3">
+                            <span className="font-medium text-gray-800">{tier.label}</span>
+                            <span className="text-2xl font-bold text-green-700">{tier.amount}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      evento.cost.amount && (
+                        <p className="text-3xl font-bold text-green-700 mb-4">{evento.cost.amount}</p>
+                      )
+                    )}
                     <ul className="space-y-2">
                       {evento.cost.notes.map((note, index) => (
                         <li key={index} className="flex items-center gap-2 text-gray-700">
@@ -289,6 +335,25 @@ const EventoExtendedDetail = ({ evento }: EventoExtendedDetailProps) => {
                 <p className="text-lg md:text-xl leading-relaxed font-medium">
                   {evento.closingMessage}
                 </p>
+              </motion.div>
+            )}
+
+            {evento.downloadUrl && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="text-center"
+              >
+                <button
+                  type="button"
+                  onClick={handleDownload}
+                  disabled={isDownloading}
+                  className="inline-flex items-center gap-3 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <Download className="w-5 h-5" />
+                  {isDownloading ? 'Descargando...' : (evento.downloadLabel || 'Descargar afiche')}
+                </button>
               </motion.div>
             )}
           </div>

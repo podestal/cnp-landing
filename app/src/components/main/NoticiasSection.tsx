@@ -4,6 +4,22 @@ import { ArrowRight, Calendar, Newspaper } from 'lucide-react'
 
 export const noticias = [
   {
+    id: 2,
+    image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/noticias/congreso-virtual-junio.png',
+    title: 'Éxito del evento académico «Tributación en la Transferencia de Bienes»',
+    content: 'El Colegio de Notarios de Puno desarrolló con notable éxito una jornada especializada que congregó a notarios del Perú, colaboradores notariales y operadores jurídicos, con la participación del expositor Walker Villanueva.',
+    fullContent: `El pasado 20 de junio, el Colegio de Notarios de Puno desarrolló con notable éxito el evento académico "Tributación en la Transferencia de Bienes", una jornada especializada que congregó a notarios del Perú, colaboradores notariales y operadores jurídicos interesados en fortalecer sus conocimientos sobre los principales aspectos tributarios vinculados a la transferencia de bienes.
+
+La organización de este importante evento fue impulsada por el decano del Colegio de Notarios de Puno, Dr. Helard Medina Cáceres, junto con su Junta Directiva, reafirmando su compromiso con la capacitación permanente y el fortalecimiento institucional del notariado peruano.
+
+La destacada participación del expositor Walker Villanueva permitió absolver inquietudes frecuentes de la práctica notarial y brindar herramientas actualizadas para una adecuada actuación profesional, contribuyendo al fortalecimiento de la seguridad jurídica y al cumplimiento de las obligaciones tributarias.
+
+La amplia acogida y el interés de los asistentes ratificaron el compromiso del notariado nacional con la capacitación continua y la excelencia en el ejercicio de la función notarial en el Perú.`,
+    date: '20 de Junio, 2026',
+    category: 'Evento',
+    youtubeId: '9e6dVZS9YdI',
+  },
+  {
     id: 1,
     image: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/noticias/Screen%20Shot%202026-01-18%20at%206.59.22%20AM.png',
     title: "Campaña 'EL NOTARIO EN TU BARRIO' - Orientación jurídica notarial gratuita",

@@ -47,7 +47,10 @@ export const eventos = [
       },
     ],
     cost: {
-      amount: 'S/ 50',
+      tiers: [
+        { label: 'Notarios', amount: 'S/ 50' },
+        { label: 'Público en general', amount: 'S/ 30' },
+      ],
       notes: [
         'Incluye certificado',
         'Válido para todos los concursos de acceso al notariado.',
@@ -57,6 +60,8 @@ export const eventos = [
     certification: 'A nombre del Colegio de Notarios de Puno',
     registrationNote: 'Inscríbete ahora mediante el link o escaneando el código QR.',
     closingMessage: 'Este no será un curso más. Será un espacio para resolver dudas críticas y fortalecer la seguridad jurídica en operaciones tributarias que se verifican en el ejercicio de la función notarial.',
+    downloadUrl: 'https://pub-298b15d30a4a4c8b8bfd457d07eef0ec.r2.dev/cnp/eventos/a00e3c2c-951e-4fed-8dee-c55669528554.jpeg',
+    downloadLabel: 'Descargar afiche',
   },
   {
     id: 6,
